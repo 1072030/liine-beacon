@@ -17,7 +17,11 @@
     </div>
 
     <div>
-      <el-select v-model="patten" placeholder="選擇模式">
+      <el-select
+        v-model="patten"
+        placeholder="選擇模式"
+        @change="selectMode(patten)"
+      >
         <el-option
           v-for="item in pattenOption"
           :key="item.value"
@@ -30,9 +34,12 @@
   </div>
 </template>
 <script lang="ts">
-import { defineComponent, ref } from "vue";
+import store from "@/store";
+import { defineComponent, provide, ref } from "vue";
+import { useStore } from "vuex";
 export default defineComponent({
   setup() {
+    const store = useStore();
     const options = ref([
       {
         value: "38",
@@ -69,9 +76,16 @@ export default defineComponent({
         label: "對話框訊息樣板2",
       },
     ]);
+    const patten = ref("");
+    const selectMode = (pattern: string) => {
+      store.commit("changePattern", pattern);
+    };
     return {
       pattenOption,
       options,
+      beaconId: ref(),
+      patten,
+      selectMode,
     };
   },
 });
