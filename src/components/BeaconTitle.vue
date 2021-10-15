@@ -96,17 +96,17 @@ export default defineComponent({
   background-color: antiquewhite;
   line-height: 9;
   display: block;
-  margin: 1rem;
   text-align: left;
   padding-left: 1.5rem;
 }
 .sidebar {
-  margin: 0rem 2rem;
+  margin: 0 0 0 2rem;
   display: inline-block;
   position: fixed;
   left: 0;
   height: 80%;
   border-right: 0.3rem solid #e6beff;
   padding: 2.5rem 2rem 0rem 0rem;
+  z-index: 2000;
 }
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <div style="display: inline">
+  <div>
     <beaconSettingInput />
   </div>
 </template>

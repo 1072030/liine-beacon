@@ -5,9 +5,6 @@
     <InputImage v-if="pattern === 'image'" />
     <InputImageCarousel v-if="pattern === 'imageCarousel'" />
     <InputBubble v-if="pattern === 'bubble'" />
-    <div>
-      <el-button type="primary">修改</el-button>
-    </div>
   </div>
 </template>
 
