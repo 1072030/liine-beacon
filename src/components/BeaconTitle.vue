@@ -91,8 +91,8 @@ export default defineComponent({
   display: inline-block;
   position: fixed;
   left: 0;
-  height: 100%;
-  border-right: 1px solid darkkhaki;
+  height: 80%;
+  border-right: 0.3rem solid #e6beff;
   padding: 2.5rem 2rem 0rem 0rem;
 }
 </style>
