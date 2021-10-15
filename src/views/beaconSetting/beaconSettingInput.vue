@@ -1,8 +1,10 @@
 <template>
   <div class="inputText">
     {{ pattern }}
-    <theText v-if="pattern === 'text'" v-model:inputText="inputText" />
-    <theImage v-if="pattern === 'image'" />
+    <InputText v-if="pattern === 'text'" v-model:inputText="inputText" />
+    <InputImage v-if="pattern === 'image'" />
+    <InputImageCarousel v-if="pattern === 'imageCarousel'" />
+    <InputBubble v-if="pattern === 'bubble'" />
     <div>
       <el-button type="primary">修改</el-button>
     </div>
@@ -12,12 +14,16 @@
 <script lang="ts">
 import { defineComponent, ref, inject, computed } from "vue";
 import { useStore } from "vuex";
-import theText from "./text.vue";
-import theImage from "./image.vue";
+import InputText from "./beaconInputText.vue";
+import InputImage from "./beaconInputImage.vue";
+import InputImageCarousel from "./beaconInputImageCarousel.vue";
+import InputBubble from "./beaconInputBubble.vue";
 export default defineComponent({
   components: {
-    theText,
-    theImage,
+    InputText,
+    InputImage,
+    InputImageCarousel,
+    InputBubble,
   },
   setup() {
     const store = useStore();

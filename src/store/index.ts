@@ -10,7 +10,6 @@ export default createStore({
   mutations: {
     changePattern: (state, pattern) => {
       state.patternMode = pattern;
-      console.log(15, state.patternMode);
     },
   },
   actions: {},

@@ -19,7 +19,6 @@ export default defineComponent({
     const inputTextValue = ref("");
     Object.assign(inputTextValue.value, props.inputText);
     watch(inputTextValue, (newVal) => {
-      console.log(23, newVal);
       context.emit("update:inputText", newVal);
     });
     return {
