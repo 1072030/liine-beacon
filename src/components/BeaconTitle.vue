@@ -4,7 +4,6 @@
   </div>
 
   <div class="sidebar">
-    <hr size="8px" width="100%" />
     <div style="margin-bottom: 1rem">
       <el-select v-model="beaconId" placeholder="beaconId">
         <el-option
@@ -88,9 +87,12 @@ export default defineComponent({
   padding-left: 1.5rem;
 }
 .sidebar {
-  margin: 1rem 2rem;
+  margin: 0rem 2rem;
   display: inline-block;
   position: fixed;
   left: 0;
+  height: 100%;
+  border-right: 1px solid darkkhaki;
+  padding: 2.5rem 2rem 0rem 0rem;
 }
 </style>
