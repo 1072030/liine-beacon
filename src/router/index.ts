@@ -23,8 +23,8 @@ const routes: Array<RouteRecordRaw> = [
   // },
   {
     path: "/",
-    name: "文字訊息",
-    component: () => import("../components/BeaconTitle.vue"),
+    name: "beaconSetting",
+    component: () => import("../views/beaconSetting/index.vue"),
   },
 ];
 

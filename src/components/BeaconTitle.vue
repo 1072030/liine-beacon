@@ -1,42 +1,37 @@
 <template>
-  <el-container>
-    <el-header>
-      <div style="background-color: antiquewhite">
-        <img src="../assets/golfourit.png" alt="" />
-      </div>
-    </el-header>
-    <el-container>
-      <el-aside width="200px" style="margin: 1.3rem 0.5rem">
-        <div>
-          <el-select v-model="beaconId" placeholder="BeaconId">
-            <el-option
-              v-for="item in options"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
-            >
-            </el-option>
-          </el-select>
-        </div>
-        <div>
-          <el-select v-model="patten" placeholder="選擇模式">
-            <el-option
-              v-for="item in pattenOption"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
-            >
-            </el-option>
-          </el-select>
-        </div>
-      </el-aside>
-      <el-main> </el-main>
-    </el-container>
-    <el-footer>Footer</el-footer>
-  </el-container>
+  <div class="nav">
+    <a href=""><img src="../assets/golfourit.png" alt="" /></a>
+  </div>
+
+  <div class="sidebar">
+    <hr size="8px" width="100%" />
+    <div style="margin-bottom: 1rem">
+      <el-select v-model="beaconId" placeholder="beaconId">
+        <el-option
+          v-for="item in options"
+          :key="item.value"
+          :label="item.label"
+          :value="item.value"
+        >
+        </el-option>
+      </el-select>
+    </div>
+
+    <div>
+      <el-select v-model="patten" placeholder="選擇模式">
+        <el-option
+          v-for="item in pattenOption"
+          :key="item.value"
+          :label="item.label"
+          :value="item.value"
+        >
+        </el-option>
+      </el-select>
+    </div>
+  </div>
 </template>
 <script lang="ts">
-import { defineComponent, ref } from "@vue/runtime-core";
+import { defineComponent, ref } from "vue";
 export default defineComponent({
   setup() {
     const options = ref([
@@ -78,14 +73,24 @@ export default defineComponent({
     return {
       pattenOption,
       options,
-      beaconId: ref(""),
-      patten: ref("text"),
     };
   },
 });
 </script>
 <style lang="scss">
-.el-header {
+.nav {
+  height: 100px;
+  background-color: antiquewhite;
+  line-height: 9;
+  display: block;
+  margin: 1rem;
   text-align: left;
+  padding-left: 1.5rem;
+}
+.sidebar {
+  margin: 1rem 2rem;
+  display: inline-block;
+  position: fixed;
+  left: 0;
 }
 </style>
