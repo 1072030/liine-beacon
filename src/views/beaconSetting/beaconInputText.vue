@@ -6,11 +6,14 @@
       style="margin-bottom: 2rem"
     />
   </div>
+  <div>
+    <el-button type="primary" @click="updateBeaconSetting">修改</el-button>
+  </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, watch, ref } from "vue";
-
+import { api } from "@/util/api";
+import { defineComponent, watch, ref, getCurrentInstance } from "vue";
 export default defineComponent({
   props: {
     inputText: String,
@@ -18,11 +21,29 @@ export default defineComponent({
   setup(props, context) {
     const inputTextValue = ref("");
     Object.assign(inputTextValue.value, props.inputText);
+    const { proxy } = getCurrentInstance()!;
     watch(inputTextValue, (newVal) => {
       context.emit("update:inputText", newVal);
+      console.log();
     });
+    const updateBeaconSetting = () => {
+      const req = () => {
+        api
+          .post("/text", {
+            inputTextValue,
+          })
+          .then((res) => {
+            console.log(res.data);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      };
+      req;
+    };
     return {
       inputTextValue,
+      updateBeaconSetting,
     };
   },
 });
