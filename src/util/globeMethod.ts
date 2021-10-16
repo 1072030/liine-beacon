@@ -1,5 +1,4 @@
 import { ElMessage, ElMessageBox } from "element-plus";
-import { api } from "./api";
 
 export interface ElMessage {
   boxMessage: string;
@@ -34,3 +33,12 @@ export function elMessageBoxConfirm(
       }
     });
 }
+// export async function uploadImage(file: File): Promise<string> {
+//   console.log("test1");
+//   const formData = new FormData();
+//   formData.append("image", file);
+
+//   const res = await api.post("/upload/image", formData);
+//   console.log(res);
+//   return res.data.url as string;
+// }
