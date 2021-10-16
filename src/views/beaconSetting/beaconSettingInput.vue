@@ -27,6 +27,9 @@
       v-model:inputImageCarousel="imageCarousel"
     />
     <InputBubble v-if="pattern === 'bubble'" v-model:inputBubble="bubble" />
+    <div>
+      <el-button type="primary" @click="updateBeaconSetting">修改</el-button>
+    </div>
   </div>
 </template>
 

@@ -2,9 +2,6 @@
   <div style="margin: 2rem 0">
     <el-input v-model="inputTextValue" placeholder="輸入文字訊息" />
   </div>
-  <div>
-    <el-button type="primary" @click="updateBeaconSetting">修改</el-button>
-  </div>
 </template>
 
 <script lang="ts">

@@ -1,4 +1,5 @@
 import { ElMessage, ElMessageBox } from "element-plus";
+import { api } from "./api";
 
 export interface ElMessage {
   boxMessage: string;
