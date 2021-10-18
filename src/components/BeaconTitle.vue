@@ -4,32 +4,34 @@
   </div>
 
   <div class="sidebar">
-    <div style="margin-bottom: 1rem">
-      <el-select v-model="beaconId" placeholder="beaconId">
-        <el-option
-          v-for="item in options"
-          :key="item.value"
-          :label="item.label"
-          :value="item.value"
-        >
-        </el-option>
-      </el-select>
-    </div>
+    <div class="insideSidebar">
+      <div style="margin-bottom: 1rem">
+        <el-select v-model="beaconId" placeholder="beaconId">
+          <el-option
+            v-for="item in options"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
+          >
+          </el-option>
+        </el-select>
+      </div>
 
-    <div>
-      <el-select
-        v-model="pattern"
-        placeholder="選擇模式"
-        @change="selectMode(pattern)"
-      >
-        <el-option
-          v-for="item in patternOption"
-          :key="item.value"
-          :label="item.label"
-          :value="item.value"
+      <div>
+        <el-select
+          v-model="pattern"
+          placeholder="選擇模式"
+          @change="selectMode(pattern)"
         >
-        </el-option>
-      </el-select>
+          <el-option
+            v-for="item in patternOption"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
+          >
+          </el-option>
+        </el-select>
+      </div>
     </div>
   </div>
 </template>
@@ -104,8 +106,12 @@ export default defineComponent({
   position: fixed;
   left: 0;
   height: 80%;
-  border-right: 0.3rem solid #e6beff;
+
   padding: 2.5rem 2rem 0rem 0rem;
   z-index: 2000;
+}
+.insideSidebar {
+  padding-right: 2rem;
+  border-right: 0.1rem solid #676efa;
 }
 </style>
