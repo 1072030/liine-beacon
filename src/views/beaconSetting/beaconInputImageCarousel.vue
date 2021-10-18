@@ -9,6 +9,7 @@
       >
       </el-option>
     </el-select>
+    <el-input v-model="altText" placeholder="訊息標頭" />
   </div>
   <div style="margin: 2rem 0; display: inline-block">
     <el-upload
@@ -21,16 +22,17 @@
       <img v-if="imageUrl" :src="imageUrl" class="avatar" />
       <i v-else class="el-icon-plus avatar-uploader-icon"></i>
     </el-upload>
-    <el-select v-model="Pattern" placeholder="選擇回傳訊息樣板">
-      <el-option
-        v-for="item in PatternSelect"
-        :key="item.value"
-        :label="item.label"
-        :value="item.value"
-      >
-      </el-option>
-    </el-select>
-    <div>
+
+    <div style="width: 226px">
+      <el-select v-model="Pattern" placeholder="選擇回傳訊息樣板">
+        <el-option
+          v-for="item in PatternSelect"
+          :key="item.value"
+          :label="item.label"
+          :value="item.value"
+        >
+        </el-option>
+      </el-select>
       <el-input
         v-model="actionLabel"
         placeholder="圖片上訊息"
@@ -97,7 +99,7 @@ export default defineComponent({
         label: "10",
       },
     ]);
-    const Pattern = ref("");
+    const Pattern = ref("text");
     const PatternSelect = ref([
       {
         value: "text",
