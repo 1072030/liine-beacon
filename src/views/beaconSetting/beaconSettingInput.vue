@@ -34,7 +34,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, inject, computed } from "vue";
+import { defineComponent, ref, computed } from "vue";
 import { useStore } from "vuex";
 import InputText from "./beaconInputText.vue";
 import InputImage from "./beaconInputImage.vue";

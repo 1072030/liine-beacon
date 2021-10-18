@@ -2,7 +2,7 @@
   <div>
     <el-select v-model="imageNumbers" placeholder="選擇圖片輪播數量">
       <el-option
-        v-for="item in imageNumbersCount"
+        v-for="item in imageNumbersSelect"
         :key="item.value"
         :label="item.label"
         :value="item.value"
@@ -10,7 +10,7 @@
       </el-option>
     </el-select>
   </div>
-  <div>
+  <div style="margin: 2rem 0; display: inline-block">
     <el-upload
       class="avatar-uploader"
       action="https://jsonplaceholder.typicode.com/posts/"
@@ -21,6 +21,32 @@
       <img v-if="imageUrl" :src="imageUrl" class="avatar" />
       <i v-else class="el-icon-plus avatar-uploader-icon"></i>
     </el-upload>
+    <el-select v-model="Pattern" placeholder="選擇回傳訊息樣板">
+      <el-option
+        v-for="item in PatternSelect"
+        :key="item.value"
+        :label="item.label"
+        :value="item.value"
+      >
+      </el-option>
+    </el-select>
+    <div>
+      <el-input
+        v-model="actionLabel"
+        placeholder="圖片上訊息"
+        v-if="Pattern === 'text' || 'uri'"
+      />
+      <el-input
+        v-model="actionText"
+        placeholder="回傳文字"
+        v-if="Pattern === 'text'"
+      />
+      <el-input
+        v-if="Pattern === 'uri'"
+        v-model="actionUri"
+        placeholder="顯示網址"
+      />
+    </div>
   </div>
 </template>
 <script lang="ts">
@@ -29,7 +55,7 @@ import { defineComponent, ref } from "vue";
 export default defineComponent({
   setup() {
     const imageNumbers = ref("");
-    const imageNumbersCount = ref([
+    const imageNumbersSelect = ref([
       {
         value: "1",
         label: "1",
@@ -71,16 +97,28 @@ export default defineComponent({
         label: "10",
       },
     ]);
+    const Pattern = ref("");
+    const PatternSelect = ref([
+      {
+        value: "text",
+        label: "文字訊息",
+      },
+      {
+        value: "uri",
+        label: "網頁訊息",
+      },
+    ]);
     return {
-      imageNumbersCount,
       imageNumbers,
+      imageNumbersSelect,
+      Pattern,
+      PatternSelect,
     };
   },
 });
 </script>
 <style lang="scss">
 .avatar-uploader .el-upload {
-  margin: 2rem 0;
   border: 1px dashed #d9d9d9;
   border-radius: 6px;
   cursor: pointer;
