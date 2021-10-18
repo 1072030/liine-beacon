@@ -77,7 +77,7 @@ export default defineComponent({
 .avatar-uploader-icon {
   font-size: 28px;
   color: #8c939d;
-  width: 160px;
+  width: 178px;
   height: 160px;
   line-height: 160px;
   text-align: center;
