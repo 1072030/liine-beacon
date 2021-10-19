@@ -1,19 +1,21 @@
 <template>
   <div>
-    <el-select v-model="imageNumbers" placeholder="選擇圖片輪播數量">
-      <el-option
-        @change="changeVal($event)"
-        v-for="item in imageNumbersSelect"
-        :key="item.value"
-        :label="item.label"
-        :value="item.value"
-      >
-      </el-option>
-    </el-select>
-    <el-input v-model="altText" placeholder="訊息標頭" />
-  </div>
-  <div v-for="items in numbershow" :key="items" style="display: inline-block">
-    <replyInputCarosel />
+    <div>
+      <el-select v-model="imageNumbers" placeholder="選擇圖片輪播數量">
+        <el-option
+          @change="changeVal($event)"
+          v-for="item in imageNumbersSelect"
+          :key="item.value"
+          :label="item.label"
+          :value="item.value"
+        >
+        </el-option>
+      </el-select>
+      <el-input v-model="altText" placeholder="訊息標頭" />
+    </div>
+    <div v-for="items in numbershow" :key="items" style="display: inline-block">
+      <replyInputCarosel />
+    </div>
   </div>
 </template>
 <script lang="ts">

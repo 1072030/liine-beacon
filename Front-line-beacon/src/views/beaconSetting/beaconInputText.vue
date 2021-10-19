@@ -5,7 +5,7 @@
 </template>
 
 <script lang="ts">
-import { api } from "@/util/api";
+import { api } from "../../util/api";
 import { defineComponent, watch, ref } from "vue";
 export default defineComponent({
   props: {

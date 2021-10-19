@@ -1,5 +1,7 @@
 <template>
-  <img src="" alt="" />
+  <div>
+    <img src="../../assets/template2.png" alt="" />
+  </div>
 </template>
 <script lang="ts">
 import { defineComponent } from "vue";
