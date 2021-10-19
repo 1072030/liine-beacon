@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="example">
     <img src="../../assets/template2.png" alt="" />
   </div>
 </template>
@@ -12,4 +12,8 @@ export default defineComponent({
   },
 });
 </script>
-<style lang="scss"></style>
+<style lang="scss">
+.example {
+  text-align: center;
+}
+</style>
