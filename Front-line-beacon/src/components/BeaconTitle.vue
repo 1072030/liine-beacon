@@ -1,36 +1,38 @@
 <template>
-  <div class="nav">
-    <a href=""><img src="../assets/golfourit.png" alt="" /></a>
-  </div>
+  <div>
+    <div class="nav">
+      <a href=""><img src="../assets/golfourit.png" alt="" /></a>
+    </div>
 
-  <div class="sidebar">
-    <div class="insideSidebar">
-      <div style="margin-bottom: 1rem">
-        <el-select v-model="beaconId" placeholder="beaconId">
-          <el-option
-            v-for="item in options"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value"
-          >
-          </el-option>
-        </el-select>
-      </div>
+    <div class="sidebar">
+      <div class="insideSidebar">
+        <div style="margin-bottom: 1rem">
+          <el-select v-model="beaconId" placeholder="beaconId">
+            <el-option
+              v-for="item in options"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            >
+            </el-option>
+          </el-select>
+        </div>
 
-      <div>
-        <el-select
-          v-model="pattern"
-          placeholder="選擇模式"
-          @change="selectMode(pattern)"
-        >
-          <el-option
-            v-for="item in patternOption"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value"
+        <div>
+          <el-select
+            v-model="pattern"
+            placeholder="選擇模式"
+            @change="selectMode(pattern)"
           >
-          </el-option>
-        </el-select>
+            <el-option
+              v-for="item in patternOption"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            >
+            </el-option>
+          </el-select>
+        </div>
       </div>
     </div>
   </div>
