@@ -16,17 +16,14 @@
       }}
     </div>
     <!-- {{ pattern }} -->
-    <InputText v-if="pattern === 'text'" v-model:inputText="inputText" />
-    <InputImage v-if="pattern === 'image'" v-model:inputImage="inputImage" />
-    <InputConfirm
-      v-if="pattern === 'confirm'"
-      v-model:inputConfirm="inputConfirm"
-    />
+    <InputText v-if="pattern === 'text'" v-model="inputText" />
+    <InputImage v-if="pattern === 'image'" v-model="inputImage" />
+    <InputConfirm v-if="pattern === 'confirm'" v-model="inputConfirm" />
     <InputImageCarousel
       v-if="pattern === 'imageCarousel'"
-      v-model:inputImageCarousel="imageCarousel"
+      v-model="imageCarousel"
     />
-    <InputBubble v-if="pattern === 'bubble'" v-model:inputBubble="bubble" />
+    <InputBubble v-if="pattern === 'bubble'" v-model="bubble" />
     <div style="text-align: center">
       <el-button type="primary" @click="updateBeaconSetting">修改</el-button>
     </div>
@@ -78,7 +75,7 @@ export default defineComponent({
 <style lang="scss">
 .inputText {
   margin: 2% 0 0 30%;
-  width: 50%;
+  width: 60%;
 }
 .title {
   border: 0.2rem solid rgb(165, 171, 255);
