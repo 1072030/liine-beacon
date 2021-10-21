@@ -1,9 +1,21 @@
 <template>
   <div>
+    <div>
+      <theNav />
+    </div>
+
     <router-view />
   </div>
 </template>
-
+<script lang="ts">
+import { defineComponent } from "vue";
+import theNav from "./components/BeaconTitle.vue";
+export default defineComponent({
+  components: {
+    theNav,
+  },
+});
+</script>
 <style lang="scss">
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
