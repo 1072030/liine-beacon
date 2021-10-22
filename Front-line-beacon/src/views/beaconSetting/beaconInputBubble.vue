@@ -10,13 +10,20 @@
       <div id="tree-pane">
         <ul>
           <li>
-            <div>
+            <div
+              @click="isFocused = 'bubble'"
+              :class="{ focused: isFocused === 'bubble' }"
+              key="bubble"
+            >
               <span class="node-icon"><i class="fa-right"></i></span>
               <span class="node-name">bubble</span>
             </div>
             <ul>
               <li>
-                <div>
+                <div
+                  @click="isFocused = 'header'"
+                  :class="{ focused: isFocused === 'header' }"
+                >
                   <span class="node-icon"><i class="fa-right"></i></span>
                   <span class="node-name">header</span>
                 </div>
@@ -45,7 +52,7 @@
       </div>
     </div>
     <div id="right-pane">
-      <div class="demo-color-block">
+      <!-- <div class="demo-color-block">
         <el-color-picker v-model="color1" />
       </div>
       <div>
@@ -54,7 +61,7 @@
           <el-radio :label="2">置中</el-radio>
           <el-radio :label="3">置右</el-radio>
         </el-radio-group>
-      </div>
+      </div> -->
     </div>
   </div>
 </template>
@@ -63,27 +70,29 @@ import { defineComponent, ref } from "vue";
 
 export default defineComponent({
   setup() {
-    const headerIconPress = ref(false);
-    const isFocused = ref(false);
-    function toggleClass() {
-      isFocused.value = !isFocused.value;
-    }
+    const isFocused = ref("");
+    const select = ref("");
+
+    const focusEvent = (event: any) => {
+      isFocused.value = event.srcElement.innerText;
+      select.value = event.srcElement.innerText;
+    };
     return {
-      headerIconPress,
       isFocused,
+      select,
       //fontSize: "30px",
-      toggleClass,
+      focusEvent,
     };
   },
 });
 </script>
 <style lang="scss">
-.header {
-  color: v-bind(color);
-  // color: v-bind(color);
-  // font-size: v-bind(fontSize);
-  // text-align: v-bind(textAlign);
-}
+// .header {
+
+//   color: v-bind(color);
+//   font-size: v-bind(fontSize);
+//   text-align: v-bind(textAlign);
+// }
 #main-pane {
   display: flex;
 }
@@ -162,7 +171,7 @@ export default defineComponent({
 //---------------------------------------------Center-Tree-pane End
 .focused {
   color: white;
-  background-color: #255e9a;
+  background-color: #255e9a !important;
 }
 #right-pane {
   flex: 0 0 30%;
