@@ -24,7 +24,7 @@
       v-model="imageCarousel"
     />
     <InputBubble v-if="pattern === 'bubble'" v-model="bubble" />
-    <div style="text-align: center">
+    <div style="text-align: center; margin-top: 1rem">
       <el-button type="primary" @click="updateBeaconSetting">修改</el-button>
     </div>
   </div>
