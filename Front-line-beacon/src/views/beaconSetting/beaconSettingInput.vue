@@ -74,8 +74,8 @@ export default defineComponent({
 </script>
 <style lang="scss">
 .inputText {
-  margin: 2% 0 0 30%;
-  width: 60%;
+  margin: 2% 0 0 20%;
+  width: 70%;
 }
 .title {
   border: 0.2rem solid rgb(165, 171, 255);
