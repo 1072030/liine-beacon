@@ -1,116 +1,118 @@
 <template>
   <div id="center-pane">
-    <div id="tree-pane">
-      <ul>
-        <li>
-          <div
-            @click="isFocused = 'bubble'"
-            :class="{ focused: isFocused === 'bubble' }"
-            key="bubble"
-          >
-            <span class="node-icon"><i class="fa-right"></i></span>
-            <span class="node-name">bubble</span>
-          </div>
-          <ul>
-            <li>
-              <div
-                @click="isFocused = 'header'"
-                :class="{ focused: isFocused === 'header' }"
-              >
-                <span class="node-icon"><i class="fa-right"></i></span>
-                <span class="node-name">header</span>
-              </div>
-            </li>
-            <li>
-              <div @click="isSelected">
-                <span class="node-icon"><i class="fa-right"></i></span
-                ><span class="node-name">hero</span>
-              </div>
-              <ul>
-                <li>
-                  <div>
-                    <span class="node-icon"><i class="fa-image"></i></span
-                    ><span class="node-name">image</span>
-                  </div>
-                </li>
-              </ul>
-            </li>
-            <li>
-              <div @click="isSelected">
-                <span class="node-icon"><i class="fa-right"></i></span
-                ><span class="node-name">body</span>
-              </div>
-              <ul>
-                <li>
-                  <div>
-                    <span class="node-icon"><i class="fa-text"></i></span
-                    ><span class="node-name">Brown Cafe</span>
-                  </div>
-                </li>
-                <li>
-                  <div>
-                    <span class="node-icon"><i class="fa-right"></i></span
-                    ><span class="node-name">box[vertical]</span>
-                  </div>
-                  <ul>
-                    <li>
-                      <div>
-                        <span class="node-icon"><i class="fa-right"></i></span
-                        ><span class="node-name">box[baseline]</span>
-                      </div>
-                      <ul>
-                        <li>
-                          <div>
-                            <span class="node-icon"
-                              ><i class="fa-text"></i></span
-                            ><span class="node-name">text</span>
-                          </div>
-                        </li>
-                        <li>
-                          <div>
-                            <span class="node-icon"
-                              ><i class="fa-text"></i></span
-                            ><span class="node-name">text</span>
-                          </div>
-                        </li>
-                      </ul>
-                    </li>
-                  </ul>
-                </li>
-              </ul>
-            </li>
-            <li>
-              <div @click="isSelected">
-                <span class="node-icon"><i class="fa-right"></i></span
-                ><span class="node-name">footer</span>
-              </div>
-            </li>
-          </ul>
-        </li>
-      </ul>
-    </div>
+    <el-tree-v2
+      class="tree-pane"
+      :data="data"
+      :props="props"
+      :height="450"
+      @node-click="checkSelected"
+    ></el-tree-v2>
   </div>
 </template>
 <script lang="ts">
-import { defineComponent } from "vue";
-
+import { defineComponent, ref } from "vue";
 export default defineComponent({
   setup() {
-    const isSelected = (event: any) => {
-      console.log(event);
-      switch (event.srcElement.nodeName) {
-        case "DIV": {
-          event.target.classList.toggle("focused");
-          break;
-        }
-        case "SPAN": {
-          event.target.parentElement.classList.toggle("focused");
-          break;
-        }
-      }
+    const checkSelected = (selected: any) => {
+      console.log(selected);
     };
+    const data = [
+      {
+        id: "header",
+        label: "header",
+        type: "bubble",
+        children: undefined,
+      },
+      {
+        id: "hero",
+        label: "hero",
+        children: [
+          {
+            id: "image",
+            label: "image",
+            type: "image",
+            children: [],
+          },
+        ],
+      },
+      {
+        id: "body",
+        label: "body",
+        type: "body",
+        children: [
+          {
+            id: "box",
+            label: "box",
+            type: "box",
+            children: [
+              {
+                id: "text",
+                label: "text",
+                type: "text",
+                children: [],
+              },
+              {
+                id: "box-1",
+                label: "box-1",
+                type: "box",
+                children: [
+                  {
+                    id: "text",
+                    label: "text",
+                    type: "text",
+                    children: [],
+                  },
+                ],
+              },
+              {
+                id: "box-2",
+                label: "box-2",
+                type: "box",
+                children: [
+                  {
+                    id: "text",
+                    label: "text",
+                    type: "text",
+                    children: [],
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      },
+      {
+        id: "footer",
+        label: "footer",
+        type: "footer",
+        children: [
+          {
+            id: "box",
+            label: "box",
+            children: [
+              {
+                id: "button",
+                label: "buttonLabel",
+                type: "button",
+                action: "uri" || "text",
+                uri: undefined,
+                text: undefined,
+                children: [],
+              },
+            ],
+          },
+        ],
+      },
+    ];
     return {
-      isSelected,
+      data: data,
+      props: ref({
+        id: "id",
+        label: "label",
+        type: "type",
+        children: "children",
+      }),
+      checkSelected,
     };
   },
 });
@@ -121,38 +123,27 @@ export default defineComponent({
   display: flex;
   min-width: 0;
 }
-#tree-pane {
+.test {
+  content: "\2B9A";
+}
+.tree-pane {
   flex: 1 1 auto;
-  background-color: #333;
   width: 100%;
   overflow-y: auto;
   height: 100%;
   border-radius: 3%;
 }
-#tree-pane ul {
-  position: relative;
-  padding: 0;
-}
-#tree-pane li {
-  color: #d0d0d0;
-  margin-left: 20px;
-  line-height: 1.5;
-  list-style-type: none !important;
-}
-#tree-pane > div {
+
+.tree-pane > div {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
   padding: 2px;
 }
-#tree-pane div:hover {
-  color: white;
-  background-color: #444;
+.tree-pane > div > el-tree-v2 {
+  height: 100%;
 }
-#center-pane li {
-  list-style: none; //原始icon 消失
-}
-#tree-pane span.node-icon i {
+.tree-pane span.node-icon i {
   font-style: inherit;
   display: inline-block;
   width: 16px;
@@ -176,5 +167,23 @@ export default defineComponent({
 .focused {
   color: white;
   background-color: #255e9a !important;
+}
+.tree-pane {
+  color: white;
+  .el-tree-virtual-list {
+    background-color: #333;
+    border-radius: 10px;
+  }
+  .el-tree-node:focus > .el-tree-node__content {
+    background-color: rgb(137, 129, 129);
+  }
+  .el-tree-node__content:hover {
+    background-color: gray;
+  }
+  .el-tree-node {
+    padding-top: 5px;
+    padding-left: 5%;
+    width: 95% !important;
+  }
 }
 </style>

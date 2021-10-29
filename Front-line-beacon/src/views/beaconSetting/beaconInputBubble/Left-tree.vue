@@ -10,7 +10,8 @@
 import { defineComponent } from "vue";
 
 export default defineComponent({
-  setup() {
+  props: {},
+  setup(props, context) {
     console.log("text");
   },
 });

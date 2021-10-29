@@ -1,5 +1,5 @@
 <template>
-  <div>test</div>
+  <div id="form-pane"></div>
 </template>
 <script lang="ts">
 import { defineComponent } from "vue";
