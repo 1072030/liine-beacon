@@ -95,6 +95,9 @@ export default defineComponent({
 </script>
 <style lang="scss">
 .nav {
+  z-index: 2000;
+  position: fixed;
+  width: 100%;
   height: 100px;
   background-color: antiquewhite;
   line-height: 9;
@@ -103,7 +106,7 @@ export default defineComponent({
   padding-left: 1.5rem;
 }
 .sidebar {
-  margin: 0 0 0 2rem;
+  margin: 7rem 0 0 2rem;
   display: inline-block;
   position: fixed;
   left: 0;

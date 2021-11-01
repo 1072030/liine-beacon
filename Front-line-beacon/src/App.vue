@@ -1,9 +1,8 @@
 <template>
-  <div>
+  <div style="height: 100%">
     <div>
       <theNav />
     </div>
-
     <router-view />
   </div>
 </template>

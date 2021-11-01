@@ -15,6 +15,7 @@
           : "404 Error"
       }}
     </div>
+
     <!-- {{ pattern }} -->
     <InputText v-if="pattern === 'text'" v-model="inputText" />
     <InputImage v-if="pattern === 'image'" v-model="inputImage" />
@@ -74,8 +75,10 @@ export default defineComponent({
 </script>
 <style lang="scss">
 .inputText {
-  margin: 2% 0 0 20%;
-  width: 70%;
+  padding-top: 9rem;
+  height: 80%;
+  width: 60%;
+  padding-left: 25%;
 }
 .title {
   border: 0.2rem solid rgb(165, 171, 255);
