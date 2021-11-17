@@ -1,6 +1,6 @@
 <template>
   <div id="main-pane">
-    <leftTree style="width: 50%" />
+    <leftTree />
     <!-- <centerTree /> -->
     <right-tree style="width: 50%" />
   </div>
@@ -13,7 +13,6 @@ import rightTree from "./beaconInputBubble/Right-tree.vue";
 export default defineComponent({
   components: {
     leftTree,
-
     rightTree,
   },
   setup() {
