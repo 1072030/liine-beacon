@@ -6,6 +6,7 @@
 
     <div class="sidebar">
       <div class="insideSidebar">
+        <p class="labelAlign">beacon編號 :</p>
         <div style="margin-bottom: 1rem">
           <el-select v-model="beaconId" placeholder="beaconId">
             <el-option
@@ -19,6 +20,7 @@
         </div>
 
         <div>
+          <p class="labelAlign">回傳訊息 :</p>
           <el-select
             v-model="pattern"
             placeholder="選擇模式"
@@ -118,5 +120,9 @@ export default defineComponent({
 .insideSidebar {
   padding-right: 2rem;
   border-right: 0.1rem solid #676efa;
+}
+.labelAlign {
+  line-height: 0.5;
+  text-align: center;
 }
 </style>
