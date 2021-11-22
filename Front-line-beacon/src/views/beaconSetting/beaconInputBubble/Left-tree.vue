@@ -2,26 +2,34 @@
   <div id="left-pane">
     <div id="viewer-pane">
       <div class="fixposition" :model="DataInfo">
-        <div class="hero-box" @click="select(DataInfo.contents[0].hero[0])">
+        <div
+          class="hero-box"
+          @click="select(DataInfo.contents.hero)"
+          v-show="DataInfo.contents.hero.show"
+        >
           <el-image
-            :src="DataInfo.contents[0].hero[0].src"
-            :fit="DataInfo.contents[0].hero[0].fit"
+            :src="DataInfo.contents.hero.src"
+            :fit="DataInfo.contents.hero.fit"
             class="imagePlaced"
           ></el-image>
         </div>
+        <!-- :style="`display: inline; font-size: ${DataInfo.contents.body[0].font}px;`" -->
         <div class="body-box">
-          <div>
+          <div style="display: flex; flex-direction: column">
             <div
-              @click="select(DataInfo.contents[0].body[0])"
-              style="display: inline"
+              @click="select(DataInfo.contents.body[0])"
+              :style="{
+                fontSize: DataInfo.contents.body[0].fontsize + 'px',
+                color: DataInfo.contents.body[0].color,
+              }"
+              v-show="DataInfo.contents.body[0].show"
+              class="body-title"
             >
-              <p class="body-title">
-                {{ DataInfo.contents[0].body[0].text }}
-              </p>
+              <p>{{ DataInfo.contents.body[0].text }}</p>
             </div>
             <div
               class="body-content"
-              v-for="(contentData, index) in DataInfo.contents[0].body"
+              v-for="(contentData, index) in DataInfo.contents.body"
               :key="index"
             >
               <div style="display: flex; flex-direction: row">
@@ -29,15 +37,25 @@
                   class="body-sm-title"
                   v-if="index >= 1"
                   @click="select(contentData.contents[0])"
+                  :style="{
+                    fontSize: contentData.contents[0].fontsize + 'px',
+                    color: contentData.contents[0].color,
+                  }"
+                  v-show="contentData.contents[0].show"
                 >
-                  {{ contentData.contents[0].text }}
+                  <p>{{ contentData.contents[0].text }}</p>
                 </div>
                 <div
                   class="body-sm-text"
                   v-if="index >= 1"
                   @click="select(contentData.contents[1])"
+                  :style="{
+                    fontSize: contentData.contents[1].fontsize + 'px',
+                    color: contentData.contents[1].color,
+                  }"
+                  v-show="contentData.contents[1].show"
                 >
-                  {{ contentData.contents[1].text }}
+                  <p>{{ contentData.contents[1].text }}</p>
                 </div>
               </div>
             </div>
@@ -46,9 +64,10 @@
         <div class="footer-box">
           <div
             class="footer-btn"
-            v-for="(footerData, index) in DataInfo.contents[0].footer"
+            v-for="(footerData, index) in DataInfo.contents.footer"
             :key="index"
-            @click="select(DataInfo.contents[0].footer[index])"
+            @click="select(DataInfo.contents.footer[index])"
+            v-show="DataInfo.contents.footer[index].show"
           >
             <div>{{ footerData.action.label }}</div>
           </div>
@@ -59,83 +78,20 @@
 </template>
 <script lang="ts">
 import { defineComponent, ref } from "vue";
-//import { Text } from "../../../common/type";
 export default defineComponent({
-  props: {},
+  props: {
+    DataInfo: Object,
+  },
   emits: ["setPageAction"],
   setup(props, context) {
-    const DataInfo = ref({
-      contents: [
-        {
-          header: [],
-          hero: [
-            {
-              type: "image",
-              src: "https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jpeg",
-              fit: "cover",
-            },
-          ],
-          body: [
-            {
-              type: "text",
-              text: "Brown Cafe",
-              size: "18px",
-              color: "",
-              show: true,
-            },
-            {
-              contents: [
-                {
-                  type: "text",
-                  text: "Place",
-                },
-                {
-                  type: "text",
-                  text: "Miraina Tower, 4-1-6 Shinjuku, Tokyo No .1",
-                },
-              ],
-            },
-            {
-              contents: [
-                {
-                  type: "text",
-                  text: "Time",
-                },
-                {
-                  type: "text",
-                  text: "10:00 - 23:00",
-                },
-              ],
-            },
-          ],
-          footer: [
-            {
-              type: "button",
-              action: {
-                type: "uri",
-                label: "CALL",
-                uri: "https://v3.vuejs.org/guide/migration/v-model.html#migration-strategy",
-              },
-            },
-            {
-              type: "button",
-              action: {
-                type: "uri",
-                label: "WEBSITE",
-                uri: "https://developers.line.biz/flex-simulator/?status=success",
-              },
-            },
-          ],
-        },
-      ],
-    });
-
+    const getStyle = ref({});
     const select = (data: any) => {
+      getStyle.value = data;
       context.emit("setPageAction", data);
     };
     return {
-      DataInfo,
       select,
+      getStyle,
     };
   },
 });
@@ -149,8 +105,7 @@ export default defineComponent({
   margin: 0 auto;
 }
 #viewer-pane {
-  padding-top: 5%;
-  height: 450px;
+  padding: 5% 0%;
   width: 400px;
   background-color: antiquewhite;
 }
@@ -187,18 +142,19 @@ export default defineComponent({
     p {
       text-overflow: ellipsis;
       overflow: hidden;
-      white-space: nowrap;
+      // white-space: nowrap;
       display: block;
     }
     .body-sm-title {
       display: inline-block;
-      color: lightgray;
+      color: #d3d3d3;
       font-size: 14px;
       padding-right: 6px;
       flex-grow: 2;
     }
     .body-sm-text {
       display: inline-block;
+      // word-break: inherit;
       font-size: 14px;
       flex-grow: 8;
       width: 100%;

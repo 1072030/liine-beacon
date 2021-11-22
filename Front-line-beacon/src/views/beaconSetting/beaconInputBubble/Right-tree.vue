@@ -14,13 +14,13 @@
 
     <!-- v-if -->
     <div v-if="page.type == 'image'">
-      <el-form ref="form" :model="Imageform" label-width="80px">
+      <el-form ref="form" :model="data" label-width="80px">
         <el-form-item label="Url">
-          <el-input v-model="Imageform.url" placeholder="https://"></el-input>
+          <el-input v-model="data.src" placeholder="https://"></el-input>
         </el-form-item>
         <el-form-item label="顯示">
           <el-switch
-            v-model="Imageform.show"
+            v-model="data.show"
             active-color="#13ce66"
             inactive-color="#ff4949"
           />
@@ -28,25 +28,25 @@
       </el-form>
     </div>
     <div v-if="page.type == 'text'">
-      <el-form ref="form" :model="Textform" label-width="100px">
+      <el-form ref="form" label-width="100px">
         <el-form-item label="文字內容">
-          <el-input v-model="Textform.content"></el-input>
+          <el-input v-model="data.text"></el-input>
         </el-form-item>
         <el-form-item label="文字大小">
           <el-input-number
-            v-model="Textform.size"
-            :min="1"
-            :max="50"
+            v-model="data.fontsize"
+            :min="12"
+            :max="49"
             controls-position="right"
             @change="handleChange"
           />
         </el-form-item>
         <el-form-item label="文字顏色">
-          <el-color-picker v-model="Textform.color" show-alpha />
+          <el-color-picker v-model="data.color" />
         </el-form-item>
         <el-form-item label="顯示">
           <el-switch
-            v-model="Imageform.show"
+            v-model="data.show"
             active-color="#13ce66"
             inactive-color="#ff4949"
           />
@@ -54,12 +54,12 @@
       </el-form>
     </div>
     <div v-if="page.type == 'button'">
-      <el-form ref="form" :model="Buttonform" label-width="100px">
+      <el-form ref="form" :model="data" label-width="100px">
         <el-form-item label="文字內容">
-          <el-input v-model="Buttonform.label"></el-input>
+          <el-input v-model="data.action.label"></el-input>
         </el-form-item>
         <el-form-item label="回傳訊息模式">
-          <el-select v-model="btnReplyType" placeholder="Select">
+          <el-select v-model="data.action.type" placeholder="Select">
             <el-option
               v-for="item in Buttonform.actionType"
               :key="item.value"
@@ -69,18 +69,18 @@
             </el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="文字訊息" v-if="btnReplyType == 'message'">
+        <el-form-item label="文字訊息" v-if="data.action.type == 'message'">
           <el-input
-            v-model="Buttonform.message"
+            v-model="data.action.message"
             placeholder="回傳文字"
           ></el-input>
         </el-form-item>
-        <el-form-item label="連結網址" v-if="btnReplyType == 'uri'">
-          <el-input v-model="Buttonform.uri" placeholder="https://"></el-input>
+        <el-form-item label="連結網址" v-if="data.action.type == 'uri'">
+          <el-input v-model="data.action.uri" placeholder="https://"></el-input>
         </el-form-item>
         <el-form-item label="顯示">
           <el-switch
-            v-model="Buttonform.show"
+            v-model="data.show"
             active-color="#13ce66"
             inactive-color="#ff4949"
           />
@@ -90,37 +90,16 @@
   </div>
 </template>
 <script lang="ts">
-import { defineComponent, ref, toRefs, watch } from "vue";
+import { computed, defineComponent, ref, toRefs, watch } from "vue";
 
 export default defineComponent({
   props: {
     page: Object,
   },
   setup(props, { emit }) {
-    const btnReplyType = ref("");
-    const selectedType = ref({});
-    //Object.assign(val.value, props.page);
-    const Textform = ref({
-      type: "text",
-      text: "",
-      size: 14,
-      color: "rgba(19, 206, 102, 0.8)",
-      show: true,
-    });
-    watch(
-      () => props.page,
-      (value, newValue) => {
-        console.log("value", value);
-        console.log(
-          "Watch props.selected function called with args:",
-          newValue
-        );
-        Object.assign(selectedType.value, value);
-      }
-    );
-    const Imageform = ref({
-      url: "",
-      show: true,
+    console.log(101, props);
+    const data: any = computed(() => {
+      return props.page;
     });
     const Buttonform = ref({
       actionType: [
@@ -139,11 +118,8 @@ export default defineComponent({
       show: true,
     });
     return {
-      btnReplyType,
-      Imageform,
-      Textform,
+      data,
       Buttonform,
-      selectedType,
       ...toRefs(props),
     };
   },
