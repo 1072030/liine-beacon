@@ -30,7 +30,7 @@
             <div
               class="body-content"
               v-for="(contentData, index) in DataInfo.contents.body"
-              :key="index"
+              :key="contentData"
             >
               <div style="display: flex; flex-direction: row">
                 <div
@@ -150,13 +150,16 @@ export default defineComponent({
       color: #d3d3d3;
       font-size: 14px;
       padding-right: 6px;
-      flex-grow: 2;
+      flex: 1 0 0;
+      flex-grow: 1;
+      -webkit-box-flex: 1;
     }
     .body-sm-text {
       display: inline-block;
       // word-break: inherit;
       font-size: 14px;
-      flex-grow: 8;
+      flex: 1 0 0;
+      flex-grow: 7;
       width: 100%;
     }
   }
