@@ -145,14 +145,14 @@ body {
   padding-top: 19px;
   padding-bottom: 10px;
   div {
-    width: auto;
+    width: 100%;
   }
   p {
     margin: 0;
   }
   .body-title {
     display: flex;
-
+    flex-basis: auto;
     font-size: 22px;
     > p {
       font-weight: bold;
@@ -187,7 +187,7 @@ body {
       -webkit-box-flex: 5;
       align-items: baseline;
       > p {
-        text-overflow: clip;
+        overflow: clip;
         word-break: break-word;
         white-space: normal;
       }
