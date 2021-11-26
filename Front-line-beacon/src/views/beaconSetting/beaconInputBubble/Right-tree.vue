@@ -32,6 +32,9 @@
         <el-form-item label="文字內容">
           <el-input v-model="data.text"></el-input>
         </el-form-item>
+        <el-form-item label="文字內容寬度">
+          <el-input v-model="data.flex"></el-input>
+        </el-form-item>
         <el-form-item label="文字大小">
           <el-input-number
             v-model="data.fontsize"

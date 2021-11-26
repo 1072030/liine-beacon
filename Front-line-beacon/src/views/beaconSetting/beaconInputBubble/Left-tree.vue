@@ -4,35 +4,42 @@
       <div class="fixposition" :model="DataInfo">
         <div
           class="hero-box"
-          @click="select(DataInfo.contents.hero)"
-          v-show="DataInfo.contents.hero.show"
+          @click="select(DataInfo.hero)"
+          v-show="DataInfo.hero.show"
         >
           <el-image
-            :src="DataInfo.contents.hero.src"
-            :fit="DataInfo.contents.hero.fit"
+            :src="DataInfo.hero.src"
+            :fit="DataInfo.hero.fit"
             class="imagePlaced"
           ></el-image>
         </div>
         <!-- :style="`display: inline; font-size: ${DataInfo.contents.body[0].font}px;`" -->
         <div class="body-box">
-          <div style="display: flex; flex-direction: column">
+          <div
+            style="
+              display: flex;
+              flex-direction: column;
+              flex-basis: auto;
+              flex: 1 0 0;
+            "
+          >
             <div
-              @click="select(DataInfo.contents.body[0])"
+              @click="select(DataInfo.body[0])"
               :style="{
-                fontSize: DataInfo.contents.body[0].fontsize + 'px',
-                color: DataInfo.contents.body[0].color,
+                fontSize: DataInfo.body[0].fontsize + 'px',
+                color: DataInfo.body[0].color,
               }"
-              v-show="DataInfo.contents.body[0].show"
+              v-show="DataInfo.body[0].show"
               class="body-title"
             >
-              <p>{{ DataInfo.contents.body[0].text }}</p>
+              <p>{{ DataInfo.body[0].text }}</p>
             </div>
             <div
               class="body-content"
-              v-for="(contentData, index) in DataInfo.contents.body"
+              v-for="(contentData, index) in DataInfo.body"
               :key="contentData"
             >
-              <div style="display: flex; flex-direction: row">
+              <div style="display: flex; align-items: baseline">
                 <div
                   class="body-sm-title"
                   v-if="index >= 1"
@@ -40,6 +47,8 @@
                   :style="{
                     fontSize: contentData.contents[0].fontsize + 'px',
                     color: contentData.contents[0].color,
+                    flexGrow: contentData.contents[0].flex,
+                    WebkitBoxFlex: contentData.contents[0].flex,
                   }"
                   v-show="contentData.contents[0].show"
                 >
@@ -52,6 +61,8 @@
                   :style="{
                     fontSize: contentData.contents[1].fontsize + 'px',
                     color: contentData.contents[1].color,
+                    flexGrow: contentData.contents[1].flex,
+                    WebkitBoxFlex: contentData.contents[1].flex,
                   }"
                   v-show="contentData.contents[1].show"
                 >
@@ -64,10 +75,10 @@
         <div class="footer-box">
           <div
             class="footer-btn"
-            v-for="(footerData, index) in DataInfo.contents.footer"
+            v-for="(footerData, index) in DataInfo.footer"
             :key="index"
-            @click="select(DataInfo.contents.footer[index])"
-            v-show="DataInfo.contents.footer[index].show"
+            @click="select(DataInfo.footer[index])"
+            v-show="DataInfo.footer[index].show"
           >
             <div>{{ footerData.action.label }}</div>
           </div>
@@ -97,6 +108,12 @@ export default defineComponent({
 });
 </script>
 <style lang="scss">
+body {
+  line-height: 1.4;
+  width: 100%;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+}
 #left-pane {
   border-radius: 5px;
   max-width: 400px;
@@ -124,48 +141,62 @@ export default defineComponent({
 }
 .body-box {
   text-align: left;
-  padding: 5% 5%;
+  padding: 20px;
+  padding-top: 19px;
+  padding-bottom: 10px;
+  div {
+    width: auto;
+  }
   p {
     margin: 0;
   }
   .body-title {
-    margin: 0px 0px 5px 0px;
-    font-weight: bold;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    white-space: nowrap;
+    display: flex;
+
     font-size: 22px;
+    > p {
+      font-weight: bold;
+      text-overflow: ellipsis;
+      overflow: hidden;
+    }
   }
   .body-content {
     display: flex;
-    padding-top: 2px;
-    p {
-      text-overflow: ellipsis;
-      overflow: hidden;
-      // white-space: nowrap;
-      display: block;
-    }
     .body-sm-title {
-      display: inline-block;
+      overflow: hidden;
+      display: flex;
       color: #d3d3d3;
-      font-size: 14px;
-      padding-right: 6px;
+      font-size: 12px;
       flex: 1 0 0;
       flex-grow: 1;
       -webkit-box-flex: 1;
+      align-items: baseline;
+      > p {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      //white-space: nowrap;
     }
     .body-sm-text {
-      display: inline-block;
-      // word-break: inherit;
-      font-size: 14px;
+      margin-left: 4px;
+      display: flex;
+      font-size: 12px;
       flex: 1 0 0;
-      flex-grow: 7;
-      width: 100%;
+      flex-grow: 5;
+      -webkit-box-flex: 5;
+      align-items: baseline;
+      > p {
+        text-overflow: clip;
+        word-break: break-word;
+        white-space: normal;
+      }
     }
   }
 }
 
 .footer-box {
+  padding: 10px;
   .footer-btn {
     display: block;
     margin: 0 auto;
