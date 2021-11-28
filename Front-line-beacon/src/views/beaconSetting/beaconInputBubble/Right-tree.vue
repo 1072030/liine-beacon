@@ -16,7 +16,7 @@
     <div v-if="page.type == 'image'">
       <el-form ref="form" :model="data" label-width="80px">
         <el-form-item label="Url">
-          <el-input v-model="data.src" placeholder="https://"></el-input>
+          <el-input v-model="data.url" placeholder="https://"></el-input>
         </el-form-item>
         <el-form-item label="顯示">
           <el-switch
@@ -37,7 +37,7 @@
         </el-form-item>
         <el-form-item label="文字大小">
           <el-input-number
-            v-model="data.fontsize"
+            v-model="data.size"
             :min="12"
             :max="49"
             controls-position="right"

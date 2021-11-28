@@ -3,10 +3,11 @@
     <leftTree @setPageAction="setPageAction" v-model:DataInfo="DataInfo" />
     <!-- <centerTree /> -->
     <right-tree style="width: 50%" v-model:page="page" />
+    <button @click="generatorJson">123</button>
   </div>
 </template>
 <script lang="ts">
-import { defineComponent, onMounted, Ref, ref, watch } from "vue";
+import { defineComponent, onMounted, ref } from "vue";
 import leftTree from "./beaconInputBubble/Left-tree.vue";
 import rightTree from "./beaconInputBubble/Right-tree.vue";
 //import centerTree from "./beaconInputBubble/Center-tree.vue";
@@ -18,95 +19,131 @@ export default defineComponent({
   },
   setup() {
     const page = ref({});
+    const outputJson: any = {};
     const setPageAction = (value: any) => {
       page.value = value;
     };
     const DataInfo = ref({
-      header: [],
       hero: {
         type: "image",
-        src: "https://firebasestorage.googleapis.com/v0/b/beacon-backend-a8bf3.appspot.com/o/4d3ea53c084bad6931a56d5158a48jpeg.jpeg?alt=media&token=3e06fbb5-e813-48d9-ad70-26b7fd85a396",
-        fit: "cover",
+        url: "https://firebasestorage.googleapis.com/v0/b/beacon-backend-a8bf3.appspot.com/o/4d3ea53c084bad6931a56d5158a48jpeg.jpeg?alt=media&token=3e06fbb5-e813-48d9-ad70-26b7fd85a396",
+        size: "full",
+        aspectRatio: "20:13",
+        aspectMode: "cover",
         show: true,
       },
-      body: [
-        {
-          type: "text",
-          text: "Brown Cafe",
-          fontsize: 22,
-          color: "#000000",
-          show: true,
-        },
-        {
-          contents: [
-            {
-              type: "text",
-              text: "Place",
-              color: "#d3d3d3",
-              fontsize: 14,
-              show: true,
-              flex: 1,
-            },
-            {
-              type: "text",
-              text: "Miraina Tower, 4-1-6 Shinjuku, Tokyo No .1",
-              color: "#000000",
-              fontsize: 14,
-              show: true,
-              flex: 5,
-            },
-          ],
-        },
-        {
-          contents: [
-            {
-              type: "text",
-              text: "Time",
-              color: "#d3d3d3",
-              fontsize: 14,
-              show: true,
-              flex: 1,
-            },
-            {
-              type: "text",
-              text: "10:00 - 23:00",
-              color: "#000000",
-              fontsize: 14,
-              show: true,
-              flex: 5,
-            },
-          ],
-        },
-      ],
-      footer: [
-        {
-          type: "button",
-          action: {
-            type: "uri",
-            label: "CALL",
-            uri: "https://v3.vuejs.org/guide/migration/v-model.html#migration-strategy",
+      body: {
+        type: "box",
+        layout: "vertical",
+        contents: [
+          {
+            type: "text",
+            text: "Brown Cafe",
+            size: 22,
+            color: "#000000",
+            show: true,
           },
-          show: true,
-        },
-        {
-          type: "button",
-          action: {
-            type: "uri",
-            label: "WEBSITE",
-            uri: "https://developers.line.biz/flex-simulator/?status=success",
+          {
+            type: "box",
+            layout: "vertical",
+            contents: [
+              {
+                type: "box",
+                layout: "vertical",
+                contents: [
+                  {
+                    type: "box",
+                    layout: "baseline",
+                    contents: [
+                      {
+                        type: "text",
+                        text: "Place",
+                        color: "#d3d3d3",
+                        size: 14,
+                        show: true,
+                        flex: 1,
+                      },
+                      {
+                        type: "text",
+                        text: "Miraina Tower, 4-1-6 Shinjuku, Tokyo No .1",
+                        color: "#000000",
+                        size: 14,
+                        show: true,
+                        flex: 5,
+                      },
+                    ],
+                  },
+                  {
+                    type: "box",
+                    layout: "baseline",
+                    contents: [
+                      {
+                        type: "text",
+                        text: "Time",
+                        color: "#d3d3d3",
+                        size: 14,
+                        show: true,
+                        flex: 1,
+                      },
+                      {
+                        type: "text",
+                        text: "10:00 - 23:00",
+                        color: "#000000",
+                        size: 14,
+                        show: true,
+                        flex: 5,
+                      },
+                    ],
+                  },
+                ],
+              },
+            ],
           },
-          show: true,
-        },
-      ],
+        ],
+      },
+      footer: {
+        type: "box",
+        layout: "vertical",
+        contents: [
+          {
+            type: "button",
+            action: {
+              type: "uri",
+              label: "CALL",
+              uri: "https://v3.vuejs.org/guide/migration/v-model.html#migration-strategy",
+            },
+            show: true,
+          },
+          {
+            type: "button",
+            action: {
+              type: "uri",
+              label: "WEBSITE",
+              uri: "https://developers.line.biz/flex-simulator/?status=success",
+            },
+            show: true,
+          },
+        ],
+      },
     });
+    const generatorJson = () => {
+      const checkShow = {};
+      Object.assign(checkShow, DataInfo.value);
 
-    onMounted(() => {
-      console.log(DataInfo.value);
-    });
+      console.log(checkShow);
+      // if (DataInfo.value.hero.show == false) {
+      //   DataInfo.value.hero = {};
+      // }
+      // if (DataInfo.value.body.contents[0].show == false) {
+      //   delete DataInfo.value.body.contents[0];
+      // }
+    };
     return {
       setPageAction,
       page,
       DataInfo,
+      outputJson,
+      generatorJson,
     };
   },
 });

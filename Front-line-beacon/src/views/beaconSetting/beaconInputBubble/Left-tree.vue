@@ -1,4 +1,5 @@
 <template>
+  <!-- {{ DataInfo.footer.contents }} -->
   <div id="left-pane">
     <div id="viewer-pane">
       <div class="fixposition" :model="DataInfo">
@@ -8,8 +9,8 @@
           v-show="DataInfo.hero.show"
         >
           <el-image
-            :src="DataInfo.hero.src"
-            :fit="DataInfo.hero.fit"
+            :src="DataInfo.hero.url"
+            :fit="DataInfo.hero.aspectMode"
             class="imagePlaced"
           ></el-image>
         </div>
@@ -24,28 +25,28 @@
             "
           >
             <div
-              @click="select(DataInfo.body[0])"
+              @click="select(DataInfo.body.contents[0])"
               :style="{
-                fontSize: DataInfo.body[0].fontsize + 'px',
-                color: DataInfo.body[0].color,
+                fontSize: DataInfo.body.contents[0].size + 'px',
+                color: DataInfo.body.contents[0].color,
               }"
-              v-show="DataInfo.body[0].show"
+              v-show="DataInfo.body.contents[0].show"
               class="body-title"
             >
-              <p>{{ DataInfo.body[0].text }}</p>
+              <p>{{ DataInfo.body.contents[0].text }}</p>
             </div>
             <div
               class="body-content"
-              v-for="(contentData, index) in DataInfo.body"
+              v-for="contentData in DataInfo.body.contents[1].contents[0]
+                .contents"
               :key="contentData"
             >
               <div style="display: flex; align-items: baseline">
                 <div
                   class="body-sm-title"
-                  v-if="index >= 1"
                   @click="select(contentData.contents[0])"
                   :style="{
-                    fontSize: contentData.contents[0].fontsize + 'px',
+                    fontSize: contentData.contents[0].size + 'px',
                     color: contentData.contents[0].color,
                     flexGrow: contentData.contents[0].flex,
                     WebkitBoxFlex: contentData.contents[0].flex,
@@ -56,10 +57,9 @@
                 </div>
                 <div
                   class="body-sm-text"
-                  v-if="index >= 1"
                   @click="select(contentData.contents[1])"
                   :style="{
-                    fontSize: contentData.contents[1].fontsize + 'px',
+                    fontSize: contentData.contents[1].size + 'px',
                     color: contentData.contents[1].color,
                     flexGrow: contentData.contents[1].flex,
                     WebkitBoxFlex: contentData.contents[1].flex,
@@ -75,10 +75,10 @@
         <div class="footer-box">
           <div
             class="footer-btn"
-            v-for="(footerData, index) in DataInfo.footer"
+            v-for="(footerData, index) in DataInfo.footer.contents"
             :key="index"
-            @click="select(DataInfo.footer[index])"
-            v-show="DataInfo.footer[index].show"
+            @click="select(DataInfo.footer.contents[index])"
+            v-show="DataInfo.footer.contents[index].show"
           >
             <div>{{ footerData.action.label }}</div>
           </div>
