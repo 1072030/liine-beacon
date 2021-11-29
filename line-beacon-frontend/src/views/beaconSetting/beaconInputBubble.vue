@@ -10,6 +10,7 @@
 import { defineComponent, onMounted, ref } from "vue";
 import leftTree from "./beaconInputBubble/Left-tree.vue";
 import rightTree from "./beaconInputBubble/Right-tree.vue";
+import * as api from "@/service/beacon";
 //import centerTree from "./beaconInputBubble/Center-tree.vue";
 export default defineComponent({
   components: {
@@ -126,17 +127,11 @@ export default defineComponent({
         ],
       },
     });
-    const generatorJson = () => {
-      const checkShow = {};
-      Object.assign(checkShow, DataInfo.value);
-
-      console.log(checkShow);
-      // if (DataInfo.value.hero.show == false) {
-      //   DataInfo.value.hero = {};
-      // }
-      // if (DataInfo.value.body.contents[0].show == false) {
-      //   delete DataInfo.value.body.contents[0];
-      // }
+    const generatorJson = async () => {
+      const replyData = {};
+      Object.assign(replyData, DataInfo.value);
+      console.log("checkShow", JSON.stringify(replyData));
+      api.beaconSetting(JSON.stringify(replyData));
     };
     return {
       setPageAction,
