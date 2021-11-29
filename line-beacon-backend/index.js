@@ -3,6 +3,7 @@
 const express = require("express");
 const Dotenv = require("dotenv");
 const handleEvent = require("./handleEvent/handleEvent");
+const recreateJson = require("./common/algorithm");
 Dotenv.config();
 // create LINE SDK config from env variables
 
@@ -25,6 +26,7 @@ app.post("/callback", (req, res) => {
 });
 app.post("/beacon", (req, res) => {
   console.log(req.body);
+  recreateJson(req.body);
   res.send({
     status: "success",
     message: req.body,
