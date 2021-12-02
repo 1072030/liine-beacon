@@ -4,6 +4,7 @@ const express = require("express");
 const Dotenv = require("dotenv");
 const handleEvent = require("./handleEvent/handleEvent");
 const recreateJson = require("./common/algorithm");
+const cors = require("cors");
 Dotenv.config();
 // create LINE SDK config from env variables
 
@@ -12,6 +13,7 @@ Dotenv.config();
 // create Express app
 // about Express itself: https://expressjs.com/
 const app = express();
+app.use(cors());
 app.use(express.json());
 
 // register a webhook handler with middleware
@@ -25,12 +27,12 @@ app.post("/callback", (req, res) => {
     });
 });
 app.post("/beacon", (req, res) => {
-  console.log(req.body);
-  recreateJson(req.body);
-  res.send({
-    status: "success",
-    message: req.body,
+  let data = recreateJson(req.body);
+  Object.assign(data, {
+    type: "bubble",
   });
+  console.log(data);
+  res.send(data);
 });
 // listen on port
 const port = process.env.PORT || 3000;

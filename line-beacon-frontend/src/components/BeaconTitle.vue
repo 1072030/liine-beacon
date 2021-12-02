@@ -65,10 +65,6 @@ export default defineComponent({
         label: "圖片",
       },
       {
-        value: "confirm",
-        label: "確認樣板",
-      },
-      {
         value: "imageCarousel",
         label: "圖片輪播樣板",
       },

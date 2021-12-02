@@ -7,7 +7,7 @@
   </div>
 </template>
 <script lang="ts">
-import { defineComponent, onMounted, ref } from "vue";
+import { defineComponent, ref } from "vue";
 import leftTree from "./beaconInputBubble/Left-tree.vue";
 import rightTree from "./beaconInputBubble/Right-tree.vue";
 import * as api from "@/service/beacon";
@@ -23,6 +23,7 @@ export default defineComponent({
     const outputJson: any = {};
     const setPageAction = (value: any) => {
       page.value = value;
+      console.log(value);
     };
     const DataInfo = ref({
       hero: {

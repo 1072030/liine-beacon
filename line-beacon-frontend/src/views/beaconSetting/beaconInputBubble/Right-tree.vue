@@ -33,7 +33,12 @@
           <el-input v-model="data.text"></el-input>
         </el-form-item>
         <el-form-item label="文字內容寬度">
-          <el-input v-model="data.flex"></el-input>
+          <el-input-number
+            v-model="data.flex"
+            :min="1"
+            :max="20"
+            controls-position="right"
+          />
         </el-form-item>
         <el-form-item label="文字大小">
           <el-input-number
@@ -41,7 +46,6 @@
             :min="12"
             :max="49"
             controls-position="right"
-            @change="handleChange"
           />
         </el-form-item>
         <el-form-item label="文字顏色">
@@ -78,6 +82,7 @@
             placeholder="回傳文字"
           ></el-input>
         </el-form-item>
+
         <el-form-item label="連結網址" v-if="data.action.type == 'uri'">
           <el-input v-model="data.action.uri" placeholder="https://"></el-input>
         </el-form-item>
@@ -93,7 +98,7 @@
   </div>
 </template>
 <script lang="ts">
-import { computed, defineComponent, ref, toRefs, watch } from "vue";
+import { computed, defineComponent, ref, toRefs } from "vue";
 
 export default defineComponent({
   props: {
@@ -118,6 +123,7 @@ export default defineComponent({
       label: "",
       uri: "",
       message: "",
+
       show: true,
     });
     return {

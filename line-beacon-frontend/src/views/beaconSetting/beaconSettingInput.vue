@@ -1,4 +1,5 @@
 <template>
+  {{ DataInfo }}
   <div class="inputText">
     <div class="title">
       {{
@@ -6,8 +7,6 @@
           ? "文字訊息"
           : pattern === "image"
           ? "圖片訊息"
-          : pattern === "confirm"
-          ? "確認訊息"
           : pattern === "imageCarousel"
           ? "圖片輪播訊息"
           : pattern === "bubble"
@@ -19,7 +18,6 @@
     <!-- {{ pattern }} -->
     <InputText v-if="pattern === 'text'" v-model="inputText" />
     <InputImage v-if="pattern === 'image'" v-model="inputImage" />
-    <InputConfirm v-if="pattern === 'confirm'" v-model="inputConfirm" />
     <InputImageCarousel
       v-if="pattern === 'imageCarousel'"
       v-model="imageCarousel"
@@ -38,34 +36,32 @@ import InputText from "./beaconInputText.vue";
 import InputImage from "./beaconInputImage.vue";
 import InputImageCarousel from "./beaconInputImageCarousel.vue";
 import InputBubble from "./beaconInputBubble.vue";
-import InputConfirm from "./beaconInputConfirm.vue";
 export default defineComponent({
-  props: {},
+  props: {
+    DataInfo: Object,
+  },
   components: {
     InputText,
     InputImage,
-    InputConfirm,
     InputImageCarousel,
     InputBubble,
   },
-  setup() {
+  setup(props) {
     const store = useStore();
     const inputText = ref("");
     const inputImage = ref("");
-    const inputConfirm = ref("");
     const inputImageCarousel = ref("");
-    const inputBubble = ref("");
+    const inputBubble = ref({});
     const pattern = computed(() => {
       return store.getters.userPatternMode;
     });
     const updateBeaconSetting = () => {
-      console.log("test");
+      console.log(props);
     };
     return {
       pattern,
       inputText,
       inputImage,
-      inputConfirm,
       inputImageCarousel,
       inputBubble,
       updateBeaconSetting,

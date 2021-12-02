@@ -38,7 +38,7 @@ class Api {
     return axios({
       headers: {
         "Access-Control-Allow-Origin": "*",
-        // "Access-Control-Allow-Credentials": "true",
+        "Access-Control-Allow-Credentials": "true",
         "Content-Type": "application/json",
       },
       method: "post",
