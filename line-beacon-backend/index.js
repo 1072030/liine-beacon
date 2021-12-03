@@ -1,10 +1,11 @@
 "use strict";
 
 const express = require("express");
-const Dotenv = require("dotenv");
+
 const handleEvent = require("./handleEvent/handleEvent");
 const recreateJson = require("./common/algorithm");
 const cors = require("cors");
+const Dotenv = require("dotenv");
 Dotenv.config();
 // create LINE SDK config from env variables
 
@@ -37,6 +38,5 @@ app.post("/beacon", (req, res) => {
 // listen on port
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
-  console.log(process.env.PORT);
   console.log(`listening on ${port}`);
 });
