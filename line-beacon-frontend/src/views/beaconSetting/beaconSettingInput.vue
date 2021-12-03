@@ -23,9 +23,6 @@
       v-model="imageCarousel"
     />
     <InputBubble v-if="pattern === 'bubble'" v-model="bubble" />
-    <div style="text-align: center; margin-top: 1rem">
-      <el-button type="primary" @click="updateBeaconSetting">修改</el-button>
-    </div>
   </div>
 </template>
 
@@ -55,16 +52,13 @@ export default defineComponent({
     const pattern = computed(() => {
       return store.getters.userPatternMode;
     });
-    const updateBeaconSetting = () => {
-      console.log(props);
-    };
+
     return {
       pattern,
       inputText,
       inputImage,
       inputImageCarousel,
       inputBubble,
-      updateBeaconSetting,
     };
   },
 });

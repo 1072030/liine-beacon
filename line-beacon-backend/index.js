@@ -31,7 +31,7 @@ app.post("/beacon", (req, res) => {
   Object.assign(data, {
     type: "bubble",
   });
-  console.log(data);
+  // console.log(data);
   res.send(data);
 });
 // listen on port

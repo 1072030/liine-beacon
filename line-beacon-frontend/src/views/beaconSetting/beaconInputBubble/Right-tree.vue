@@ -12,10 +12,19 @@
       }}
     </h1>
 
-    <!-- v-if -->
+    <!-- type: 圖片-->
     <div v-if="page.type == 'image'">
-      <el-form ref="form" :model="data" label-width="80px">
-        <el-form-item label="Url">
+      <el-form ref="data" :model="data" label-width="80px">
+        <el-form-item
+          label="Url"
+          prop="url"
+          :rules="[
+            {
+              required: true,
+              message: '請輸入圖片連結',
+            },
+          ]"
+        >
           <el-input v-model="data.url" placeholder="https://"></el-input>
         </el-form-item>
         <el-form-item label="顯示">
@@ -27,9 +36,20 @@
         </el-form-item>
       </el-form>
     </div>
+    <!-- type: 文字 -->
     <div v-if="page.type == 'text'">
-      <el-form ref="form" label-width="100px">
-        <el-form-item label="文字內容">
+      <el-form :model="data" ref="data" label-width="100px">
+        <el-form-item
+          label="文字內容"
+          prop="text"
+          :rules="[
+            {
+              required: true,
+              message: '請輸入文字內容',
+              trigger: 'blur',
+            },
+          ]"
+        >
           <el-input v-model="data.text"></el-input>
         </el-form-item>
         <el-form-item label="文字內容寬度">
@@ -40,7 +60,17 @@
             controls-position="right"
           />
         </el-form-item>
-        <el-form-item label="文字大小">
+        <el-form-item
+          label="文字大小"
+          prop="size"
+          :rules="[
+            {
+              required: true,
+              message: '請輸入正確數字',
+              trigger: 'blur',
+            },
+          ]"
+        >
           <el-input-number
             v-model="data.size"
             :min="12"
@@ -60,10 +90,21 @@
         </el-form-item>
       </el-form>
     </div>
+    <!-- type: 按鈕 -->
     <div v-if="page.type == 'button'">
-      <el-form ref="form" :model="data" label-width="100px">
-        <el-form-item label="文字內容">
-          <el-input v-model="data.action.label"></el-input>
+      <el-form ref="data.action" :model="data.action" label-width="100px">
+        <el-form-item
+          label="文字內容"
+          prop="label"
+          :rules="[
+            {
+              required: true,
+              message: '請輸入文字內容',
+              trigger: 'blur',
+            },
+          ]"
+        >
+          <el-input v-model="data.action.label"> </el-input>
         </el-form-item>
         <el-form-item label="回傳訊息模式">
           <el-select v-model="data.action.type" placeholder="Select">
@@ -76,14 +117,36 @@
             </el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="文字訊息" v-if="data.action.type == 'message'">
+        <el-form-item
+          label="文字訊息"
+          prop="message"
+          :rules="[
+            {
+              required: true,
+              message: '請輸入文字訊息',
+              trigger: 'blur',
+            },
+          ]"
+          v-if="data.action.type == 'message'"
+        >
           <el-input
             v-model="data.action.message"
             placeholder="回傳文字"
           ></el-input>
         </el-form-item>
 
-        <el-form-item label="連結網址" v-if="data.action.type == 'uri'">
+        <el-form-item
+          label="連結網址"
+          prop="uri"
+          v-if="data.action.type == 'uri'"
+          :rules="[
+            {
+              required: true,
+              message: '請輸入圖片連結',
+              trigger: 'blur',
+            },
+          ]"
+        >
           <el-input v-model="data.action.uri" placeholder="https://"></el-input>
         </el-form-item>
         <el-form-item label="顯示">
@@ -105,7 +168,6 @@ export default defineComponent({
     page: Object,
   },
   setup(props, { emit }) {
-    console.log(101, props);
     const data: any = computed(() => {
       return props.page;
     });

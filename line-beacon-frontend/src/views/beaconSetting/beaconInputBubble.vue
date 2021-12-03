@@ -3,7 +3,9 @@
     <leftTree @setPageAction="setPageAction" v-model:DataInfo="DataInfo" />
     <!-- <centerTree /> -->
     <right-tree style="width: 50%" v-model:page="page" />
-    <button @click="generatorJson">123</button>
+  </div>
+  <div style="text-align: center; margin-top: 1rem">
+    <el-button type="primary" @click="generatorJson">修改</el-button>
   </div>
 </template>
 <script lang="ts">
@@ -43,6 +45,7 @@ export default defineComponent({
             text: "Brown Cafe",
             size: 22,
             color: "#000000",
+            weight: "bold",
             show: true,
           },
           {
@@ -62,6 +65,7 @@ export default defineComponent({
                         text: "Place",
                         color: "#d3d3d3",
                         size: 14,
+                        wrap: true,
                         show: true,
                         flex: 1,
                       },
@@ -71,6 +75,7 @@ export default defineComponent({
                         color: "#000000",
                         size: 14,
                         show: true,
+                        wrap: true,
                         flex: 5,
                       },
                     ],
@@ -85,6 +90,7 @@ export default defineComponent({
                         color: "#d3d3d3",
                         size: 14,
                         show: true,
+                        wrap: true,
                         flex: 1,
                       },
                       {
@@ -93,6 +99,7 @@ export default defineComponent({
                         color: "#000000",
                         size: 14,
                         show: true,
+                        wrap: true,
                         flex: 5,
                       },
                     ],
@@ -146,7 +153,7 @@ export default defineComponent({
 </script>
 <style lang="scss">
 #main-pane {
-  height: 90%;
+  height: 100%;
   display: flex;
 }
 </style>

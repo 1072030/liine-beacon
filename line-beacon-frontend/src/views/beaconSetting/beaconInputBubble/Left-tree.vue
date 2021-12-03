@@ -16,14 +16,7 @@
         </div>
         <!-- :style="`display: inline; font-size: ${DataInfo.contents.body[0].font}px;`" -->
         <div class="body-box">
-          <div
-            style="
-              display: flex;
-              flex-direction: column;
-              flex-basis: auto;
-              flex: 1 0 0;
-            "
-          >
+          <div class="col-box">
             <div
               @click="select(DataInfo.body.contents[0])"
               :style="{
@@ -64,7 +57,7 @@
                     flexGrow: contentData.contents[1].flex,
                     WebkitBoxFlex: contentData.contents[1].flex,
                   }"
-                  v-show="contentData.contents[1].show"
+                  :class="{ displayHide: !contentData.contents[1].show }"
                 >
                   <p>{{ contentData.contents[1].text }}</p>
                 </div>
@@ -78,7 +71,7 @@
             v-for="(footerData, index) in DataInfo.footer.contents"
             :key="index"
             @click="select(DataInfo.footer.contents[index])"
-            v-show="DataInfo.footer.contents[index].show"
+            :class="{ displayHide: !DataInfo.footer.contents[index].show }"
           >
             <div>{{ footerData.action.label }}</div>
           </div>
@@ -150,6 +143,12 @@ body {
   p {
     margin: 0;
   }
+  .col-box {
+    display: flex;
+    flex-direction: column;
+    flex-basis: auto;
+    flex: 1 0 0;
+  }
   .body-title {
     display: flex;
     flex-basis: auto;
@@ -187,7 +186,7 @@ body {
       -webkit-box-flex: 5;
       align-items: baseline;
       > p {
-        overflow: clip;
+        overflow: visible;
         word-break: break-word;
         white-space: normal;
       }
@@ -214,10 +213,8 @@ body {
     max-width: 100%;
   }
 }
-.displayShow {
-  display: block;
-}
+
 .displayHide {
-  display: none;
+  display: none !important;
 }
 </style>
