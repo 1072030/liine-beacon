@@ -33,12 +33,11 @@ class Api {
       data,
     });
   }
-
+  // "Access-Control-Allow-Origin": "*",
+  //         "Access-Control-Allow-Credentials": "true",
   post(path: string, data: any) {
     return axios({
       headers: {
-        "Access-Control-Allow-Origin": "*",
-        "Access-Control-Allow-Credentials": "true",
         "Content-Type": "application/json",
       },
       method: "post",

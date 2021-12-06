@@ -43,7 +43,7 @@ export default defineComponent({
     InputImageCarousel,
     InputBubble,
   },
-  setup(props) {
+  setup() {
     const store = useStore();
     const inputText = ref("");
     const inputImage = ref("");

@@ -167,7 +167,7 @@ export default defineComponent({
   props: {
     page: Object,
   },
-  setup(props, { emit }) {
+  setup(props) {
     const data: any = computed(() => {
       return props.page;
     });
