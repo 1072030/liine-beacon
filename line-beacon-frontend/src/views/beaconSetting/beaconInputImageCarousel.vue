@@ -18,24 +18,29 @@
     <el-form-item
       v-for="(item, index) in input"
       :key="index"
-      style="display: inline-flex; margin: 0"
-    >
-      <el-form-item>
-        <el-upload
-          class="avatar-uploader"
-          action="#"
-          list-type="picture-card"
-          :file-list="fileList"
-          :http-request="handleUploadFile"
-          :on-remove="handleRemove"
-        >
-          <img v-if="imageUrl" :src="imageUrl" class="avatar" />
-          <i class="el-icon-plus avatar-uploader-icon"></i>
-        </el-upload>
-      </el-form-item>
+      style="display: inline-flex"
+      ><div class="previewLabel" v-if="item.action.label !== ''">
+        <span>{{ item.action.label }}</span>
+      </div>
+      <el-image
+        style="width: 375px; height: 375px"
+        :src="item.imageUrl"
+        :fit="fit"
+      >
+        <template #error>
+          <div class="image-slot previewImage">Image Not Found</div>
+        </template></el-image
+      >
       <div style="flex-direction: row">
-        <div style="width: 226px; margin-right: 5px">
-          <el-select v-model="item.action.type" placeholder="選擇回傳訊息樣板">
+        <div style="width: 375px; margin-right: 5px">
+          <el-form-item>
+            <el-input placeholder="圖片連結" v-model="item.imageUrl" />
+          </el-form-item>
+          <el-select
+            v-model="item.action.type"
+            placeholder="選擇回傳訊息樣板"
+            style="width: 375px"
+          >
             <el-option
               v-for="replyType in PatternSelect"
               :key="replyType"
@@ -57,21 +62,23 @@
       </div>
     </el-form-item>
   </el-form>
+  <div style="text-align: center; margin-top: 1rem">
+    <el-button type="primary" @click="generatorJson">修改</el-button>
+  </div>
 </template>
 <script lang="ts">
 import { computed, defineComponent, ref, Ref } from "vue";
-import { uploadImage } from "../../util/uploadImage";
 export default defineComponent({
   setup() {
     let fileList = ref<Array<{ url: string }>>([]);
     const PatternSelect = ref([
       {
         value: "text",
-        label: "文字訊息",
+        label: "回傳文字訊息",
       },
       {
         value: "uri",
-        label: "網頁訊息",
+        label: "回傳網頁連結",
       },
     ]);
     const imageNumbers = ref(1);
@@ -117,17 +124,7 @@ export default defineComponent({
         label: "10",
       },
     ]);
-    const handleRemove = () => {
-      fileList.value = [];
-      // hideLogo.value = false;
-      // context.emit("update:image", "");
-    };
-    const handleUploadFile = async ({ file }: { file: File }) => {
-      const url = await uploadImage(file);
-      // imageUrl.value = { url: url as string };
-      fileList.value = [{ url: url as string }];
-      console.log(url);
-    };
+
     const input = computed(() => {
       let arr: Ref<any> = ref([]);
       for (let i = 0; i < imageNumbers.value; i++) {
@@ -157,8 +154,6 @@ export default defineComponent({
       imageNumbers,
       imageNumbersSelect,
       input,
-      handleRemove,
-      handleUploadFile,
     };
   },
 });
@@ -177,14 +172,39 @@ export default defineComponent({
 .avatar-uploader-icon {
   font-size: 28px;
   color: #8c939d;
-  width: 178px;
-  height: 160px;
-  line-height: 160px;
+  width: 148px;
+  height: 148px;
   text-align: center;
 }
 .avatar {
   width: 178px;
   height: 178px;
   display: block;
+}
+.previewImage {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  font-family: inherit;
+  height: 100%;
+  background-color: #81ace9;
+  color: white;
+}
+.previewLabel {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  position: absolute;
+  z-index: 1;
+  height: 375px;
+  > span {
+    border-radius: 25px;
+    padding: 1px 8px;
+    background-color: #7f7f7f;
+    opacity: 0.8;
+    color: white;
+    margin-bottom: 15px;
+  }
 }
 </style>
