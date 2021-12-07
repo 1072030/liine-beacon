@@ -30,7 +30,7 @@ app.post("/callback", (req, res) => {
 app.post("/beacon", (req, res) => {
   let data = recreateJson(req.body);
   console.log(data, "data");
-  res.send(data);
+  res.send(data).end();
 });
 // listen on port
 const port = process.env.PORT || 3000;
