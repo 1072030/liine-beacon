@@ -29,6 +29,7 @@ app.post("/callback", (req, res) => {
 });
 app.post("/beacon", (req, res) => {
   let data = recreateJson(req.body);
+  console.log(data);
   res.send(data);
 });
 // listen on port
