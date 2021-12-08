@@ -2,22 +2,22 @@ const Dotenv = require("dotenv");
 Dotenv.config();
 const { MongoClient } = require("mongodb");
 const url = process.env.Data_Base_Url;
-const client = new MongoClient(url);
+const mongoClient = new MongoClient(url);
 const dbName = "myFirstDatabase";
 const insertMongodb = async (Data) => {
   // Use connect method to connect to the server
-  await client
+  await mongoClient
     .connect()
     .then(async () => {
-      const db = client.db(dbName);
+      const db = mongoClient.db(dbName);
       const collection = db.collection("beaconData");
       const insertResult = await collection.insertOne(Data);
     })
     .finally(() => {
-      client.close();
+      mongoClient.close();
     });
   // the following code examples can be pasted here...
   return "done.";
 };
 
-module.exports = { insertMongodb, client };
+module.exports = { insertMongodb, mongoClient };
