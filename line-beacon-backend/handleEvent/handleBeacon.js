@@ -8,7 +8,11 @@ const handleBeacon = async (event, replyToken) => {
       .collection("beaconData")
       .findOne({ name: "fresh fruit" });
   });
-  console.log(findUser);
+  client.pushMessage(replyToken, {
+    type: "flex",
+    altText: "this is flex",
+    contents: findUser.contents,
+  });
 };
 
 module.exports = handleBeacon;
