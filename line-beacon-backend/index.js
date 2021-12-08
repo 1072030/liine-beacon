@@ -4,7 +4,7 @@ const express = require("express");
 
 const handleEvent = require("./handleEvent/handleEvent");
 const recreateJson = require("./common/algorithm");
-const insertMongodb = require("./config/mongodb-config");
+const { insertMongodb } = require("./config/mongodb-config");
 const cors = require("cors");
 const Dotenv = require("dotenv");
 Dotenv.config();
@@ -33,6 +33,7 @@ app.post("/callback", (req, res) => {
     });
 });
 app.post("/beacon", (req, res) => {
+  console.log(req.body);
   let data = recreateJson(req.body.contents);
   console.log(data);
   insertMongodb(req.body);
