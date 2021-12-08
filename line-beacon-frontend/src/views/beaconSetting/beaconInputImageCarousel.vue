@@ -23,7 +23,7 @@
         <span>{{ item.action.label }}</span>
       </div>
       <el-image
-        style="width: 375px; height: 375px"
+        style="width: 275px; height: 275px"
         :src="item.imageUrl"
         :fit="fit"
       >
@@ -32,11 +32,11 @@
         </template></el-image
       >
       <div style="flex-direction: row">
-        <div style="width: 375px; margin-right: 5px">
+        <div class="bodyContent">
           <el-form-item>
-            <el-input placeholder="圖片連結" v-model="item.imageUrl" />
+            <el-input placeholder="圖片連結" v-model="item.imageUrl" disabled />
           </el-form-item>
-          <el-select
+          <!-- <el-select
             v-model="item.action.type"
             placeholder="選擇回傳訊息樣板"
             style="width: 375px"
@@ -48,15 +48,12 @@
               :value="replyType.value"
             >
             </el-option>
-          </el-select>
+          </el-select> -->
           <el-form-item>
             <el-input placeholder="圖片上訊息" v-model="item.action.label" />
           </el-form-item>
           <el-form-item v-if="item.action.type === 'uri'">
-            <el-input placeholder="網址連結" v-model="item.action.content" />
-          </el-form-item>
-          <el-form-item v-if="item.action.type === 'text'">
-            <el-input placeholder="文字訊息" v-model="item.action.content" />
+            <el-input placeholder="網址連結" v-model="item.action.uri" />
           </el-form-item>
         </div>
       </div>
@@ -71,16 +68,16 @@ import { computed, defineComponent, ref, Ref } from "vue";
 export default defineComponent({
   setup() {
     let fileList = ref<Array<{ url: string }>>([]);
-    const PatternSelect = ref([
-      {
-        value: "text",
-        label: "回傳文字訊息",
-      },
-      {
-        value: "uri",
-        label: "回傳網頁連結",
-      },
-    ]);
+    // const PatternSelect = ref([
+    //   {
+    //     value: "text",
+    //     label: "回傳文字訊息",
+    //   },
+    //   {
+    //     value: "uri",
+    //     label: "回傳網頁連結",
+    //   },
+    // ]);
     const imageNumbers = ref(1);
     const imageNumbersSelect = ref([
       {
@@ -131,9 +128,9 @@ export default defineComponent({
         arr.value.push({
           imageUrl: "",
           action: {
-            type: "text",
+            type: "uri",
             label: "",
-            content: "",
+            uri: "",
           },
         });
       }
@@ -150,7 +147,6 @@ export default defineComponent({
     return {
       fileList,
       DataInfo,
-      PatternSelect,
       imageNumbers,
       imageNumbersSelect,
       input,
@@ -206,5 +202,9 @@ export default defineComponent({
     color: white;
     margin-bottom: 15px;
   }
+}
+.bodyContent {
+  width: 275px;
+  margin-right: 5px;
 }
 </style>
