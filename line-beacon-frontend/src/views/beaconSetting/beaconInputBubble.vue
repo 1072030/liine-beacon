@@ -1,4 +1,7 @@
 <template>
+  <div style="margin-bottom: 3%">
+    <el-input v-model="title" placeholder="標題" />
+  </div>
   <div id="main-pane">
     <leftTree @setPageAction="setPageAction" v-model:DataInfo="DataInfo" />
     <!-- <centerTree /> -->
@@ -22,6 +25,7 @@ export default defineComponent({
   },
   setup() {
     const page = ref({});
+    const title = ref("");
     const outputJson: any = {};
     const setPageAction = (value: any) => {
       page.value = value;
@@ -139,6 +143,7 @@ export default defineComponent({
       let replyData = {};
       Object.assign(replyData, {
         name: "fresh fruit",
+        title: title.value,
         contents: DataInfo.value,
       });
       console.log("checkShow", replyData);
@@ -147,6 +152,7 @@ export default defineComponent({
     return {
       setPageAction,
       page,
+      title,
       DataInfo,
       outputJson,
       generatorJson,
