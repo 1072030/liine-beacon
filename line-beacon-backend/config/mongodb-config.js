@@ -11,9 +11,7 @@ const insertMongodb = async (Data) => {
     .then(async () => {
       const db = client.db(dbName);
       const collection = db.collection("beaconData");
-      const insertResult = await collection.insertOne({
-        contents: Data,
-      });
+      const insertResult = await collection.insertOne(Data);
     })
     .finally(() => {
       client.close();
