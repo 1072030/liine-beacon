@@ -33,6 +33,7 @@ app.post("/callback", (req, res) => {
     });
 });
 app.post("/beacon", (req, res) => {
+  console.log(req.body);
   let data = recreateJson(JSON.parse(req.body.body));
   console.log(data);
   insertMongodb(data);

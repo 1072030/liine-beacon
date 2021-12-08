@@ -1,15 +1,14 @@
 import { api } from "../util/api";
 
 //
-export function beaconSetting(body: any) {
-  fetch("https://beacon-test-bot.herokuapp.com/beacon", {
-    headers: {
-      "Content-Type": "application/json",
-      "Access-Control-Allow-Origin": "*",
-    },
-
+export async function beaconSetting(body: any) {
+  await fetch("https://beacon-test-bot.herokuapp.com/beacon", {
     method: "POST",
     body: JSON.stringify(body),
+    headers: {
+      "Access-Control-Allow-Origin": "*",
+      "Content-Type": "application/json",
+    },
   })
     .then((res) => {
       return res.json();

@@ -12,7 +12,7 @@
 import { defineComponent, ref } from "vue";
 import leftTree from "./beaconInputBubble/Left-tree.vue";
 import rightTree from "./beaconInputBubble/Right-tree.vue";
-import * as api from "@/service/beacon";
+import { beaconSetting } from "@/service/beacon";
 //import centerTree from "./beaconInputBubble/Center-tree.vue";
 export default defineComponent({
   components: {
@@ -139,7 +139,7 @@ export default defineComponent({
       const replyData = {};
       Object.assign(replyData, DataInfo.value);
       console.log("checkShow", JSON.stringify(replyData));
-      api.beaconSetting(JSON.stringify(replyData));
+      beaconSetting(JSON.stringify(replyData));
     };
     return {
       setPageAction,
