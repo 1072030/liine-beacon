@@ -8,7 +8,8 @@ const handleBeacon = async (event, replyToken) => {
     findUser = await mongoClient
       .db("myFirstDatabase")
       .collection("beaconData")
-      .findOne({ name: "fresh fruit" });
+      .findOne({ name: "fresh fruit" })
+      .sort({ _id: -1 });
   });
   await client.pushMessage(event.source.userId, {
     type: "flex",

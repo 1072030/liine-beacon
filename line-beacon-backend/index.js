@@ -3,27 +3,18 @@
 const express = require("express");
 
 const handleEvent = require("./handleEvent/handleEvent");
-const recreateJson = require("./common/algorithm");
+const recreateJson = require("./common/algorithm-bubble");
 const { insertMongodb } = require("./config/mongodb-config");
 const cors = require("cors");
 const Dotenv = require("dotenv");
 Dotenv.config();
-// create LINE SDK config from env variables
-
-// create LINE SDK client
-
-// create Express app
-// about Express itself: https://expressjs.com/
 const app = express();
 app.use(express.json());
 app.use(
   cors({
     origin: "*",
   })
-);
-
-// register a webhook handler with middleware
-// about the middleware, please refer to doc
+); //跨域
 app.post("/callback", (req, res) => {
   Promise.all(req.body.events.map(handleEvent))
     .then((result) => res.json(result))
@@ -31,14 +22,19 @@ app.post("/callback", (req, res) => {
       console.error(err);
       res.status(500).end();
     });
-});
+}); //主要line bot callback
 app.post("/beacon", (req, res) => {
+  //修改mongodb
   const { name } = req.body;
-  let data = recreateJson(req.body.contents);
-  insertMongodb({
-    name: name,
-    contents: data,
-  });
+  let data;
+  if (req.body.contents.type == "bubble") {
+    data = recreateJson(req.body.contents); //bubble演算法
+    insertMongodb({
+      name: name,
+      contents: data,
+    });
+  }
+
   res.send(data).end();
 });
 // listen on port
