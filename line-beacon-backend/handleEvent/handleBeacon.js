@@ -1,7 +1,7 @@
 const client = require("../config/line-config");
 
 const handleBeacon = async (event, replyToken) => {
-  await client.replyMessage(replyToken, {});
+  console.log(event);
 };
 
 module.exports = handleBeacon;

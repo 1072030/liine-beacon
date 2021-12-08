@@ -21,4 +21,5 @@ const insertMongodb = async (Data) => {
   // the following code examples can be pasted here...
   return "done.";
 };
-module.exports = insertMongodb;
+
+module.exports = { insertMongodb, client };
