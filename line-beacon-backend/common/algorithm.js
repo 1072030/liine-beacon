@@ -1,4 +1,5 @@
 const createJson = (Data) => {
+  console.log("Data", Data);
   let replyData = {};
   Object.assign(replyData, {
     type: "bubble",
