@@ -9,13 +9,12 @@ const handleBeacon = async (event, replyToken) => {
       .db("myFirstDatabase")
       .collection("beaconData")
       .find({ name: "fresh fruit" })
-      .sort({ $natural: -1 })
-      .limit(1);
+      .sort({ $natural: -1 });
   });
   await client.pushMessage(event.source.userId, {
     type: "flex",
     altText: "this is flex",
-    contents: findUser.contents,
+    contents: findUser[0].contents,
   });
 };
 
