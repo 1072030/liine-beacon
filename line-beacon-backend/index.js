@@ -25,15 +25,14 @@ app.post("/callback", (req, res) => {
 }); //主要line bot callback
 app.post("/beacon", (req, res) => {
   //修改mongodb
+  console.log(req.body);
   const { name } = req.body;
   let data;
-  if (req.body.contents.type == "bubble") {
-    data = recreateJson(req.body.contents); //bubble演算法
-    insertMongodb({
-      name: name,
-      contents: data,
-    });
-  }
+  data = recreateJson(req.body.contents); //bubble演算法
+  insertMongodb({
+    name: name,
+    contents: data,
+  });
 
   res.send(data).end();
 });
