@@ -8,8 +8,12 @@ const handleBeacon = async (event, replyToken) => {
     findUser = await mongoClient
       .db("myFirstDatabase")
       .collection("beaconData")
-      .find({ name: "fresh fruit" }, { limit: 1 })
-      .sort({ $natural: -1 });
+      .findOne({ name: "fresh fruit" });
+    //   findUser = await mongoClient
+    //   .db("myFirstDatabase")
+    //   .collection("beaconData")
+    //   .find({ name: "fresh fruit" }, { limit: 1 })
+    //   .sort({ $natural: -1 });
     console.log(findUser);
   });
 
