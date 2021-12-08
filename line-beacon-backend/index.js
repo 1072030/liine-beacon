@@ -15,12 +15,12 @@ Dotenv.config();
 // create Express app
 // about Express itself: https://expressjs.com/
 const app = express();
+app.use(express.json());
 app.use(
   cors({
     origin: "*",
   })
 );
-app.use(express.json());
 
 // register a webhook handler with middleware
 // about the middleware, please refer to doc
@@ -34,14 +34,10 @@ app.post("/callback", (req, res) => {
 });
 app.post("/beacon", (req, res) => {
   console.log(req.body);
-  let data = recreateJson(JSON.parse(req.body.body));
+  let data = recreateJson(JSON.stringify(req.body));
   console.log(data);
   insertMongodb(data);
   res.send(data).end();
-});
-app.post("/test", (req, res) => {
-  insertMongodb(req.body);
-  res.send(req.body).end();
 });
 // listen on port
 const port = process.env.PORT || 3000;

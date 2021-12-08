@@ -58,7 +58,6 @@ const createJson = (Data) => {
       delete replyData.footer.contents[i].show;
     }
   }
-  console.log(replyData.footer.contents);
   return replyData;
 };
 module.exports = createJson;

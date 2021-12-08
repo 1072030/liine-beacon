@@ -136,10 +136,10 @@ export default defineComponent({
       },
     });
     const generatorJson = async () => {
-      const replyData = {};
+      let replyData = {};
       Object.assign(replyData, DataInfo.value);
-      console.log("checkShow", JSON.stringify(replyData));
-      beaconSetting(JSON.stringify(replyData));
+      console.log("checkShow", replyData);
+      await beaconSetting(replyData);
     };
     return {
       setPageAction,

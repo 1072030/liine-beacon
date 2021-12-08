@@ -1,7 +1,8 @@
 import { api } from "../util/api";
-
 //
 export async function beaconSetting(body: any) {
+  console.log("body", body);
+
   await fetch("https://beacon-test-bot.herokuapp.com/beacon", {
     method: "POST",
     body: JSON.stringify(body),
