@@ -9,7 +9,7 @@ const handleBeacon = async (event, replyToken) => {
       .db("myFirstDatabase")
       .collection("beaconData")
       .find({ name: "fresh fruit" })
-      .sort("_id", -1)
+      .sort({ _id: -1 })
       .limit(1);
   });
   await client.pushMessage(event.source.userId, {
