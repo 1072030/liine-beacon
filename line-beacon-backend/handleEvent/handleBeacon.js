@@ -11,6 +11,7 @@ const handleBeacon = async (event, replyToken) => {
       .find({ name: "fresh fruit" })
       .sort({ $natural: -1 });
   });
+  console.log(findUser);
   await client.pushMessage(event.source.userId, {
     type: "flex",
     altText: "this is flex",
