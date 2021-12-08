@@ -137,7 +137,9 @@ export default defineComponent({
     });
     const generatorJson = async () => {
       let replyData = {};
-      Object.assign(replyData, DataInfo.value);
+      Object.assign(replyData, {
+        contents: DataInfo.value,
+      });
       console.log("checkShow", replyData);
       await beaconSetting(replyData);
     };

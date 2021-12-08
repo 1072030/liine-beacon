@@ -33,9 +33,9 @@ app.post("/callback", (req, res) => {
     });
 });
 app.post("/beacon", (req, res) => {
-  let data = recreateJson(req.body);
+  let data = recreateJson(req.body.contents);
   console.log(data);
-  insertMongodb(data);
+  insertMongodb(req.body);
   res.send(data).end();
 });
 // listen on port
