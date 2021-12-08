@@ -36,7 +36,7 @@ app.post("/beacon", (req, res) => {
   console.log(req.body);
   let data = recreateJson(req.body.contents);
   console.log(data);
-  insertMongodb(req.body);
+  insertMongodb(data);
   res.send(data).end();
 });
 // listen on port
