@@ -1,5 +1,5 @@
 const client = require("../config/line-config");
-const mongoClient = require("../config/mongodb-config");
+const { mongoClient } = require("../config/mongodb-config");
 const handleBeacon = async (event, replyToken) => {
   let findUser;
   await mongoClient.connect().then(async () => {
