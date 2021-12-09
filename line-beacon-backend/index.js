@@ -36,6 +36,9 @@ app.post("/beacon", (req, res) => {
 
   res.send(data).end();
 });
+app.get("/", (req, res) => {
+  res.send("connect successfully").end();
+});
 // listen on port
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
