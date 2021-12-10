@@ -26,11 +26,13 @@ app.post("/callback", (req, res) => {
 app.post("/beacon", (req, res) => {
   //修改mongodb
   console.log(req.body);
-  const { name } = req.body;
+  const { name, title, type } = req.body;
   let data;
   data = recreateJson(req.body.contents); //bubble演算法
   insertMongodb({
     name: name,
+    type: type,
+    title: title,
     contents: data,
   });
 

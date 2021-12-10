@@ -5,16 +5,20 @@ const handleBeacon = async (event, replyToken) => {
   await mongoClient.connect().then(async () => {
     console.log(event);
     //hwid event.beacon.hwid d
-    findUser = await mongoClient
-      .db("myFirstDatabase")
-      .collection("beaconData")
-      .findOne({ name: "fresh fruit" }, { sort: { $natural: -1 } });
+    try {
+      findUser = await mongoClient
+        .db("myFirstDatabase")
+        .collection("beaconData")
+        .findOne({ name: "fresh fruit" }, { sort: { $natural: -1 } });
+    } catch (err) {
+      console.log(err);
+    }
     console.log(findUser);
   });
 
   await client.pushMessage(event.source.userId, {
     type: "flex",
-    altText: "this is flex",
+    altText: findUser.title,
     contents: findUser.contents,
   });
 };
