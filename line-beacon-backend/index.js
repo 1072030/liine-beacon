@@ -26,17 +26,22 @@ app.post("/callback", (req, res) => {
 app.post("/beacon", (req, res) => {
   //修改mongodb
   console.log(req.body);
-  const { name, title, type } = req.body;
+  const { userId, title, type } = req.body;
+  console.log(userId);
   let data;
   data = recreateJson(req.body.contents); //bubble演算法
-  insertMongodb({
-    name: name,
-    type: type,
-    title: title,
-    contents: data,
-  });
-
-  res.send(data).end();
+  try {
+    insertMongodb({
+      userId: userId,
+      type: type,
+      title: title,
+      contents: data,
+    });
+  } catch (err) {
+    console.log(err);
+    res.send("fail to insert mongodb", err).end();
+  }
+  res.send("successful").end();
 });
 app.get("/", (req, res) => {
   res.send("connect successfully").end();
