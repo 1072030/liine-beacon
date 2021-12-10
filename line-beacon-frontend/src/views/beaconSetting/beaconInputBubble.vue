@@ -142,8 +142,9 @@ export default defineComponent({
     const generatorJson = async () => {
       let replyData = {};
       Object.assign(replyData, {
-        name: "fresh fruit",
+        userId: "fresh fruit",
         title: title.value,
+        type: "flex",
         contents: DataInfo.value,
       });
       console.log("checkShow", replyData);
