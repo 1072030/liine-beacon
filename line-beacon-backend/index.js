@@ -5,9 +5,22 @@ const express = require("express");
 const handleEvent = require("./handleEvent/handleEvent");
 const recreateJson = require("./common/algorithm-bubble");
 const { insertMongodb } = require("./config/mongodb-config");
+const FirebaseStorage = require("./config/firebaseStorage-config");
+const { ref } = require("firebase/storage");
+const multer = require("multer");
 const cors = require("cors");
+
 const Dotenv = require("dotenv");
 Dotenv.config();
+const upload = multer({
+  fileFilter(req, file, cb) {
+    // 只接受三種圖片格式
+    if (!file.originalname.match(/\.(jpg|jpeg|png)$/)) {
+      cb(new Error("Please upload an image"));
+    }
+    cb(null, true);
+  },
+});
 const app = express();
 app.use(express.json());
 app.use(
@@ -43,6 +56,16 @@ app.post("/beacon", (req, res) => {
   }
   res.send("successful").end();
 });
+app.post("/uploadImage", upload.single("avatar"), async (req, res) => {
+  console.log(req.file);
+  // const listRef = ref(FirebaseStorage, "/imageCarousel")
+  //   .put()
+  //   .then((snapshot) => {
+  //     console.log("Uploaded.");
+  //   });
+  res.send("successful").end();
+});
+
 app.get("/", (req, res) => {
   res.send("connect successfully").end();
 });
