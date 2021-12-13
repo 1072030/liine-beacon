@@ -59,7 +59,7 @@ app.post("/beacon", (req, res) => {
   }
   res.send("successful").end();
 });
-app.post("/uploadImage", upload.single("avatar"), async (req, res) => {
+app.post("/uploadImage", upload.single("image"), async (req, res) => {
   let imageurl = "";
   const Storage = getStorage(firebaseinit);
   const rand =
