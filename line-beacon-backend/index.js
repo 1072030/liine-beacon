@@ -16,6 +16,7 @@ const multer = require("multer");
 const cors = require("cors");
 
 const Dotenv = require("dotenv");
+const { async } = require("@firebase/util");
 Dotenv.config();
 const upload = multer({
   fileFilter(req, file, cb) {
@@ -41,7 +42,7 @@ app.post("/callback", (req, res) => {
       res.status(500).end();
     });
 }); //主要line bot callback
-app.post("/beacon", (req, res) => {
+app.post("/beacon", async (req, res) => {
   //修改mongodb
   const { userId, title, type } = req.body;
   let data;
