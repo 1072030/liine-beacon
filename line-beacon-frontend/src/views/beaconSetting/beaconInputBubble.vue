@@ -34,7 +34,7 @@ export default defineComponent({
     const DataInfo = ref({
       hero: {
         type: "image",
-        url: "https://firebasestorage.googleapis.com/v0/b/beacon-backend-a8bf3.appspot.com/o/4d3ea53c084bad6931a56d5158a48jpeg.jpeg?alt=media&token=3e06fbb5-e813-48d9-ad70-26b7fd85a396",
+        url: "https://scdn.line-apps.com/n/channel_devcenter/img/fx/01_1_cafe.png",
         size: "full",
         aspectRatio: "20:13",
         aspectMode: "cover",

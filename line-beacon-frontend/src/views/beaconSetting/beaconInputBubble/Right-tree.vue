@@ -21,11 +21,12 @@
           :rules="[
             {
               required: true,
-              message: '請輸入圖片連結',
+              message: '請上傳圖片',
             },
           ]"
         >
           <el-input v-model="data.url" placeholder="https://"></el-input>
+          <uploadImage v-model:image="data.url" />
         </el-form-item>
         <el-form-item label="顯示">
           <el-switch
@@ -162,10 +163,13 @@
 </template>
 <script lang="ts">
 import { computed, defineComponent, ref, toRefs } from "vue";
-
+import uploadImage from "../../../components/upload-image.vue";
 export default defineComponent({
   props: {
     page: Object,
+  },
+  components: {
+    uploadImage,
   },
   setup(props) {
     const data: any = computed(() => {

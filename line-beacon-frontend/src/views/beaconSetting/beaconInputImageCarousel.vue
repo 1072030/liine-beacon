@@ -19,7 +19,10 @@
       v-for="(item, index) in input"
       :key="index"
       style="display: inline-flex"
-      ><div class="previewLabel" v-if="item.action.label !== ''">
+      ><div
+        class="previewLabel"
+        v-if="item.action.label !== '' && item.imageUrl !== ''"
+      >
         <span>{{ item.action.label }}</span>
       </div>
       <el-image
@@ -28,27 +31,15 @@
         :fit="fit"
       >
         <template #error>
-          <div class="image-slot previewImage">Image Not Found</div>
+          <div class="image-slot previewImage">預覽圖 僅供參考</div>
         </template></el-image
       >
       <div style="flex-direction: row">
         <div class="bodyContent">
           <el-form-item>
-            <el-input placeholder="圖片連結" v-model="item.imageUrl" disabled />
+            <uploadImageTemp v-model:image="item.imageUrl" />
+            <el-input placeholder="圖片連結" v-model="item.imageUrl" />
           </el-form-item>
-          <!-- <el-select
-            v-model="item.action.type"
-            placeholder="選擇回傳訊息樣板"
-            style="width: 375px"
-          >
-            <el-option
-              v-for="replyType in PatternSelect"
-              :key="replyType"
-              :label="replyType.label"
-              :value="replyType.value"
-            >
-            </el-option>
-          </el-select> -->
           <el-form-item>
             <el-input placeholder="圖片上訊息" v-model="item.action.label" />
           </el-form-item>
@@ -64,20 +55,15 @@
   </div>
 </template>
 <script lang="ts">
+import { uploadImage } from "@/util/uploadImage";
+import uploadImageTemp from "../../components/upload-image.vue";
 import { computed, defineComponent, ref, Ref } from "vue";
 export default defineComponent({
+  components: {
+    uploadImageTemp,
+  },
   setup() {
     let fileList = ref<Array<{ url: string }>>([]);
-    // const PatternSelect = ref([
-    //   {
-    //     value: "text",
-    //     label: "回傳文字訊息",
-    //   },
-    //   {
-    //     value: "uri",
-    //     label: "回傳網頁連結",
-    //   },
-    // ]);
     const imageNumbers = ref(1);
     const imageNumbersSelect = ref([
       {
@@ -121,7 +107,25 @@ export default defineComponent({
         label: "10",
       },
     ]);
-
+    // const beforeUpload = (file: File) => {
+    //   const is10M = file.size / 1024 / 1024 < 0;
+    //   console.log(is10M);
+    // };
+    // const handleUploadFile = async ({ file }: { file: File }) => {
+    //   const url = await uploadImage(file);
+    //   fileList.value = [{ url: url as string }];
+    //   console.log(fileList.value);
+    // };
+    // const handleUploadSuccess = (index: number) => {
+    //   console.log(index);
+    //   fileList.value.map((x, index) => {
+    //     console.log(x.url, index);
+    //     input.value[index].imageUrl = x.url;
+    //   });
+    // };
+    // const handleRemove = () => {
+    //   fileList.value = [];
+    // };
     const input = computed(() => {
       let arr: Ref<any> = ref([]);
       for (let i = 0; i < imageNumbers.value; i++) {
@@ -150,6 +154,10 @@ export default defineComponent({
       imageNumbers,
       imageNumbersSelect,
       input,
+      // beforeUpload,
+      // handleUploadFile,
+      // handleUploadSuccess,
+      // handleRemove,
     };
   },
 });
@@ -193,14 +201,16 @@ export default defineComponent({
   align-items: flex-end;
   position: absolute;
   z-index: 1;
-  height: 375px;
+  height: 275px;
   > span {
     border-radius: 25px;
-    padding: 1px 8px;
+    padding: 0.1px 7px;
     background-color: #7f7f7f;
     opacity: 0.8;
     color: white;
     margin-bottom: 15px;
+    font-size: 10px;
+    font-weight: bold;
   }
 }
 .bodyContent {
