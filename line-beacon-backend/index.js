@@ -47,7 +47,7 @@ app.post("/beacon", (req, res) => {
   let data;
   data = recreateJson(req.body.contents); //bubble演算法
   try {
-    insertMongodb({
+    await insertMongodb({
       userId: userId,
       type: type,
       title: title,
