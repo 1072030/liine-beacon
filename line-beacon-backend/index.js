@@ -78,7 +78,9 @@ app.post("/uploadImage", upload.single("image"), async (req, res) => {
   });
   res.status(200).send({
     status: "success",
-    url: imageurl,
+    data: {
+      url: imageurl,
+    },
   });
 });
 
