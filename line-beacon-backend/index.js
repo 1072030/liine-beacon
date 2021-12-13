@@ -66,7 +66,7 @@ app.post("/uploadImage", upload.single("image"), async (req, res) => {
     Math.random().toString(36).substring(2, 15) +
     Math.random().toString(36).substring(2, 15);
   console.log(rand);
-  const bubbleRef = ref(Storage, `${rand}`);
+  const bubbleRef = ref(Storage, `image/${rand}`);
   const upload = await uploadBytes(bubbleRef, req.file.buffer, {
     contentType: "image/jpeg",
   }).then((snapshot) => {
