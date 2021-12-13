@@ -58,7 +58,10 @@ app.post("/beacon", async (req, res) => {
     console.log(err);
     res.send("fail to insert mongodb", err).end();
   }
-  res.send("successful").end();
+  res.status(200).send({
+    status: "successful",
+    data: data,
+  });
 });
 app.post("/uploadImage", upload.single("image"), async (req, res) => {
   let imageurl = "";
