@@ -26,7 +26,10 @@
           ]"
         >
           <el-input v-model="data.url" placeholder="https://"></el-input>
-          <uploadImage v-model:image="data.url" />
+          <uploadImageTemp v-model:image="data.url" />
+          <!-- <el-button type="primary"
+            ><el-icon> <Delete /> </el-icon
+          ></el-button> -->
         </el-form-item>
         <el-form-item label="顯示">
           <el-switch
@@ -163,13 +166,15 @@
 </template>
 <script lang="ts">
 import { computed, defineComponent, ref, toRefs } from "vue";
-import uploadImage from "../../../components/upload-image.vue";
+import uploadImageTemp from "../../../components/upload-image.vue";
+// import { Delete } from "@element-plus/icons-vue";
 export default defineComponent({
   props: {
     page: Object,
   },
   components: {
-    uploadImage,
+    uploadImageTemp,
+    // Delete,
   },
   setup(props) {
     const data: any = computed(() => {
@@ -189,7 +194,6 @@ export default defineComponent({
       label: "",
       uri: "",
       message: "",
-
       show: true,
     });
     return {

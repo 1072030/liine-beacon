@@ -22,9 +22,9 @@
             </el-option>
           </el-select>
         </div>
-        <div></div>
-        <div>
-          <p class="labelAlign">回傳訊息 :</p>
+
+        <div style="padding-top: 20%">
+          <p class="labelAlign">回傳訊息</p>
           <div>
             <el-radio-group
               v-model="pattern"
@@ -64,16 +64,16 @@ import { useStore } from "vuex";
 export default defineComponent({
   setup() {
     const store = useStore();
-    // const options = ref([
-    //   {
-    //     value: "38",
-    //     label: "38",
-    //   },
-    //   {
-    //     value: "50",
-    //     label: "50",
-    //   },
-    // ]);
+    const options = ref([
+      {
+        value: "38",
+        label: "38",
+      },
+      {
+        value: "50",
+        label: "50",
+      },
+    ]);
     // const patternOption = ref([
     //   {
     //     value: "text",
@@ -107,7 +107,7 @@ export default defineComponent({
     // };
     return {
       // patternOption,
-      // options,
+      options,
       beaconId: ref(),
       pattern,
       selectMode,
@@ -121,7 +121,6 @@ export default defineComponent({
 /* 刪除 1 */
 
 .nav {
-  z-index: 2000;
   position: fixed;
   width: 100%;
   height: 200px;
@@ -138,19 +137,18 @@ export default defineComponent({
   }
 }
 .sidebar {
-  margin: 15% 0 0 3rem;
+  margin: 12rem 0 0 3rem;
   display: inline-block;
   position: fixed;
   left: 0;
   height: 100%;
-
-  z-index: 2000;
   > .insideSidebar {
     z-index: 2000;
   }
 }
 
 .labelAlign {
+  font-size: 24px;
   line-height: 0.5;
   text-align: left;
   padding-left: 8%;

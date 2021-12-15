@@ -15,7 +15,7 @@
 
 <script lang="ts">
 import { uploadImage } from "@/util/uploadImage";
-import { reactive, Ref, ref } from "@vue/reactivity";
+import { ref } from "@vue/reactivity";
 import { defineComponent, getCurrentInstance, watch } from "@vue/runtime-core";
 export default defineComponent({
   props: ["image"],

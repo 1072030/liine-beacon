@@ -1,6 +1,6 @@
 <template>
   <el-form>
-    <el-form-item>
+    <el-form-item style="display: inline-flex">
       <label>欄位數 : </label>
       <el-select v-model="imageNumbers" placeholder="選擇圖片輪播數量">
         <el-option
@@ -26,7 +26,7 @@
         <span>{{ item.action.label }}</span>
       </div>
       <el-image
-        style="width: 275px; height: 275px"
+        style="width: 300px; height: 300px"
         :src="item.imageUrl"
         :fit="fit"
       >
@@ -55,7 +55,6 @@
   </div>
 </template>
 <script lang="ts">
-import { uploadImage } from "@/util/uploadImage";
 import uploadImageTemp from "../../components/upload-image.vue";
 import { computed, defineComponent, ref, Ref } from "vue";
 export default defineComponent({
@@ -163,28 +162,6 @@ export default defineComponent({
 });
 </script>
 <style lang="scss">
-.avatar-uploader .el-upload {
-  border: 1px dashed #d9d9d9;
-  border-radius: 6px;
-  cursor: pointer;
-  position: relative;
-  overflow: hidden;
-}
-.avatar-uploader .el-upload:hover {
-  border-color: #409eff;
-}
-.avatar-uploader-icon {
-  font-size: 28px;
-  color: #8c939d;
-  width: 148px;
-  height: 148px;
-  text-align: center;
-}
-.avatar {
-  width: 178px;
-  height: 178px;
-  display: block;
-}
 .previewImage {
   align-items: center;
   display: flex;
@@ -200,8 +177,7 @@ export default defineComponent({
   justify-content: center;
   align-items: flex-end;
   position: absolute;
-  z-index: 1;
-  height: 275px;
+  height: 300px;
   > span {
     border-radius: 25px;
     padding: 0.1px 7px;
@@ -214,7 +190,7 @@ export default defineComponent({
   }
 }
 .bodyContent {
-  width: 275px;
+  width: 300px;
   margin-right: 5px;
 }
 </style>
