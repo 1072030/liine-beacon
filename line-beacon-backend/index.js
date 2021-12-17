@@ -44,11 +44,10 @@ app.post("/callback", (req, res) => {
 }); //主要line bot callback
 app.post("/beacon", async (req, res) => {
   //修改mongodb
+  let data;
   const { type, userId, title, hwid } = req.body;
-  console.log("title");
   switch (type) {
     case "flex":
-      let data;
       data = recreateJson(req.body.contents); //bubble演算法
       try {
         await insertMongodb({
