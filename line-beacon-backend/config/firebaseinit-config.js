@@ -1,5 +1,4 @@
 const firebase = require("firebase/app");
-const { getStorage } = require("firebase/storage");
 // get config from Firebase console
 const firebaseConfig = {
   apiKey: "AIzaSyBSpYcL35JxpTzitkFrN4WJNW0oaiES1Z8",
