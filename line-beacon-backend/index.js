@@ -69,7 +69,6 @@ app.post("/beacon", async (req, res) => {
     case "image":
       break;
     case "imageCarousel":
-      const { userId, title } = req.body;
       break;
     case "text":
       break;
