@@ -24,7 +24,24 @@ const handleBeacon = async (event) => {
       await client.pushMessage(event.source.userId, {
         type: fineBeacon.type,
         altText: fineBeacon.title,
-        contents: fineBeacon.contents,
+        contents: {
+          type: "template",
+          altText: "asa",
+          template: {
+            type: "image_carousel",
+            columns: [
+              {
+                imageUrl:
+                  "https://firebasestorage.googleapis.com/v0/b/beacon-backend-a8bf3.appspot.com/o/image%2Fyy4fc8adgqrigz1sxg7x3?alt=media&token=2bb10442-77c5-42c8-8592-fd619ccbd323",
+                action: {
+                  type: "uri",
+                  label: "AAA",
+                  uri: "https://developer.mozilla.org/en-US/docs/Web/CSS/object-fit",
+                },
+              },
+            ],
+          },
+        },
       });
       break;
   }
