@@ -22,22 +22,9 @@ const handleBeacon = async (event) => {
           mongoClient.close();
         });
       await client.pushMessage(event.source.userId, {
-        type: "template",
-        altText: "this is an image carousel template",
-        template: {
-          type: "image_carousel",
-          columns: [
-            {
-              imageUrl:
-                "https://interactive-examples.mdn.mozilla.net/media/examples/plumeria.jpg",
-              action: {
-                type: "uri",
-                label: "動作 1",
-                uri: "https://developer.mozilla.org/en-US/docs/Web/CSS/object-fit",
-              },
-            },
-          ],
-        },
+        type: fineBeacon.type,
+        altText: fineBeacon.title,
+        contents: fineBeacon.contents,
       });
       break;
   }
