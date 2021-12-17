@@ -1,13 +1,10 @@
 <template>
   <div class="inputText">
     <div class="content">
-      <InputText v-if="pattern === 'text'" v-model="inputText" />
-      <InputImage v-if="pattern === 'image'" v-model="inputImage" />
-      <InputImageCarousel
-        v-if="pattern === 'imageCarousel'"
-        v-model="imageCarousel"
-      />
-      <InputBubble v-if="pattern === 'bubble'" v-model="bubble" />
+      <InputText v-if="pattern === 'text'" />
+      <InputImage v-if="pattern === 'image'" />
+      <InputImageCarousel v-if="pattern === 'imageCarousel'" />
+      <InputBubble v-if="pattern === 'bubble'" />
 
       <!-- <div class="title">
       {{
@@ -45,20 +42,12 @@ export default defineComponent({
   },
   setup() {
     const store = useStore();
-    const inputText = ref("");
-    const inputImage = ref("");
-    const inputImageCarousel = ref("");
-    const inputBubble = ref({});
     const pattern = computed(() => {
       return store.getters.userPatternMode;
     });
 
     return {
       pattern,
-      inputText,
-      inputImage,
-      inputImageCarousel,
-      inputBubble,
     };
   },
 });

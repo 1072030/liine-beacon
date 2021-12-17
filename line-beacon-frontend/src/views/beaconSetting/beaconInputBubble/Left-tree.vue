@@ -86,12 +86,12 @@ export default defineComponent({
   props: {
     DataInfo: Object,
   },
-  emits: ["setPageAction"],
+  emits: ["selectedAction"],
   setup(props, context) {
     const getStyle = ref({});
     const select = (data: any) => {
       getStyle.value = data;
-      context.emit("setPageAction", data);
+      context.emit("selectedAction", data);
     };
     return {
       select,

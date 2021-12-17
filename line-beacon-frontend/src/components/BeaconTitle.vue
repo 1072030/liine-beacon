@@ -12,7 +12,11 @@
       <div class="insideSidebar">
         <p class="labelAlign">beacon編號 :</p>
         <div style="margin-bottom: 1rem">
-          <el-select v-model="beaconId" placeholder="beaconId">
+          <el-select
+            v-model="beaconId"
+            placeholder="beaconId"
+            @change="selectBeacon(beaconId)"
+          >
             <el-option
               v-for="item in options"
               :key="item.value"
@@ -40,79 +44,45 @@
               <el-radio-button label="bubble">對話框訊息樣板</el-radio-button>
             </el-radio-group>
           </div>
-          <!-- <el-select
-            v-model="pattern"
-            placeholder="選擇模式"
-            @change="selectMode(pattern)"
-          >
-            <el-option
-              v-for="item in patternOption"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
-            >
-            </el-option>
-          </el-select> -->
         </div>
       </div>
     </div>
   </div>
 </template>
 <script lang="ts">
-import { defineComponent, ref } from "vue";
+import { defineComponent, onMounted, ref } from "vue";
 import { useStore } from "vuex";
 export default defineComponent({
   setup() {
+    // onMounted(){
+    //這裡要先取得beaconId 嵌入options
+    // }
     const store = useStore();
     const options = ref([
       {
-        value: "38",
-        label: "38",
+        value: "32",
+        label: "32",
       },
       {
         value: "50",
         label: "50",
       },
     ]);
-    // const patternOption = ref([
-    //   {
-    //     value: "text",
-    //     label: "文字",
-    //   },
-    //   {
-    //     value: "image",
-    //     label: "圖片",
-    //   },
-    //   {
-    //     value: "imageCarousel",
-    //     label: "圖片輪播樣板",
-    //   },
-    //   {
-    //     value: "bubble",
-    //     label: "對話框訊息樣板1",
-    //   },
-    //   {
-    //     value: "bubble2",
-    //     label: "對話框訊息樣板2",
-    //   },
-    // ]);
+
     const pattern = ref("text");
     const selectMode = (pattern: string) => {
       store.commit("changePattern", pattern);
     };
-    // const radio1 = ref("text");
-    // const change = (radio1: string) => {
-    //   console.log(radio1);
-    //   store.commit("changePattern", pattern);
-    // };
+    const selectBeacon = (beaconId: string) => {
+      console.log(beaconId);
+      store.commit("changeBeaconId", beaconId);
+    };
     return {
-      // patternOption,
       options,
       beaconId: ref(),
       pattern,
       selectMode,
-      // change,
-      // radio1,
+      selectBeacon,
     };
   },
 });

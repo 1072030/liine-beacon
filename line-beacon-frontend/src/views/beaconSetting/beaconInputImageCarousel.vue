@@ -13,23 +13,16 @@
       </el-select>
     </el-form-item>
     <el-form-item>
-      <el-input v-model="DataInfo.altText" placeholder="訊息標頭" />
+      <el-input v-model="title" placeholder="訊息標頭" />
     </el-form-item>
-    <el-form-item
-      v-for="(item, index) in input"
-      :key="index"
-      style="display: inline-flex"
+    <el-form-item v-for="(item, index) in input" :key="index" class="default"
       ><div
         class="previewLabel"
         v-if="item.action.label !== '' && item.imageUrl !== ''"
       >
         <span>{{ item.action.label }}</span>
       </div>
-      <el-image
-        style="width: 300px; height: 300px"
-        :src="item.imageUrl"
-        :fit="fit"
-      >
+      <el-image style="width: 300px; height: 300px" :src="item.imageUrl">
         <template #error>
           <div class="image-slot previewImage">預覽圖 僅供參考</div>
         </template></el-image
@@ -41,7 +34,12 @@
             <el-input placeholder="圖片連結" v-model="item.imageUrl" />
           </el-form-item>
           <el-form-item>
-            <el-input placeholder="圖片上訊息" v-model="item.action.label" />
+            <el-input
+              placeholder="圖片上訊息"
+              v-model="item.action.label"
+              maxlength="12"
+              show-word-limit
+            />
           </el-form-item>
           <el-form-item v-if="item.action.type === 'uri'">
             <el-input placeholder="網址連結" v-model="item.action.uri" />
@@ -51,17 +49,24 @@
     </el-form-item>
   </el-form>
   <div style="text-align: center; margin-top: 1rem">
-    <el-button type="primary" @click="generatorJson">修改</el-button>
+    <el-button type="primary" @click="Submit">修改</el-button>
   </div>
 </template>
 <script lang="ts">
 import uploadImageTemp from "../../components/upload-image.vue";
+import { useStore } from "vuex";
 import { computed, defineComponent, ref, Ref } from "vue";
+import { beaconSetting } from "../../service/beacon";
 export default defineComponent({
   components: {
     uploadImageTemp,
   },
   setup() {
+    const store = useStore();
+    const beaconId = computed(() => {
+      return store.getters.userBeaconMode;
+    });
+    const title = ref("");
     let fileList = ref<Array<{ url: string }>>([]);
     const imageNumbers = ref(1);
     const imageNumbersSelect = ref([
@@ -140,19 +145,32 @@ export default defineComponent({
       return arr.value;
     });
     const DataInfo = ref({
-      type: "template",
-      altText: "",
-      template: {
-        type: "image_carousel",
-        columns: input,
-      },
+      type: "image_carousel",
+      columns: input.value,
     });
+    const Submit = async () => {
+      let replyData = {};
+      console.log(beaconId.value);
+      Object.assign(replyData, {
+        //userId之後改成line userId
+        hwid: beaconId.value,
+        userId: "fresh fruit",
+        type: "template",
+        title: title.value,
+        contents: DataInfo.value,
+      });
+      console.log(JSON.stringify(replyData));
+      //await beaconSetting(replyData);
+    };
     return {
       fileList,
       DataInfo,
+      title,
       imageNumbers,
       imageNumbersSelect,
       input,
+      Submit,
+      beaconId,
       // beforeUpload,
       // handleUploadFile,
       // handleUploadSuccess,
@@ -162,6 +180,14 @@ export default defineComponent({
 });
 </script>
 <style lang="scss">
+.el-image {
+  > .el-image_inner {
+    object-fit: cover;
+  }
+}
+.default {
+  display: inline-flex;
+}
 .previewImage {
   align-items: center;
   display: flex;
@@ -179,6 +205,7 @@ export default defineComponent({
   position: absolute;
   height: 300px;
   > span {
+    z-index: 1;
     border-radius: 25px;
     padding: 0.1px 7px;
     background-color: #7f7f7f;

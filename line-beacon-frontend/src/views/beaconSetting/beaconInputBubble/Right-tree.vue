@@ -2,18 +2,18 @@
   <div id="form-pane">
     <h1>
       {{
-        page.type == "text"
+        selected.type == "text"
           ? "Text"
-          : page.type == "image"
+          : selected.type == "image"
           ? "Image"
-          : page.type == "button"
+          : selected.type == "button"
           ? "Button"
           : ""
       }}
     </h1>
 
     <!-- type: 圖片-->
-    <div v-if="page.type == 'image'">
+    <div v-if="selected.type == 'image'">
       <el-form ref="data" :model="data" label-width="80px">
         <el-form-item
           label="Url"
@@ -41,7 +41,7 @@
       </el-form>
     </div>
     <!-- type: 文字 -->
-    <div v-if="page.type == 'text'">
+    <div v-if="selected.type == 'text'">
       <el-form :model="data" ref="data" label-width="100px">
         <el-form-item
           label="文字內容"
@@ -95,7 +95,7 @@
       </el-form>
     </div>
     <!-- type: 按鈕 -->
-    <div v-if="page.type == 'button'">
+    <div v-if="selected.type == 'button'">
       <el-form ref="data.action" :model="data.action" label-width="100px">
         <el-form-item
           label="文字內容"
@@ -111,7 +111,7 @@
           <el-input v-model="data.action.label"> </el-input>
         </el-form-item>
         <el-form-item label="回傳訊息模式">
-          <el-select v-model="data.action.type" placeholder="Select">
+          <el-select v-model="data.action.type" placeholder="Select" disabled>
             <el-option
               v-for="item in Buttonform.actionType"
               :key="item.value"
@@ -121,7 +121,7 @@
             </el-option>
           </el-select>
         </el-form-item>
-        <el-form-item
+        <!-- <el-form-item
           label="文字訊息"
           prop="message"
           :rules="[
@@ -137,7 +137,7 @@
             v-model="data.action.message"
             placeholder="回傳文字"
           ></el-input>
-        </el-form-item>
+        </el-form-item> -->
 
         <el-form-item
           label="連結網址"
@@ -170,15 +170,14 @@ import uploadImageTemp from "../../../components/upload-image.vue";
 // import { Delete } from "@element-plus/icons-vue";
 export default defineComponent({
   props: {
-    page: Object,
+    selected: Object,
   },
   components: {
     uploadImageTemp,
-    // Delete,
   },
   setup(props) {
     const data: any = computed(() => {
-      return props.page;
+      return props.selected;
     });
     const Buttonform = ref({
       actionType: [
@@ -193,7 +192,6 @@ export default defineComponent({
       ],
       label: "",
       uri: "",
-      message: "",
       show: true,
     });
     return {

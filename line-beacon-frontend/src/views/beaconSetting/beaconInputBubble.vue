@@ -3,20 +3,22 @@
     <el-input v-model="title" placeholder="標題" />
   </div>
   <div id="main-pane">
-    <leftTree @setPageAction="setPageAction" v-model:DataInfo="DataInfo" />
+    <leftTree @selectedAction="selectedAction" v-model:DataInfo="DataInfo" />
     <!-- <centerTree /> -->
-    <right-tree style="width: 50%" v-model:page="page" />
+    <right-tree style="width: 50%" v-model:selected="selected" />
   </div>
   <div style="text-align: center; margin-top: 1rem">
-    <el-button type="primary" @click="generatorJson">修改</el-button>
+    <el-button v-loading="loading" type="primary" @click="generatorJson"
+      >修改</el-button
+    >
   </div>
 </template>
 <script lang="ts">
-import { defineComponent, ref } from "vue";
+import { defineComponent, ref, computed } from "vue";
+import { useStore } from "vuex";
 import leftTree from "./beaconInputBubble/Left-tree.vue";
 import rightTree from "./beaconInputBubble/Right-tree.vue";
 import { beaconSetting } from "@/service/beacon";
-//import centerTree from "./beaconInputBubble/Center-tree.vue";
 export default defineComponent({
   components: {
     leftTree,
@@ -24,12 +26,16 @@ export default defineComponent({
     // centerTree,
   },
   setup() {
-    const page = ref({});
+    const loading = ref(false);
+    const store = useStore();
+    const beaconId = computed(() => {
+      return store.getters.userBeaconMode;
+    });
+    const selected = ref({});
     const title = ref("");
     const outputJson: any = {};
-    const setPageAction = (value: any) => {
-      page.value = value;
-      console.log(value);
+    const selectedAction = (value: any) => {
+      selected.value = value;
     };
     const DataInfo = ref({
       hero: {
@@ -141,22 +147,29 @@ export default defineComponent({
     });
     const generatorJson = async () => {
       let replyData = {};
+
+      loading.value = true;
       Object.assign(replyData, {
+        //userId之後改成line userId
+        hwid: beaconId.value,
         userId: "fresh fruit",
         title: title.value,
         type: "flex",
         contents: DataInfo.value,
       });
-      console.log("checkShow", replyData);
-      await beaconSetting(replyData);
+      await beaconSetting(replyData).then(() => {
+        loading.value = false;
+      });
     };
     return {
-      setPageAction,
-      page,
+      beaconId,
+      selected,
       title,
       DataInfo,
       outputJson,
+      loading,
       generatorJson,
+      selectedAction,
     };
   },
 });
