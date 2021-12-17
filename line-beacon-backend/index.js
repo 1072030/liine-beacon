@@ -44,19 +44,31 @@ app.post("/callback", (req, res) => {
 }); //主要line bot callback
 app.post("/beacon", async (req, res) => {
   //修改mongodb
-  const { userId, title, type } = req.body;
-  let data;
-  data = recreateJson(req.body.contents); //bubble演算法
-  try {
-    await insertMongodb({
-      userId: userId,
-      type: type,
-      title: title,
-      contents: data,
-    });
-  } catch (err) {
-    console.log(err);
-    res.send("fail to insert mongodb", err).end();
+  const { type } = req.body;
+  switch (type) {
+    case "flex":
+      const { userId, title } = req.body;
+      let data;
+      data = recreateJson(req.body.contents); //bubble演算法
+      try {
+        await insertMongodb({
+          userId: userId,
+          type: type,
+          title: title,
+          contents: data,
+        });
+      } catch (err) {
+        console.log(err);
+        res.status(500).send("fail to insert mongodb", err);
+      }
+      break;
+    case "image":
+      break;
+    case "imageCarousel":
+      const { userId, title } = req.body;
+      break;
+    case "text":
+      break;
   }
   res.status(200).send({
     status: "successful",
@@ -80,6 +92,7 @@ app.post("/uploadImage", upload.single("image"), async (req, res) => {
     imageurl = url;
     console.log(url);
   });
+  console.log(geturl);
   res.status(200).send({
     status: "success",
     data: {
