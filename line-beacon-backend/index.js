@@ -44,7 +44,7 @@ app.post("/callback", (req, res) => {
 }); //主要line bot callback
 app.post("/beacon", async (req, res) => {
   //修改mongodb
-  const { type, userId, title } = req.body;
+  const { type, userId, title, hwid } = req.body;
   console.log("title");
   switch (type) {
     case "flex":
@@ -53,6 +53,7 @@ app.post("/beacon", async (req, res) => {
       try {
         await insertMongodb({
           userId: userId,
+          hwid: hwid,
           type: type,
           title: title,
           contents: data,

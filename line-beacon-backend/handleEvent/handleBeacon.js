@@ -4,8 +4,8 @@ const handleBeacon = async (event) => {
   console.log(event);
   //hwid event.beacon.hwid d
   let fineBeacon;
-  switch (event.beacon.hwid) {
-    case "0156d875eb":
+  switch (event.beacon.dm) {
+    case "32":
       await mongoClient
         .connect()
         .then(async () => {
@@ -13,7 +13,7 @@ const handleBeacon = async (event) => {
             fineBeacon = await mongoClient
               .db("myFirstDatabase")
               .collection("beaconData")
-              .findOne({ hwid: event.beacon.hwid }, { sort: { $natural: -1 } });
+              .findOne({ hwid: event.beacon.dm }, { sort: { $natural: -1 } });
           } catch (err) {
             console.log("cannot find beacon", err);
           }
