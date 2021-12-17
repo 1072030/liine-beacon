@@ -68,13 +68,12 @@ router.post("/uploadImage", upload.single("image"), async (req, res) => {
   const upload = await uploadBytes(bubbleRef, req.file.buffer, {
     contentType: "image/jpeg",
   }).then((snapshot) => {
-    console.log("snapshot", snapshot.val());
+    console.log("successful");
   });
   const geturl = await getDownloadURL(bubbleRef).then((url) => {
     imageurl = url;
     console.log(url);
   });
-  console.log(geturl);
   res.status(200).send({
     status: "success",
     data: {
