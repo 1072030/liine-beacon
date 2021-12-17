@@ -51,6 +51,10 @@ app.post("/beacon", async (req, res) => {
       let data;
       data = recreateJson(req.body.contents); //bubble演算法
       try {
+        findUser = await mongoClient
+          .db("myFirstDatabase")
+          .collection("beaconData")
+          .findOne({ userId: "fresh fruit" }, { sort: { $natural: -1 } });
         await insertMongodb({
           userId: userId,
           type: type,
@@ -102,7 +106,7 @@ app.post("/uploadImage", upload.single("image"), async (req, res) => {
 });
 
 app.get("/", (req, res) => {
-  res.send("connect successfully").end();
+  res.status(200).send("connect successfully");
 });
 // listen on port
 const port = process.env.PORT || 3000;
