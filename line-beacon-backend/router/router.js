@@ -22,8 +22,9 @@ const upload = multer({
     cb(null, true);
   },
 });
+
 router.post("/beacon", async (req, res) => {
-  //修改mongodb
+  //資料丟上mongodb
   let data;
   const { type, userId, title, hwid } = req.body;
   switch (type) {
@@ -54,7 +55,9 @@ router.post("/beacon", async (req, res) => {
     data: data,
   });
 });
+
 router.post("/uploadImage", upload.single("image"), async (req, res) => {
+  //圖片上傳
   let imageurl = "";
   const Storage = getStorage(firebaseinit);
   const rand =
@@ -65,7 +68,7 @@ router.post("/uploadImage", upload.single("image"), async (req, res) => {
   const upload = await uploadBytes(bubbleRef, req.file.buffer, {
     contentType: "image/jpeg",
   }).then((snapshot) => {
-    console.log("upload successful");
+    console.log("snapshot", snapshot.val());
   });
   const geturl = await getDownloadURL(bubbleRef).then((url) => {
     imageurl = url;
