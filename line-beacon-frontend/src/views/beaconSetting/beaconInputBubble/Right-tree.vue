@@ -3,20 +3,19 @@
     <h1>
       {{
         selected.type == "text"
-          ? "Text"
+          ? "變更文字"
           : selected.type == "image"
-          ? "Image"
+          ? "變更圖片"
           : selected.type == "button"
-          ? "Button"
+          ? "變更按鈕"
           : ""
       }}
     </h1>
 
     <!-- type: 圖片-->
     <div v-if="selected.type == 'image'">
-      <el-form ref="data" :model="data" label-width="80px">
+      <el-form ref="data" :model="data">
         <el-form-item
-          label="Url"
           prop="url"
           :rules="[
             {
@@ -25,8 +24,29 @@
             },
           ]"
         >
-          <el-input v-model="data.url" placeholder="https://"></el-input>
-          <uploadImageTemp v-model:image="data.url" />
+          <el-input
+            v-model="data.url"
+            placeholder="URL"
+            style="margin-bottom: 3%"
+          ></el-input>
+          <el-upload
+            action="#"
+            list-type="upload-demo"
+            :limit="10"
+            :http-request="handleUploadFile"
+            :file-list="fileList"
+            :show-file-list="false"
+          >
+            <el-button
+              size="small"
+              class="upload-btn"
+              native-type="button"
+              round
+              :loading="btnLoading"
+              >點選上傳圖片</el-button
+            >
+          </el-upload>
+          <!-- <uploadImageTemp v-model:image="data.url" /> -->
           <!-- <el-button type="primary"
             ><el-icon> <Delete /> </el-icon
           ></el-button> -->
@@ -42,9 +62,8 @@
     </div>
     <!-- type: 文字 -->
     <div v-if="selected.type == 'text'">
-      <el-form :model="data" ref="data" label-width="100px">
+      <el-form :model="data" ref="data">
         <el-form-item
-          label="文字內容"
           prop="text"
           :rules="[
             {
@@ -54,18 +73,31 @@
             },
           ]"
         >
-          <el-input v-model="data.text"></el-input>
-        </el-form-item>
-        <el-form-item label="文字內容寬度">
-          <el-input-number
-            v-model="data.flex"
-            :min="1"
-            :max="20"
-            controls-position="right"
-          />
+          <el-input v-model="data.text" placeholder="文字內容"></el-input>
         </el-form-item>
         <el-form-item
-          label="文字大小"
+          prop="flex"
+          :rules="[
+            {
+              required: true,
+              message: '請輸入正確數字',
+              trigger: 'blur',
+            },
+          ]"
+          label="文字寬度 : "
+        >
+          <el-select v-model="data.flex" placeholder="Select">
+            <el-option
+              v-for="item in fontWidthOptions"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            >
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item
+          label="文字大小 : "
           prop="size"
           :rules="[
             {
@@ -75,16 +107,49 @@
             },
           ]"
         >
-          <el-input-number
+          <el-select v-model="data.size" placeholder="Select">
+            <el-option
+              v-for="item in fontOptions"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            >
+            </el-option>
+          </el-select>
+          <!-- <el-input-number
             v-model="data.size"
             :min="12"
-            :max="49"
+            :max="46"
             controls-position="right"
-          />
+          /> -->
         </el-form-item>
-        <el-form-item label="文字顏色">
-          <el-color-picker v-model="data.color" />
+        <el-form-item style="background-color: white; border-radius: 25px">
+          <div style="display: flex; align-items: center">
+            <el-color-picker
+              v-model="data.color"
+              style="
+                vertical-align: text-top;
+                padding-left: 15px;
+                height: 50px;
+                flex: 2 0 0;
+                line-height: 6;
+              "
+            />
+            <label style="flex: 8 0 auto; color: #7e7e7e">{{
+              data.color
+            }}</label>
+            <label
+              style="
+                flex: 1 0 auto;
+                color: #7e7e7e;
+                font-size: 16px;
+                font-weight: 600;
+              "
+              >文字顏色</label
+            >
+          </div>
         </el-form-item>
+
         <el-form-item label="顯示">
           <el-switch
             v-model="data.show"
@@ -96,9 +161,8 @@
     </div>
     <!-- type: 按鈕 -->
     <div v-if="selected.type == 'button'">
-      <el-form ref="data.action" :model="data.action" label-width="100px">
+      <el-form ref="data.action" :model="data.action">
         <el-form-item
-          label="文字內容"
           prop="label"
           :rules="[
             {
@@ -110,7 +174,7 @@
         >
           <el-input v-model="data.action.label"> </el-input>
         </el-form-item>
-        <el-form-item label="回傳訊息模式">
+        <!-- <el-form-item label="回傳訊息模式">
           <el-select v-model="data.action.type" placeholder="Select" disabled>
             <el-option
               v-for="item in Buttonform.actionType"
@@ -120,7 +184,7 @@
             >
             </el-option>
           </el-select>
-        </el-form-item>
+        </el-form-item> -->
         <!-- <el-form-item
           label="文字訊息"
           prop="message"
@@ -140,7 +204,6 @@
         </el-form-item> -->
 
         <el-form-item
-          label="連結網址"
           prop="uri"
           v-if="data.action.type == 'uri'"
           :rules="[
@@ -166,38 +229,58 @@
 </template>
 <script lang="ts">
 import { computed, defineComponent, ref, toRefs } from "vue";
-import uploadImageTemp from "../../../components/upload-image.vue";
-// import { Delete } from "@element-plus/icons-vue";
+//import uploadImageTemp from "../../../components/upload-image.vue";
+import { uploadImage } from "@/util/uploadImage";
+
 export default defineComponent({
   props: {
     selected: Object,
   },
-  components: {
-    uploadImageTemp,
-  },
+  // components: {
+  //   uploadImageTemp,
+  // },
   setup(props) {
+    const btnLoading = ref(false);
+    let fileList = ref<Array<{ url: string }>>([]);
+    let fontSizeOptions = ref<any>([]);
+    let fontWidthOptions = ref<any>([]);
+    for (let i = 12; i <= 20; i++) {
+      fontSizeOptions.value.push({
+        value: i,
+        label: JSON.stringify(i),
+      });
+    }
+    for (let j = 1; j <= 20; j++) {
+      fontWidthOptions.value.push({
+        value: j,
+        label: JSON.stringify(j),
+      });
+    }
+
     const data: any = computed(() => {
       return props.selected;
     });
     const Buttonform = ref({
-      actionType: [
-        {
-          value: "message",
-          label: "文字訊息回傳",
-        },
-        {
-          value: "uri",
-          label: "網址連結回傳",
-        },
-      ],
       label: "",
       uri: "",
       show: true,
     });
+    const handleUploadFile = async ({ file }: { file: File }) => {
+      btnLoading.value = true;
+      const url = await uploadImage(file);
+      btnLoading.value = false;
+      // imageUrl.value = { url: url as string };
+      data.value.url = url;
+    };
     return {
       data,
       Buttonform,
+      fontSizeOptions,
+      fontWidthOptions,
+      btnLoading,
       ...toRefs(props),
+      fileList,
+      handleUploadFile,
     };
   },
 });
@@ -208,5 +291,21 @@ export default defineComponent({
 }
 #form-pane > div > el-form > el-form-item {
   text-align: center;
+}
+.upload-btn {
+  height: 40px;
+  font-size: 14px;
+  font-weight: 600;
+}
+.el-form-item {
+  > label {
+    font-size: 18px;
+    font-weight: 600;
+  }
+  .el-input {
+    .el-input__inner {
+      border-radius: 25px;
+    }
+  }
 }
 </style>

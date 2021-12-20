@@ -112,12 +112,11 @@ body {
   max-width: 400px;
   height: 100%;
   text-align: center;
-  margin: 0 auto;
 }
 #viewer-pane {
   padding: 5% 0%;
   width: 400px;
-  background-color: antiquewhite;
+  background-color: #eaf0fb;
 }
 .hero-box {
   word-wrap: break-word;
@@ -129,7 +128,6 @@ body {
 }
 .fixposition {
   width: 300px;
-  margin: 0 auto;
   background-color: white;
   border-radius: 10px;
 }

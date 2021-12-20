@@ -13,7 +13,7 @@
       </el-select>
     </el-form-item>
     <el-form-item>
-      <el-input v-model="title" placeholder="訊息標頭" />
+      <el-input v-model="title" placeholder="訊息顯示標題" />
     </el-form-item>
     <el-form-item v-for="(item, index) in input" :key="index" class="default"
       ><div

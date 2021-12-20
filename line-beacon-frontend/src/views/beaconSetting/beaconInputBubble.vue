@@ -1,16 +1,45 @@
 <template>
-  <div style="margin-bottom: 3%">
-    <el-input v-model="title" placeholder="標題" />
+  <div
+    style="
+      color: #2b3e63;
+      font-size: 24px;
+      font-weight: bold;
+      margin-bottom: 3%;
+      display: flex;
+    "
+  >
+    <span style="flex: 2 0 0">對話框樣板訊息</span>
+    <el-input v-model="title" placeholder="訊息顯示標題" style="flex: 1 0 0" />
   </div>
+  <div style="color: #2b3e63; font-size: 18px; margin-bottom: 3%">
+    對話框訊息樣板<img
+      src="https://img.icons8.com/windows/32/000000/info.png"
+      style="width: 24px; vertical-align: text-bottom"
+    />
+  </div>
+
   <div id="main-pane">
     <leftTree @selectedAction="selectedAction" v-model:DataInfo="DataInfo" />
     <!-- <centerTree /> -->
     <right-tree style="width: 50%" v-model:selected="selected" />
   </div>
-  <div style="text-align: center; margin-top: 1rem">
-    <el-button v-loading="loading" type="primary" @click="generatorJson"
-      >修改</el-button
-    >
+  <div class="submit">
+    <div>
+      <el-select v-model="value" placeholder="Select">
+        <el-option
+          v-for="item in options"
+          :key="item.value"
+          :label="item.label"
+          :value="item.value"
+        >
+        </el-option>
+      </el-select>
+    </div>
+    <div>
+      <el-button v-loading="loading" type="primary" @click="generatorJson"
+        >修改</el-button
+      >
+    </div>
   </div>
 </template>
 <script lang="ts">
@@ -178,5 +207,20 @@ export default defineComponent({
 #main-pane {
   height: 100%;
   display: flex;
+}
+.el-input {
+  > .el-input__inner {
+    border-radius: 25px;
+  }
+}
+.submit {
+  display: flex;
+  > div:first-child {
+    padding-left: 80px;
+    flex: 5 0 0;
+  }
+  > div {
+    flex: 1 0 0;
+  }
 }
 </style>
