@@ -24,7 +24,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, computed } from "vue";
+import { defineComponent, computed } from "vue";
 import { useStore } from "vuex";
 import InputText from "./beaconInputText.vue";
 import InputImage from "./beaconInputImage.vue";
@@ -54,9 +54,9 @@ export default defineComponent({
 </script>
 <style lang="scss">
 .inputText {
-  padding-top: 9rem;
+  padding-top: 9%;
   width: 65%;
-  padding-left: 22%;
+  padding-left: 26%;
 }
 .title {
   border: 0.2rem solid rgb(165, 171, 255);
