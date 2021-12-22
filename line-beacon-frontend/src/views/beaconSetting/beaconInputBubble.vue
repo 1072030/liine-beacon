@@ -33,6 +33,7 @@
         type="primary"
         @click="generatorJson"
         class="submit-btn"
+        :disabled="loading"
         >更新訊息</el-button
       >
     </div>
@@ -180,30 +181,34 @@ export default defineComponent({
         ],
       },
     });
-    // watch(
-    //   () => DataInfo.value,
-    //   (old, news) => {
-    //     console.log(old);
-    //   },
-    //   {
-    //     deep: true,
-    //   }
-    // );
+    watch(
+      () => DataInfo.value,
+      (data) => {
+        console.log(data);
+      },
+      {
+        deep: true,
+      }
+    );
     const generatorJson = async () => {
       let replyData = {};
       loading.value = true;
-      Object.assign(replyData, {
-        //userId之後改成line userId
-        hwid: beaconId.value,
-        userId: "fresh fruit",
-        title: title.value,
-        type: "flex",
-        contents: DataInfo.value,
-      });
-      console.log(JSON.stringify(replyData));
-      await beaconSetting(replyData).then(() => {
+      let check = false;
+      if (!check) {
         loading.value = false;
-      });
+      }
+      if (check) {
+        Object.assign(replyData, {
+          hwid: beaconId.value,
+          userId: "fresh fruit",
+          title: title.value,
+          type: "flex",
+          contents: DataInfo.value,
+        });
+        await beaconSetting(replyData).then(() => {
+          loading.value = false;
+        });
+      }
     };
     return {
       beaconId,

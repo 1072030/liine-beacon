@@ -229,16 +229,11 @@
 </template>
 <script lang="ts">
 import { computed, defineComponent, ref, toRefs, watch } from "vue";
-//import uploadImageTemp from "../../../components/upload-image.vue";
 import { uploadImage } from "@/util/uploadImage";
-
 export default defineComponent({
   props: {
     selected: Object,
   },
-  // components: {
-  //   uploadImageTemp,
-  // },
   setup(props) {
     const btnLoading = ref(false);
     let fileList = ref<Array<{ url: string }>>([]);
