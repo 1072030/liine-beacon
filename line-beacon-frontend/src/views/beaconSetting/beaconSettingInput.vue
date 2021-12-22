@@ -5,20 +5,6 @@
       <InputImage v-if="pattern === 'image'" />
       <InputImageCarousel v-if="pattern === 'imageCarousel'" />
       <InputBubble v-if="pattern === 'bubble'" />
-
-      <!-- <div class="title">
-      {{
-        pattern === "text"
-          ? "文字訊息"
-          : pattern === "image"
-          ? "圖片訊息"
-          : pattern === "imageCarousel"
-          ? "圖片輪播訊息"
-          : pattern === "bubble"
-          ? "對話框訊息"
-          : "對話框訊息-2"
-      }}
-    </div> -->
     </div>
   </div>
 </template>
@@ -52,27 +38,3 @@ export default defineComponent({
   },
 });
 </script>
-<style lang="scss">
-.inputText {
-  padding-top: 9%;
-  width: 65%;
-  padding-left: 26%;
-}
-.title {
-  border: 0.2rem solid rgb(165, 171, 255);
-  border-radius: 8px;
-  height: 50px;
-  line-height: 3.35rem;
-  font-size: 2rem;
-  padding-left: 1rem;
-  margin: 0 0 1.5rem 0;
-  box-shadow: 3px 3px 3px rgb(197, 240, 240);
-}
-.content {
-  width: 100%;
-  height: 100%;
-  background-color: #eaf0fb;
-  border-radius: 10px;
-  padding: 5% 2% 3% 5%;
-}
-</style>

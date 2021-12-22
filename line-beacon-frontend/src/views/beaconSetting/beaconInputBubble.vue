@@ -1,15 +1,7 @@
 <template>
-  <div
-    style="
-      color: #2b3e63;
-      font-size: 24px;
-      font-weight: bold;
-      margin-bottom: 3%;
-      display: flex;
-    "
-  >
-    <span style="flex: 2 0 0">對話框樣板訊息</span>
-    <el-input v-model="title" placeholder="訊息顯示標題" style="flex: 1 0 0" />
+  <div class="bubble-title">
+    <span>對話框樣板訊息</span>
+    <el-input v-model="title" placeholder="訊息顯示標題" />
   </div>
   <div style="color: #2b3e63; font-size: 18px; margin-bottom: 3%">
     對話框訊息樣板<img
@@ -24,26 +16,30 @@
     <right-tree style="width: 50%" v-model:selected="selected" />
   </div>
   <div class="submit">
-    <div>
+    <!-- <div>
       <el-select v-model="value" placeholder="Select">
         <el-option
-          v-for="item in options"
+          v-for="item in bubblePattern"
           :key="item.value"
           :label="item.label"
           :value="item.value"
         >
         </el-option>
       </el-select>
-    </div>
+    </div> -->
     <div>
-      <el-button v-loading="loading" type="primary" @click="generatorJson"
-        >修改</el-button
+      <el-button
+        v-loading="loading"
+        type="primary"
+        @click="generatorJson"
+        class="submit-btn"
+        >更新訊息</el-button
       >
     </div>
   </div>
 </template>
 <script lang="ts">
-import { defineComponent, ref, computed } from "vue";
+import { defineComponent, ref, computed, watch } from "vue";
 import { useStore } from "vuex";
 import leftTree from "./beaconInputBubble/Left-tree.vue";
 import rightTree from "./beaconInputBubble/Right-tree.vue";
@@ -66,6 +62,16 @@ export default defineComponent({
     const selectedAction = (value: any) => {
       selected.value = value;
     };
+    const bubblePattern = ref([
+      {
+        label: "樣板一",
+        value: "bubble_1",
+      },
+      {
+        label: "樣板二",
+        value: "bubble_2",
+      },
+    ]);
     const DataInfo = ref({
       hero: {
         type: "image",
@@ -158,7 +164,7 @@ export default defineComponent({
             action: {
               type: "uri",
               label: "CALL",
-              uri: "https://v3.vuejs.org/guide/migration/v-model.html#migration-strategy",
+              uri: "test",
             },
             show: true,
           },
@@ -174,9 +180,17 @@ export default defineComponent({
         ],
       },
     });
+    // watch(
+    //   () => DataInfo.value,
+    //   (old, news) => {
+    //     console.log(old);
+    //   },
+    //   {
+    //     deep: true,
+    //   }
+    // );
     const generatorJson = async () => {
       let replyData = {};
-
       loading.value = true;
       Object.assign(replyData, {
         //userId之後改成line userId
@@ -186,6 +200,7 @@ export default defineComponent({
         type: "flex",
         contents: DataInfo.value,
       });
+      console.log(JSON.stringify(replyData));
       await beaconSetting(replyData).then(() => {
         loading.value = false;
       });
@@ -197,6 +212,7 @@ export default defineComponent({
       DataInfo,
       outputJson,
       loading,
+      bubblePattern,
       generatorJson,
       selectedAction,
     };
@@ -205,12 +221,25 @@ export default defineComponent({
 </script>
 <style lang="scss">
 #main-pane {
-  height: 100%;
+  height: 65%;
   display: flex;
 }
 .el-input {
   > .el-input__inner {
     border-radius: 25px;
+  }
+}
+.bubble-title {
+  color: #2b3e63;
+  font-size: 24px;
+  font-weight: 900;
+  margin-bottom: 3%;
+  display: flex;
+  > span {
+    flex: 2 0 0;
+  }
+  > .el-input {
+    flex: 1 0 0;
   }
 }
 .submit {
@@ -221,6 +250,14 @@ export default defineComponent({
   }
   > div {
     flex: 1 0 0;
+    > .el-button {
+      font-size: 30px;
+      height: 70px;
+      width: 250px;
+      border-radius: 25px;
+      background-color: #2b3e63;
+      font-weight: bold;
+    }
   }
 }
 </style>

@@ -8,7 +8,7 @@
       :autosize="{ minRows: 7, maxRows: 8 }"
       resize="none"
     />
-    <el-button type="primary" class="btn">更新訊息</el-button>
+    <el-button type="primary" class="submit-btn">更新訊息</el-button>
   </div>
 </template>
 
@@ -23,7 +23,6 @@ export default defineComponent({
     Object.assign(inputTextValue.value, props.inputText);
     watch(inputTextValue, (newVal) => {
       context.emit("update:inputText", newVal);
-      console.log();
     });
     return {
       inputTextValue,
@@ -40,6 +39,7 @@ export default defineComponent({
   line-height: 52px;
   text-align: left;
   color: #2b3e63;
+  margin-bottom: 2%;
 }
 .el-textarea {
   display: block;
@@ -54,15 +54,14 @@ export default defineComponent({
     font-size: 24px;
   }
 }
-.btn {
-  position: absolute;
+.submit-btn {
+  margin-right: 5%;
+  float: right;
   font-size: 30px;
   height: 80px;
   width: 200px;
   border-radius: 25px;
   background-color: #2b3e63;
   font-weight: bold;
-  right: 15%;
-  bottom: 8%;
 }
 </style>

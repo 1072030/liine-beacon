@@ -54,8 +54,8 @@
         <el-form-item label="顯示">
           <el-switch
             v-model="data.show"
-            active-color="#13ce66"
-            inactive-color="#ff4949"
+            active-color="#9AE8C3"
+            inactive-color="#FFFFFF"
           />
         </el-form-item>
       </el-form>
@@ -109,7 +109,7 @@
         >
           <el-select v-model="data.size" placeholder="Select">
             <el-option
-              v-for="item in fontOptions"
+              v-for="item in fontSizeOptions"
               :key="item.value"
               :label="item.label"
               :value="item.value"
@@ -153,8 +153,8 @@
         <el-form-item label="顯示">
           <el-switch
             v-model="data.show"
-            active-color="#13ce66"
-            inactive-color="#ff4949"
+            active-color="#9AE8C3"
+            inactive-color="#FFFFFF"
           />
         </el-form-item>
       </el-form>
@@ -214,13 +214,13 @@
             },
           ]"
         >
-          <el-input v-model="data.action.uri" placeholder="https://"></el-input>
+          <el-input v-model="data.action.uri" placeholder="連結網址"></el-input>
         </el-form-item>
         <el-form-item label="顯示">
           <el-switch
             v-model="data.show"
-            active-color="#13ce66"
-            inactive-color="#ff4949"
+            active-color="#9AE8C3"
+            inactive-color="#FFFFFF"
           />
         </el-form-item>
       </el-form>
@@ -228,7 +228,7 @@
   </div>
 </template>
 <script lang="ts">
-import { computed, defineComponent, ref, toRefs } from "vue";
+import { computed, defineComponent, ref, toRefs, watch } from "vue";
 //import uploadImageTemp from "../../../components/upload-image.vue";
 import { uploadImage } from "@/util/uploadImage";
 
@@ -244,7 +244,7 @@ export default defineComponent({
     let fileList = ref<Array<{ url: string }>>([]);
     let fontSizeOptions = ref<any>([]);
     let fontWidthOptions = ref<any>([]);
-    for (let i = 12; i <= 20; i++) {
+    for (let i = 12; i <= 40; i++) {
       fontSizeOptions.value.push({
         value: i,
         label: JSON.stringify(i),
@@ -256,10 +256,10 @@ export default defineComponent({
         label: JSON.stringify(j),
       });
     }
-
     const data: any = computed(() => {
       return props.selected;
     });
+
     const Buttonform = ref({
       label: "",
       uri: "",
@@ -293,9 +293,22 @@ export default defineComponent({
   text-align: center;
 }
 .upload-btn {
+  background-color: #7e83b1;
   height: 40px;
   font-size: 14px;
   font-weight: 600;
+  > span {
+    color: white;
+  }
+}
+.upload-btn:hover {
+  background-color: #7e83b1;
+  > span {
+    color: white;
+  }
+}
+.upload-btn:not(:hover) {
+  background-color: #7e83b1;
 }
 .el-form-item {
   > label {
@@ -305,6 +318,13 @@ export default defineComponent({
   .el-input {
     .el-input__inner {
       border-radius: 25px;
+    }
+  }
+}
+.el-switch {
+  > .el-switch__core {
+    > .el-switch__action {
+      background: #2b3e63;
     }
   }
 }

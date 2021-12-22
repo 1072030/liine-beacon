@@ -8,17 +8,20 @@
     :file-list="fileList"
     :show-file-list="false"
   >
-    <el-button size="small" type="primary">上傳圖片</el-button>
+    <el-button size="small" type="primary" :loading="loading"
+      >上傳圖片</el-button
+    >
   </el-upload>
 </template>
 
 <script lang="ts">
 import { uploadImage } from "@/util/uploadImage";
 import { ref } from "@vue/reactivity";
-import { defineComponent, getCurrentInstance, watch } from "@vue/runtime-core";
+import { defineComponent, watch } from "@vue/runtime-core";
 export default defineComponent({
   props: ["image"],
   setup(props, context) {
+    const loading = ref(false);
     // const imageUrl: Ref<null | { url: string }> = ref(null);
     let fileList = ref<Array<{ url: string }>>([]);
     if (props.image && props.image.length - 2) {
@@ -41,14 +44,17 @@ export default defineComponent({
       context.emit("update:image", "");
     };
     const handleUploadFile = async ({ file }: { file: File }) => {
+      loading.value = true;
       const url = await uploadImage(file);
       // imageUrl.value = { url: url as string };
       fileList.value = [{ url: url as string }];
       context.emit("update:image", url);
+      loading.value = false;
       console.log(url);
     };
     return {
       // fileList: imageUrl.value ? [imageUrl.value] : [],
+      loading,
       fileList,
       handleRemove,
       handleUploadFile,

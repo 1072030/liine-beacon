@@ -1,14 +1,13 @@
 <template>
   <div>
-    <div class="nav">
-      <a href=""
-        ><img
-          src="https://firebasestorage.googleapis.com/v0/b/beacon-backend-a8bf3.appspot.com/o/company.png?alt=media&token=88a61585-3212-42bd-a081-fed765e6bdde"
-          alt=""
-      /></a>
-    </div>
+    <div class="nav"></div>
 
     <div class="sidebar">
+      <a href=""
+        ><img
+          src="https://firebasestorage.googleapis.com/v0/b/beacon-backend-a8bf3.appspot.com/o/JD.png?alt=media&token=1ed25333-4178-4374-a69e-a56fd2ed516c"
+          alt=""
+      /></a>
       <div class="insideSidebar">
         <p class="labelAlign">beacon編號 :</p>
         <div style="margin-bottom: 1rem">
@@ -27,7 +26,7 @@
           </el-select>
         </div>
 
-        <div style="padding-top: 20%">
+        <div>
           <p class="labelAlign">回傳訊息</p>
           <div>
             <el-radio-group
@@ -42,6 +41,7 @@
                 >圖片輪播樣板</el-radio-button
               >
               <el-radio-button label="bubble">對話框訊息樣板</el-radio-button>
+              <el-radio-button label="history">歷史紀錄</el-radio-button>
             </el-radio-group>
           </div>
         </div>
@@ -93,27 +93,25 @@ export default defineComponent({
 .nav {
   position: fixed;
   width: 100%;
-  height: 200px;
+  height: 150px;
   line-height: 9;
   display: block;
   text-align: left;
-
-  > a > img {
-    position: absolute;
-    width: 290px;
-    height: 150px;
-    left: 20px;
-    top: 25px;
-  }
 }
 .sidebar {
-  margin: 12rem 0 0 3rem;
+  margin: 9rem 0 0 3rem;
   display: inline-block;
   position: fixed;
   left: 0;
   height: 100%;
   > .insideSidebar {
     z-index: 2000;
+  }
+  > a > img {
+    position: absolute;
+    width: 264px;
+    height: 160px;
+    bottom: 20%;
   }
 }
 
@@ -122,6 +120,7 @@ export default defineComponent({
   line-height: 0.5;
   text-align: left;
   padding-left: 8%;
+  padding-top: 10%;
   font-weight: bold;
 }
 .el-radio-group {
@@ -135,5 +134,8 @@ export default defineComponent({
       text-align: left;
     }
   }
+}
+.el-radio-button:focus {
+  background-color: black;
 }
 </style>

@@ -1,19 +1,24 @@
 <template>
+  <label class="label">圖片輪播訊息</label>
   <el-form>
-    <el-form-item style="display: inline-flex">
-      <label>欄位數 : </label>
-      <el-select v-model="imageNumbers" placeholder="選擇圖片輪播數量">
-        <el-option
-          v-for="item in imageNumbersSelect"
-          :key="item.value"
-          :label="item.label"
-          :value="item.value"
-        >
-        </el-option>
-      </el-select>
-    </el-form-item>
     <el-form-item>
-      <el-input v-model="title" placeholder="訊息顯示標題" />
+      <div style="display: inline-flex; width: 100%" class="carousel-title">
+        <div>
+          <label>欄位數 : </label>
+          <el-select v-model="imageNumbers" placeholder="選擇圖片輪播數量">
+            <el-option
+              v-for="item in imageNumbersSelect"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            >
+            </el-option>
+          </el-select>
+        </div>
+        <div>
+          <el-input v-model="title" placeholder="訊息顯示標題" />
+        </div>
+      </div>
     </el-form-item>
     <el-form-item v-for="(item, index) in input" :key="index" class="default"
       ><div
@@ -22,15 +27,18 @@
       >
         <span>{{ item.action.label }}</span>
       </div>
-      <el-image style="width: 300px; height: 300px" :src="item.imageUrl">
+      <el-image :src="item.imageUrl">
         <template #error>
-          <div class="image-slot previewImage">預覽圖 僅供參考</div>
+          <div class="image-slot previewImage">預覽圖展示</div>
         </template></el-image
       >
       <div style="flex-direction: row">
         <div class="bodyContent">
           <el-form-item>
-            <uploadImageTemp v-model:image="item.imageUrl" />
+            <uploadImageTemp
+              v-model:image="item.imageUrl"
+              style="text-align: right"
+            />
             <el-input placeholder="圖片連結" v-model="item.imageUrl" />
           </el-form-item>
           <el-form-item>
@@ -48,15 +56,20 @@
       </div>
     </el-form-item>
   </el-form>
-  <div style="text-align: center; margin-top: 1rem">
-    <el-button type="primary" @click="Submit">修改</el-button>
+  <div>
+    <el-button
+      type="primary"
+      class="submit-btn"
+      @click="Submit"
+      style="bottom: 10% !important"
+      >更新訊息</el-button
+    >
   </div>
 </template>
 <script lang="ts">
 import uploadImageTemp from "../../components/upload-image.vue";
 import { useStore } from "vuex";
 import { computed, defineComponent, ref, Ref } from "vue";
-import { beaconSetting } from "../../service/beacon";
 export default defineComponent({
   components: {
     uploadImageTemp,
@@ -189,6 +202,7 @@ export default defineComponent({
   display: inline-flex;
 }
 .previewImage {
+  border-radius: 15px;
   align-items: center;
   display: flex;
   justify-content: center;
@@ -219,5 +233,22 @@ export default defineComponent({
 .bodyContent {
   width: 300px;
   margin-right: 5px;
+  > .el-form-item {
+    margin-bottom: 1%;
+  }
+}
+.carousel-title {
+  display: inline-flex;
+  width: 100%;
+  > div {
+    flex: 1 0 0;
+  }
+}
+.el-image {
+  width: 300px;
+  height: 300px;
+  > .el-image__inner {
+    object-fit: cover;
+  }
 }
 </style>
