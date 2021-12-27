@@ -28,6 +28,7 @@
             v-model="data.url"
             placeholder="URL"
             style="margin-bottom: 3%"
+            @blur="checkData(data.url)"
           ></el-input>
           <el-upload
             action="#"
@@ -46,10 +47,6 @@
               >點選上傳圖片</el-button
             >
           </el-upload>
-          <!-- <uploadImageTemp v-model:image="data.url" /> -->
-          <!-- <el-button type="primary"
-            ><el-icon> <Delete /> </el-icon
-          ></el-button> -->
         </el-form-item>
         <el-form-item label="顯示">
           <el-switch
@@ -73,13 +70,16 @@
             },
           ]"
         >
-          <el-input v-model="data.text" placeholder="文字內容"></el-input>
+          <el-input
+            v-model="data.text"
+            placeholder="文字內容"
+            @blur="checkData(data)"
+          ></el-input>
         </el-form-item>
         <el-form-item
           prop="flex"
           :rules="[
             {
-              required: true,
               message: '請輸入正確數字',
               trigger: 'blur',
             },
@@ -101,7 +101,6 @@
           prop="size"
           :rules="[
             {
-              required: true,
               message: '請輸入正確數字',
               trigger: 'blur',
             },
@@ -125,16 +124,7 @@
         </el-form-item>
         <el-form-item style="background-color: white; border-radius: 25px">
           <div style="display: flex; align-items: center">
-            <el-color-picker
-              v-model="data.color"
-              style="
-                vertical-align: text-top;
-                padding-left: 15px;
-                height: 50px;
-                flex: 2 0 0;
-                line-height: 6;
-              "
-            />
+            <el-color-picker v-model="data.color" class="color-picker" />
             <label style="flex: 8 0 auto; color: #7e7e7e">{{
               data.color
             }}</label>
@@ -172,7 +162,8 @@
             },
           ]"
         >
-          <el-input v-model="data.action.label"> </el-input>
+          <el-input v-model="data.action.label" @blur="checkData(data)">
+          </el-input>
         </el-form-item>
         <!-- <el-form-item label="回傳訊息模式">
           <el-select v-model="data.action.type" placeholder="Select" disabled>
@@ -214,7 +205,11 @@
             },
           ]"
         >
-          <el-input v-model="data.action.uri" placeholder="連結網址"></el-input>
+          <el-input
+            v-model="data.action.uri"
+            placeholder="連結網址"
+            @blur="checkData(data)"
+          ></el-input>
         </el-form-item>
         <el-form-item label="顯示">
           <el-switch
@@ -234,11 +229,20 @@ export default defineComponent({
   props: {
     selected: Object,
   },
-  setup(props) {
+  emits: ["validateDataAction"],
+  setup(props, context) {
     const btnLoading = ref(false);
     let fileList = ref<Array<{ url: string }>>([]);
     let fontSizeOptions = ref<any>([]);
     let fontWidthOptions = ref<any>([]);
+    const data: any = computed(() => {
+      return props.selected;
+    });
+    const Buttonform = ref({
+      label: "",
+      uri: "",
+      show: true,
+    });
     for (let i = 12; i <= 40; i++) {
       fontSizeOptions.value.push({
         value: i,
@@ -251,21 +255,57 @@ export default defineComponent({
         label: JSON.stringify(j),
       });
     }
-    const data: any = computed(() => {
-      return props.selected;
-    });
-
-    const Buttonform = ref({
-      label: "",
-      uri: "",
-      show: true,
-    });
     const handleUploadFile = async ({ file }: { file: File }) => {
       btnLoading.value = true;
       const url = await uploadImage(file);
       btnLoading.value = false;
-      // imageUrl.value = { url: url as string };
       data.value.url = url;
+    };
+    watch(
+      () => data.value.show,
+      (change) => {
+        if (change == false) {
+          context.emit("validateDataAction", true);
+        }
+      }
+    );
+    const checkUrl = (url: string) => {
+      const RegEx =
+        /^(?:(?:https?|ftp):\/\/)(?:\S+(?::\S*)?@)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,}))\.?)(?::\d{2,5})?(?:[/?#]\S*)?$/i;
+      return RegEx.test(url);
+    };
+    const checkData = (content: any) => {
+      console.log(content);
+      let val;
+      if (content.type == "button") {
+        val = checkUrl(content.action.uri);
+      }
+      switch (content.type) {
+        case "text":
+          if (content.text === "") {
+            context.emit("validateDataAction", false);
+          } else {
+            context.emit("validateDataAction", true);
+          }
+          break;
+        case "image":
+          break;
+        case "button":
+          console.log("val", val);
+          if (val && content.action.label != "") {
+            context.emit("validateDataAction", true);
+          } else if (content.action.label === "") {
+            context.emit("validateDataAction", false);
+          } else if (!val) {
+            context.emit("validateDataAction", false);
+          }
+          break;
+      }
+      // if (content === "") {
+      //   context.emit("validateDataAction", false);
+      // } else {
+      //   context.emit("validateDataAction", true);
+      // }
     };
     return {
       data,
@@ -273,9 +313,11 @@ export default defineComponent({
       fontSizeOptions,
       fontWidthOptions,
       btnLoading,
-      ...toRefs(props),
+      checkData,
       fileList,
       handleUploadFile,
+      checkUrl,
+      ...toRefs(props),
     };
   },
 });
@@ -322,5 +364,12 @@ export default defineComponent({
       background: #2b3e63;
     }
   }
+}
+.color-picker {
+  vertical-align: text-top;
+  padding-left: 15px;
+  height: 50px;
+  flex: 2 0 0;
+  line-height: 6;
 }
 </style>

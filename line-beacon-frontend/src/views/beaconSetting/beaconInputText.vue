@@ -59,7 +59,7 @@ export default defineComponent({
   float: right;
   font-size: 30px;
   height: 80px;
-  width: 200px;
+  width: 250px;
   border-radius: 25px;
   background-color: #2b3e63;
   font-weight: bold;

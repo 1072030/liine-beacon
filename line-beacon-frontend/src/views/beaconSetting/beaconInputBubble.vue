@@ -1,7 +1,7 @@
 <template>
   <div class="bubble-title">
     <span>對話框樣板訊息</span>
-    <el-input v-model="title" placeholder="訊息顯示標題" />
+    <el-input v-model="Messagetitle" placeholder="訊息顯示標題" />
   </div>
   <div style="color: #2b3e63; font-size: 18px; margin-bottom: 3%">
     對話框訊息樣板<img
@@ -11,29 +11,21 @@
   </div>
 
   <div id="main-pane">
-    <leftTree @selectedAction="selectedAction" v-model:DataInfo="DataInfo" />
+    <leftTree
+      @selectedAction="selectedAction"
+      v-model:DataInfo="DataInfo"
+      v-model:validateData="validateData"
+    />
     <!-- <centerTree /> -->
-    <right-tree style="width: 50%" v-model:selected="selected" />
+    <right-tree
+      style="width: 50%"
+      v-model:selected="selected"
+      @validateDataAction="validateDataAction"
+    />
   </div>
   <div class="submit">
-    <!-- <div>
-      <el-select v-model="value" placeholder="Select">
-        <el-option
-          v-for="item in bubblePattern"
-          :key="item.value"
-          :label="item.label"
-          :value="item.value"
-        >
-        </el-option>
-      </el-select>
-    </div> -->
     <div>
-      <el-button
-        v-loading="loading"
-        type="primary"
-        @click="generatorJson"
-        class="submit-btn"
-        :disabled="loading"
+      <el-button type="primary" @click="generatorJson" class="submit-btn"
         >更新訊息</el-button
       >
     </div>
@@ -45,6 +37,8 @@ import { useStore } from "vuex";
 import leftTree from "./beaconInputBubble/Left-tree.vue";
 import rightTree from "./beaconInputBubble/Right-tree.vue";
 import { beaconSetting } from "@/service/beacon";
+import { elMessageBoxConfirm } from "@/util/globeMethod";
+import { ElMessage } from "element-plus";
 export default defineComponent({
   components: {
     leftTree,
@@ -52,14 +46,17 @@ export default defineComponent({
     // centerTree,
   },
   setup() {
-    const loading = ref(false);
     const store = useStore();
     const beaconId = computed(() => {
       return store.getters.userBeaconMode;
     });
     const selected = ref({});
-    const title = ref("");
+    const Messagetitle = ref("");
     const outputJson: any = {};
+    const validateData = ref(true);
+    const validateDataAction = (check: any) => {
+      validateData.value = check;
+    };
     const selectedAction = (value: any) => {
       selected.value = value;
     };
@@ -181,45 +178,48 @@ export default defineComponent({
         ],
       },
     });
-    watch(
-      () => DataInfo.value,
-      (data) => {
-        console.log(data);
-      },
-      {
-        deep: true,
-      }
-    );
     const generatorJson = async () => {
       let replyData = {};
-      loading.value = true;
-      let check = false;
-      if (!check) {
-        loading.value = false;
+      let titleValidate = true;
+      if (Messagetitle.value === "") {
+        ElMessage.error("訊息顯示標題不能為空");
+        titleValidate = false;
+        return;
       }
-      if (check) {
+      if (!validateData.value) {
+        ElMessage.error("內容不得為空");
+      }
+      if (validateData.value && titleValidate) {
         Object.assign(replyData, {
           hwid: beaconId.value,
           userId: "fresh fruit",
-          title: title.value,
+          title: Messagetitle.value,
           type: "flex",
           contents: DataInfo.value,
         });
-        await beaconSetting(replyData).then(() => {
-          loading.value = false;
-        });
+        const req = () => {
+          beaconSetting(replyData);
+        };
+        elMessageBoxConfirm(
+          {
+            boxMessage: "確定要送出新增?",
+            confirmMessage: "新增成功",
+          },
+          req
+        );
       }
     };
     return {
       beaconId,
       selected,
-      title,
+      Messagetitle,
       DataInfo,
       outputJson,
-      loading,
       bubblePattern,
+      validateData,
       generatorJson,
       selectedAction,
+      validateDataAction,
     };
   },
 });

@@ -1,8 +1,13 @@
 <template>
   <!-- {{ DataInfo.footer.contents }} -->
+
   <div id="left-pane">
     <div id="viewer-pane">
-      <div class="fixposition" :model="DataInfo">
+      <div
+        class="fixposition"
+        :model="DataInfo"
+        :class="{ displayHide: !validateData }"
+      >
         <div
           class="hero-box"
           @click="select(DataInfo.hero)"
@@ -81,18 +86,26 @@
   </div>
 </template>
 <script lang="ts">
-import { defineComponent, ref } from "vue";
+import { defineComponent, ref, watch } from "vue";
 export default defineComponent({
   props: {
     DataInfo: Object,
+    validateData: Boolean,
   },
   emits: ["selectedAction"],
   setup(props, context) {
     const getStyle = ref({});
     const select = (data: any) => {
+      console.log(data);
       getStyle.value = data;
       context.emit("selectedAction", data);
     };
+    // watch(
+    //   () => getStyle.value,
+    //   (old, news) => {
+    //     console.log(getStyle.value);
+    //   }
+    // );
     return {
       select,
       getStyle,
@@ -184,6 +197,7 @@ body {
       flex-grow: 5;
       -webkit-box-flex: 5;
       align-items: baseline;
+
       > p {
         overflow: visible;
         word-break: break-word;
@@ -215,5 +229,8 @@ body {
 
 .displayHide {
   display: none !important;
+}
+.displayShow {
+  display: block;
 }
 </style>

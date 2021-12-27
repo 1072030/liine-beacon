@@ -2,7 +2,7 @@
   <el-upload
     action="#"
     list-type="upload-demo"
-    :limit="1"
+    :limit="5"
     :http-request="handleUploadFile"
     :on-remove="handleRemove"
     :file-list="fileList"

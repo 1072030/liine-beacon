@@ -1,11 +1,9 @@
 import { ElMessage, ElMessageBox } from "element-plus";
-
 export interface ElMessage {
   boxMessage: string;
   confirmMessage?: string;
   cancelMessage?: string;
 }
-
 export function elMessageBoxConfirm(
   message: ElMessage,
   ConfirmFunction: () => void,
