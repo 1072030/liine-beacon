@@ -24,6 +24,7 @@ const upload = multer({
 });
 
 router.post("/beacon", async (req, res) => {
+  console.log(req.body);
   //資料丟上mongodb
   let data;
   const { type, userId, title, hwid } = req.body;
@@ -45,7 +46,19 @@ router.post("/beacon", async (req, res) => {
       break;
     case "image":
       break;
-    case "imageCarousel":
+    case "template":
+      try {
+        await insertMongodb({
+          userId: userId,
+          hwid: hwid,
+          type: type,
+          title: title,
+          contents: data,
+        });
+      } catch (err) {
+        console.log(err);
+        res.status(500).send("fail to insert mongodb", err);
+      }
       break;
     case "text":
       break;
