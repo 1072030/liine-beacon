@@ -1,6 +1,17 @@
 <template>
   <div>
-    <div class="nav"></div>
+    <div class="nav">
+      <div></div>
+      <div style="float: right; padding-right: 5%; padding-top: 1.5%">
+        <el-avatar
+          class="userImage"
+          :src="userImage"
+          :size="100"
+          :fit="fit"
+          style="float right"
+        ></el-avatar>
+      </div>
+    </div>
 
     <div class="sidebar">
       <a href=""
@@ -54,6 +65,10 @@ import { defineComponent, onMounted, ref } from "vue";
 import { useStore } from "vuex";
 export default defineComponent({
   setup() {
+    const userImage = ref(
+      "https://firebasestorage.googleapis.com/v0/b/beacon-backend-a8bf3.appspot.com/o/image%2Fhhaeruytz8r8seagtz4vg?alt=media&token=e2110d9e-4b4f-4517-92a5-edccf5089d68"
+    );
+    const fit = ref("fill");
     // onMounted(){
     //這裡要先取得beaconId 嵌入options
     // }
@@ -77,6 +92,8 @@ export default defineComponent({
       store.commit("changeBeaconId", beaconId);
     };
     return {
+      userImage,
+      fit,
       options,
       beaconId: ref(),
       pattern,
@@ -134,7 +151,16 @@ export default defineComponent({
     }
   }
 }
-.el-radio-button:focus {
-  background-color: black;
+.el-radio-button:focus-visible {
+  > .el-radio-button__inner {
+    background-color: black !important;
+  }
+}
+.userImage {
+  > img {
+    height: 100%;
+    width: 100%;
+    vertical-align: middle;
+  }
 }
 </style>

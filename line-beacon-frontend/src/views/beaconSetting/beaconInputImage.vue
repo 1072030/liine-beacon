@@ -36,7 +36,11 @@ export default defineComponent({
     //   "previewImageUrl": "PROVIDE_URL_FROM_YOUR_SERVER"
     // }
     const submitImage = () => {
-      if (imageUrl.value !== "") {
+      if (imageUrl.value === "") {
+        ElMessage.error("請上傳圖片");
+      } else if (beaconId.value === "") {
+        ElMessage.error("請輸入修改的beaconId");
+      } else {
         const req = () => {
           beaconSetting({
             userId: "fresh fruit",
@@ -56,8 +60,6 @@ export default defineComponent({
           },
           req
         );
-      } else {
-        ElMessage.error("請上傳圖片");
       }
     };
     return {

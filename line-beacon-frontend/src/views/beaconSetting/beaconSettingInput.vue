@@ -5,6 +5,7 @@
       <InputImage v-if="pattern === 'image'" />
       <InputImageCarousel v-if="pattern === 'imageCarousel'" />
       <InputBubble v-if="pattern === 'bubble'" />
+      <Preview v-if="pattern === 'history'" />
     </div>
   </div>
 </template>
@@ -16,6 +17,7 @@ import InputText from "./beaconInputText.vue";
 import InputImage from "./beaconInputImage.vue";
 import InputImageCarousel from "./beaconInputImageCarousel.vue";
 import InputBubble from "./beaconInputBubble.vue";
+import Preview from "./beaconPreview.vue";
 export default defineComponent({
   props: {
     DataInfo: Object,
@@ -25,6 +27,7 @@ export default defineComponent({
     InputImage,
     InputImageCarousel,
     InputBubble,
+    Preview,
   },
   setup() {
     const store = useStore();

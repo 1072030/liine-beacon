@@ -5,18 +5,17 @@
   </div>
   <div class="bubble-info">
     對話框訊息樣板
-    <el-popover
+    <!-- <el-popover
       placement="top-start"
       title="Title"
       :width="200"
       trigger="hover"
       content="This is content"
     >
-      <template #reference>
-        <img
-          src="https://img.icons8.com/windows/32/000000/info.png"
-        /> </template
-    ></el-popover>
+      <template #reference> -->
+    <img src="https://img.icons8.com/windows/32/000000/info.png" />
+    <!-- </template
+    ></el-popover> -->
   </div>
 
   <div id="main-pane">
@@ -34,7 +33,7 @@
   </div>
   <div class="submit">
     <div>
-      <el-button type="primary" @click="generatorJson" class="submit-btn"
+      <el-button type="primary" @click="submitFlex" class="submit-btn"
         >更新訊息</el-button
       >
     </div>
@@ -59,7 +58,7 @@ export default defineComponent({
     const beaconId = computed(() => {
       return store.getters.userBeaconMode;
     });
-    const selected = ref({});
+
     const Messagetitle = ref("");
     const outputJson: any = {};
     const validateData = ref(true);
@@ -187,18 +186,16 @@ export default defineComponent({
         ],
       },
     });
-    const generatorJson = async () => {
+    const selected = ref(DataInfo.value.hero); //初始顯示
+    const submitFlex = async () => {
       let replyData = {};
-      let titleValidate = true;
       if (Messagetitle.value === "") {
         ElMessage.error("訊息顯示標題不能為空");
-        titleValidate = false;
-        return;
-      }
-      if (!validateData.value) {
+      } else if (!validateData.value) {
         ElMessage.error("內容不得為空");
-      }
-      if (validateData.value && titleValidate) {
+      } else if (beaconId.value == "") {
+        ElMessage.error("請選擇要修改的beacon");
+      } else {
         Object.assign(replyData, {
           hwid: beaconId.value,
           userId: "fresh fruit",
@@ -226,7 +223,7 @@ export default defineComponent({
       outputJson,
       bubblePattern,
       validateData,
-      generatorJson,
+      submitFlex,
       selectedAction,
       validateDataAction,
     };

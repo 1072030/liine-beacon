@@ -123,7 +123,7 @@
           /> -->
         </el-form-item>
         <el-form-item style="background-color: white; border-radius: 25px">
-          <div style="display: flex; align-items: center">
+          <div style="align-items: center" class="displayFlex">
             <el-color-picker v-model="data.color" class="color-picker" />
             <label style="flex: 8 0 auto; color: #7e7e7e">{{
               data.color

@@ -19,7 +19,6 @@
             class="imagePlaced"
           ></el-image>
         </div>
-        <!-- :style="`display: inline; font-size: ${DataInfo.contents.body[0].font}px;`" -->
         <div class="body-box">
           <div class="col-box displayFlex">
             <div
@@ -94,14 +93,12 @@ export default defineComponent({
   },
   emits: ["selectedAction"],
   setup(props, context) {
-    const getStyle = ref({});
     const select = (data: any) => {
-      getStyle.value = data;
+      console.log(data);
       context.emit("selectedAction", data);
     };
     return {
       select,
-      getStyle,
     };
   },
 });

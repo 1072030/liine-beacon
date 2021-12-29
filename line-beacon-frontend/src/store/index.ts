@@ -3,7 +3,7 @@ import { createStore } from "vuex";
 export default createStore({
   state: {
     patternMode: "text",
-    beaconId: "32",
+    beaconId: "",
   },
   getters: {
     userPatternMode: (state) => state.patternMode,

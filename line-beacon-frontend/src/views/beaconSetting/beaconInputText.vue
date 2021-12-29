@@ -28,7 +28,11 @@ export default defineComponent({
       return store.getters.userBeaconMode;
     });
     const submitText = () => {
-      if (textContent.value !== "") {
+      if (textContent.value === "") {
+        ElMessage.error("內容不得為空");
+      } else if (beaconId.value === "") {
+        ElMessage.error("請輸入修改的beaconId");
+      } else {
         const req = () => {
           beaconSetting({
             hwid: beaconId.value,
@@ -47,8 +51,6 @@ export default defineComponent({
           },
           req
         );
-      } else {
-        ElMessage.error("內容不得為空");
       }
     };
     return {

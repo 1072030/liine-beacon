@@ -1,20 +1,20 @@
 <template>
-  <div v-if="frameWidth > 1000">
+  <div v-if="frameWidth >= 1040">
     <theNav />
     <router-view />
   </div>
-  <div v-if="frameWidth < 1000">
-    <test />
+  <div v-if="frameWidth < 1040">
+    <block />
   </div>
 </template>
 <script lang="ts">
 import { defineComponent, ref } from "vue";
 import theNav from "./components/BeaconTitle.vue";
-import test from "./components/test.vue";
+import block from "./components/block.vue";
 export default defineComponent({
   components: {
     theNav,
-    test,
+    block,
   },
   setup() {
     const frameWidth = ref();
