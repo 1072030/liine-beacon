@@ -3,11 +3,20 @@
     <span>對話框樣板訊息</span>
     <el-input v-model="Messagetitle" placeholder="訊息顯示標題" />
   </div>
-  <div style="color: #2b3e63; font-size: 18px; margin-bottom: 3%">
-    對話框訊息樣板<img
-      src="https://img.icons8.com/windows/32/000000/info.png"
-      style="width: 24px; vertical-align: text-bottom"
-    />
+  <div class="bubble-info">
+    對話框訊息樣板
+    <el-popover
+      placement="top-start"
+      title="Title"
+      :width="200"
+      trigger="hover"
+      content="This is content"
+    >
+      <template #reference>
+        <img
+          src="https://img.icons8.com/windows/32/000000/info.png"
+        /> </template
+    ></el-popover>
   </div>
 
   <div id="main-pane">
@@ -32,7 +41,7 @@
   </div>
 </template>
 <script lang="ts">
-import { defineComponent, ref, computed, watch } from "vue";
+import { defineComponent, ref, computed } from "vue";
 import { useStore } from "vuex";
 import leftTree from "./beaconInputBubble/Left-tree.vue";
 import rightTree from "./beaconInputBubble/Right-tree.vue";
@@ -162,7 +171,7 @@ export default defineComponent({
             action: {
               type: "uri",
               label: "CALL",
-              uri: "test",
+              uri: "https://line.me/zh-hant/",
             },
             show: true,
           },
@@ -236,7 +245,7 @@ export default defineComponent({
 }
 .bubble-title {
   color: #2b3e63;
-  font-size: 24px;
+  font-size: 36px;
   font-weight: 900;
   margin-bottom: 3%;
   display: flex;
@@ -245,6 +254,15 @@ export default defineComponent({
   }
   > .el-input {
     flex: 1 0 0;
+  }
+}
+.bubble-info {
+  color: #2b3e63;
+  font-size: 18px;
+  margin-bottom: 3%;
+  > img {
+    width: 24px;
+    vertical-align: text-bottom;
   }
 }
 .submit {

@@ -165,35 +165,6 @@
           <el-input v-model="data.action.label" @blur="checkData(data)">
           </el-input>
         </el-form-item>
-        <!-- <el-form-item label="回傳訊息模式">
-          <el-select v-model="data.action.type" placeholder="Select" disabled>
-            <el-option
-              v-for="item in Buttonform.actionType"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
-            >
-            </el-option>
-          </el-select>
-        </el-form-item> -->
-        <!-- <el-form-item
-          label="文字訊息"
-          prop="message"
-          :rules="[
-            {
-              required: true,
-              message: '請輸入文字訊息',
-              trigger: 'blur',
-            },
-          ]"
-          v-if="data.action.type == 'message'"
-        >
-          <el-input
-            v-model="data.action.message"
-            placeholder="回傳文字"
-          ></el-input>
-        </el-form-item> -->
-
         <el-form-item
           prop="uri"
           v-if="data.action.type == 'uri'"
@@ -223,8 +194,9 @@
   </div>
 </template>
 <script lang="ts">
-import { computed, defineComponent, ref, toRefs, watch } from "vue";
+import { computed, defineComponent, ref, toRefs } from "vue";
 import { uploadImage } from "@/util/uploadImage";
+import { ElMessage } from "element-plus";
 export default defineComponent({
   props: {
     selected: Object,
@@ -261,21 +233,20 @@ export default defineComponent({
       btnLoading.value = false;
       data.value.url = url;
     };
-    watch(
-      () => data.value.show,
-      (change) => {
-        if (change == false) {
-          context.emit("validateDataAction", true);
-        }
-      }
-    );
+    // watch(
+    //   () => data.value.show,
+    //   (change) => {
+    //     if (change == false) {
+    //       context.emit("validateDataAction", true);
+    //     }
+    //   }
+    // );
     const checkUrl = (url: string) => {
       const RegEx =
         /^(?:(?:https?|ftp):\/\/)(?:\S+(?::\S*)?@)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,}))\.?)(?::\d{2,5})?(?:[/?#]\S*)?$/i;
       return RegEx.test(url);
     };
     const checkData = (content: any) => {
-      console.log(content);
       let val;
       if (content.type == "button") {
         val = checkUrl(content.action.uri);
@@ -289,23 +260,23 @@ export default defineComponent({
           }
           break;
         case "image":
+          if (content.uri !== "") {
+            context.emit("validateDataAction", true);
+          } else {
+            context.emit("validateDataAction", false);
+          }
           break;
         case "button":
-          console.log("val", val);
-          if (val && content.action.label != "") {
+          if (val && content.action.label !== "") {
             context.emit("validateDataAction", true);
           } else if (content.action.label === "") {
             context.emit("validateDataAction", false);
           } else if (!val) {
+            ElMessage.error("網址連結有誤");
             context.emit("validateDataAction", false);
           }
           break;
       }
-      // if (content === "") {
-      //   context.emit("validateDataAction", false);
-      // } else {
-      //   context.emit("validateDataAction", true);
-      // }
     };
     return {
       data,

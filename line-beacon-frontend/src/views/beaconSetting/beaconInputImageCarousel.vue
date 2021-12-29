@@ -85,6 +85,7 @@ import { useStore } from "vuex";
 import { computed, defineComponent, ref, Ref, watch } from "vue";
 import { elMessageBoxConfirm } from "@/util/globeMethod";
 import { ElMessage } from "element-plus";
+import { beaconSetting } from "@/service/beacon";
 export default defineComponent({
   components: {
     uploadImageTemp,
@@ -185,14 +186,12 @@ export default defineComponent({
       if (data.action.label != "") {
         val ? (validateContent.value = true) : (validateContent.value = false);
       }
-      // if (data.action.label === "") {
-      //   validateContent.value = false;
-      // } else if (data.action.uri === "") {
-      //   validateContent.value = false;
-      // } else {
-      //   validateContent.value = true;
-      // }
       console.log(validateContent.value);
+    };
+    const checkUrl = (url: string) => {
+      const RegEx =
+        /^(?:(?:https?|ftp):\/\/)(?:\S+(?::\S*)?@)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,}))\.?)(?::\d{2,5})?(?:[/?#]\S*)?$/i;
+      return RegEx.test(url);
     };
     const checkSubmitData = () => {
       //validate
@@ -210,15 +209,7 @@ export default defineComponent({
               colums: formContent.value,
             },
           });
-          await fetch("/beacon", {
-            method: "POST",
-            body: JSON.stringify(replyData),
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }).then((res) => {
-            console.log(res);
-          });
+          beaconSetting(replyData);
           console.log(JSON.stringify(replyData));
         };
         elMessageBoxConfirm(
@@ -238,11 +229,7 @@ export default defineComponent({
         }
       }
     };
-    const checkUrl = (url: string) => {
-      const RegEx =
-        /^(?:(?:https?|ftp):\/\/)(?:\S+(?::\S*)?@)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,}))\.?)(?::\d{2,5})?(?:[/?#]\S*)?$/i;
-      return RegEx.test(url);
-    };
+
     return {
       fileList,
       Messagetitle,

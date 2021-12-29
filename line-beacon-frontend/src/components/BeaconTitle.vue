@@ -74,7 +74,6 @@ export default defineComponent({
       store.commit("changePattern", pattern);
     };
     const selectBeacon = (beaconId: string) => {
-      console.log(beaconId);
       store.commit("changeBeaconId", beaconId);
     };
     return {

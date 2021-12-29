@@ -31,7 +31,6 @@ export default defineComponent({
     const pattern = computed(() => {
       return store.getters.userPatternMode;
     });
-
     return {
       pattern,
     };

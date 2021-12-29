@@ -2,30 +2,59 @@
   <div style="height: 490px">
     <label class="label">文字訊息</label>
     <el-input
-      v-model="inputTextValue"
+      v-model="textContent"
       type="textarea"
       placeholder="輸入文字訊息"
       :autosize="{ minRows: 7, maxRows: 8 }"
       resize="none"
     />
-    <el-button type="primary" class="submit-btn">更新訊息</el-button>
+    <el-button type="primary" @click="submitText" class="submit-btn"
+      >更新訊息</el-button
+    >
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, watch, ref } from "vue";
+import { beaconSetting } from "@/service/beacon";
+import { elMessageBoxConfirm } from "@/util/globeMethod";
+import { ElMessage } from "element-plus";
+import { defineComponent, ref, computed } from "vue";
+import { useStore } from "vuex";
 export default defineComponent({
-  props: {
-    inputText: String,
-  },
-  setup(props, context) {
-    const inputTextValue = ref("");
-    Object.assign(inputTextValue.value, props.inputText);
-    watch(inputTextValue, (newVal) => {
-      context.emit("update:inputText", newVal);
+  setup() {
+    const textContent = ref("");
+    const store = useStore();
+    const beaconId = computed(() => {
+      return store.getters.userBeaconMode;
     });
+    const submitText = () => {
+      if (textContent.value !== "") {
+        const req = () => {
+          beaconSetting({
+            hwid: beaconId.value,
+            userId: "fresh fruit",
+            type: "text",
+            contents: {
+              type: "text",
+              text: textContent.value,
+            },
+          });
+        };
+        elMessageBoxConfirm(
+          {
+            boxMessage: "確定要送出新增?",
+            confirmMessage: "新增成功",
+          },
+          req
+        );
+      } else {
+        ElMessage.error("內容不得為空");
+      }
+    };
     return {
-      inputTextValue,
+      textContent,
+      submitText,
+      beaconId,
     };
   },
 });

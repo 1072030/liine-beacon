@@ -21,7 +21,7 @@
         </div>
         <!-- :style="`display: inline; font-size: ${DataInfo.contents.body[0].font}px;`" -->
         <div class="body-box">
-          <div class="col-box">
+          <div class="col-box displayFlex">
             <div
               @click="select(DataInfo.body.contents[0])"
               :style="{
@@ -29,19 +29,19 @@
                 color: DataInfo.body.contents[0].color,
               }"
               v-show="DataInfo.body.contents[0].show"
-              class="body-title"
+              class="body-title displayFlex"
             >
               <p>{{ DataInfo.body.contents[0].text }}</p>
             </div>
             <div
-              class="body-content"
+              class="body-content displayFlex"
               v-for="contentData in DataInfo.body.contents[1].contents[0]
                 .contents"
               :key="contentData"
             >
-              <div style="display: flex; align-items: baseline">
+              <div style="align-items: baseline" class="displayFlex">
                 <div
-                  class="body-sm-title"
+                  class="body-sm-title displayFlex"
                   @click="select(contentData.contents[0])"
                   :style="{
                     fontSize: contentData.contents[0].size + 'px',
@@ -54,7 +54,7 @@
                   <p>{{ contentData.contents[0].text }}</p>
                 </div>
                 <div
-                  class="body-sm-text"
+                  class="body-sm-text displayFlex"
                   @click="select(contentData.contents[1])"
                   :style="{
                     fontSize: contentData.contents[1].size + 'px',
@@ -86,7 +86,7 @@
   </div>
 </template>
 <script lang="ts">
-import { defineComponent, ref, watch } from "vue";
+import { defineComponent, ref } from "vue";
 export default defineComponent({
   props: {
     DataInfo: Object,
@@ -96,16 +96,9 @@ export default defineComponent({
   setup(props, context) {
     const getStyle = ref({});
     const select = (data: any) => {
-      console.log(data);
       getStyle.value = data;
       context.emit("selectedAction", data);
     };
-    // watch(
-    //   () => getStyle.value,
-    //   (old, news) => {
-    //     console.log(getStyle.value);
-    //   }
-    // );
     return {
       select,
       getStyle,
@@ -156,13 +149,11 @@ body {
     margin: 0;
   }
   .col-box {
-    display: flex;
     flex-direction: column;
     flex-basis: auto;
     flex: 1 0 0;
   }
   .body-title {
-    display: flex;
     flex-basis: auto;
     font-size: 22px;
     > p {
@@ -172,10 +163,8 @@ body {
     }
   }
   .body-content {
-    display: flex;
     .body-sm-title {
       overflow: hidden;
-      display: flex;
       color: #d3d3d3;
       font-size: 12px;
       flex: 1 0 0;
@@ -191,7 +180,6 @@ body {
     }
     .body-sm-text {
       margin-left: 4px;
-      display: flex;
       font-size: 12px;
       flex: 1 0 0;
       flex-grow: 5;
@@ -232,5 +220,8 @@ body {
 }
 .displayShow {
   display: block;
+}
+.displayFlex {
+  display: flex;
 }
 </style>
