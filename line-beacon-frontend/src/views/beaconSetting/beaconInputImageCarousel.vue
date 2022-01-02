@@ -69,7 +69,7 @@
       </div>
     </el-form-item>
   </el-form>
-  <div>
+  <div style="height: 100px">
     <el-button
       type="primary"
       class="submit-btn"

@@ -256,7 +256,6 @@ export default defineComponent({
 .bubble-info {
   color: #2b3e63;
   font-size: 18px;
-  margin-bottom: 3%;
   > img {
     width: 24px;
     vertical-align: text-bottom;

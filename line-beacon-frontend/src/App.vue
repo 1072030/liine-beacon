@@ -31,7 +31,7 @@ export default defineComponent({
   color: #2c3e50;
 }
 .inputText {
-  padding-top: 9%;
+  padding-top: 7%;
   width: 65%;
   padding-left: 26%;
 }
@@ -48,9 +48,9 @@ export default defineComponent({
 .content {
   overflow-y: auto;
   width: 100%;
-  height: 700px;
+  height: 640px;
   background-color: #eaf0fb;
   border-radius: 10px;
-  padding: 5% 2% 3% 5%;
+  padding: 3% 2% 3% 5%;
 }
 </style>

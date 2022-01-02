@@ -1,16 +1,15 @@
 <template>
   <div>
     <div class="nav">
-      <div></div>
-      <div style="float: right; padding-right: 5%; padding-top: 1.5%">
+      <div>
         <el-avatar
           class="userImage"
-          :src="userImage"
-          :size="100"
+          :src="userPicture"
+          :size="60"
           :fit="fit"
-          style="float right"
         ></el-avatar>
       </div>
+      <span>{{ userName }}</span>
     </div>
 
     <div class="sidebar">
@@ -61,18 +60,21 @@
   </div>
 </template>
 <script lang="ts">
-import { defineComponent, onMounted, ref } from "vue";
+import { computed, defineComponent, onMounted, ref } from "vue";
 import { useStore } from "vuex";
 export default defineComponent({
   setup() {
-    const userImage = ref(
-      "https://firebasestorage.googleapis.com/v0/b/beacon-backend-a8bf3.appspot.com/o/image%2Fhhaeruytz8r8seagtz4vg?alt=media&token=e2110d9e-4b4f-4517-92a5-edccf5089d68"
-    );
     const fit = ref("fill");
     // onMounted(){
     //這裡要先取得beaconId 嵌入options
     // }
     const store = useStore();
+    const userPicture = computed(() => {
+      return store.getters.userData.pictureUrl;
+    });
+    const userName = computed(() => {
+      return store.getters.userData.displayName;
+    });
     const options = ref([
       {
         value: "32",
@@ -86,13 +88,14 @@ export default defineComponent({
 
     const pattern = ref("text");
     const selectMode = (pattern: string) => {
-      store.commit("changePattern", pattern);
+      store.commit("SET_PATTERN", pattern);
     };
     const selectBeacon = (beaconId: string) => {
-      store.commit("changeBeaconId", beaconId);
+      store.commit("SET_BEACONID", beaconId);
     };
     return {
-      userImage,
+      userName,
+      userPicture,
       fit,
       options,
       beaconId: ref(),
@@ -107,12 +110,19 @@ export default defineComponent({
 /* 刪除 1 */
 
 .nav {
+  justify-content: right;
   position: fixed;
-  width: 100%;
-  height: 150px;
-  line-height: 9;
-  display: block;
-  text-align: left;
+  width: 95%;
+  height: 120px;
+  display: flex;
+  > span {
+    font-size: 28px;
+    line-height: 4;
+  }
+  > div {
+    padding-top: 1.5%;
+    padding-right: 1%;
+  }
 }
 .sidebar {
   margin: 9rem 0 0 3rem;

@@ -114,11 +114,11 @@ export default defineComponent({
       // },
     });
     const historyData = ref([]);
-    onMounted(() => {
-      getHistoryData("fresh fruit", beaconId).then((res) => {
-        console.log(res);
-      });
-    });
+    // onMounted(() => {
+    //   getHistoryData("fresh fruit", beaconId).then((res) => {
+    //     console.log(res);
+    //   });
+    // });
     return {
       flexStructure,
       historyData,
