@@ -21,11 +21,19 @@ const handleBeacon = async (event) => {
         .finally(() => {
           mongoClient.close();
         });
-      await client.pushMessage(event.source.userId, {
-        type: fineBeacon.type,
-        altText: fineBeacon.title,
-        contents: fineBeacon.contents,
-      });
+      if (fineBeacon.type === "flex") {
+        await client.pushMessage(event.source.userId, {
+          type: fineBeacon.type,
+          altText: fineBeacon.title,
+          contents: fineBeacon.contents,
+        });
+      } else if (fineBeacon.type === "template") {
+        await client.pushMessage(event.source.userId, {
+          type: fineBeacon.type,
+          altText: fineBeacon.title,
+          template: fineBeacon.contents,
+        });
+      }
       break;
   }
 };

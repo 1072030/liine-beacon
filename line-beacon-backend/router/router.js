@@ -24,13 +24,13 @@ const upload = multer({
 });
 
 router.post("/beacon", async (req, res) => {
-  console.log(req.body);
   //資料丟上mongodb
-  let data;
+  let flexData;
+  let CarouselData;
   const { type, userId, title, hwid, date } = req.body;
   switch (type) {
     case "flex":
-      data = recreateJson(req.body.contents); //bubble演算法
+      flexData = recreateJson(req.body.contents); //bubble演算法
       try {
         await insertMongodb({
           userId: userId,
@@ -38,7 +38,7 @@ router.post("/beacon", async (req, res) => {
           type: type,
           title: title,
           date: date,
-          contents: data,
+          contents: flexData,
         });
       } catch (err) {
         console.log(err);
@@ -49,13 +49,15 @@ router.post("/beacon", async (req, res) => {
       break;
     case "template":
       try {
+        CarouselData = req.body.contents;
+        console.log(CarouselData);
         await insertMongodb({
           userId: userId,
           hwid: hwid,
           type: type,
           title: title,
           date: date,
-          contents: data,
+          contents: CarouselData,
         });
       } catch (err) {
         console.log(err);
@@ -67,7 +69,6 @@ router.post("/beacon", async (req, res) => {
   }
   return res.status(200).send({
     status: "successful",
-    data: data,
   });
 });
 router.get("/getRecord", async (req, res) => {
