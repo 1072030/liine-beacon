@@ -1,7 +1,7 @@
 var express = require("express");
 var router = express.Router();
-
 const recreateJson = require("../common/algorithm-bubble");
+const { mongoClient } = require("../config/mongodb-config");
 const { insertMongodb } = require("../config/mongodb-config");
 const firebaseinit = require("../config/firebaseinit-config");
 const {
@@ -27,7 +27,7 @@ router.post("/beacon", async (req, res) => {
   console.log(req.body);
   //資料丟上mongodb
   let data;
-  const { type, userId, title, hwid } = req.body;
+  const { type, userId, title, hwid, date } = req.body;
   switch (type) {
     case "flex":
       data = recreateJson(req.body.contents); //bubble演算法
@@ -37,6 +37,7 @@ router.post("/beacon", async (req, res) => {
           hwid: hwid,
           type: type,
           title: title,
+          date: date,
           contents: data,
         });
       } catch (err) {
@@ -53,6 +54,7 @@ router.post("/beacon", async (req, res) => {
           hwid: hwid,
           type: type,
           title: title,
+          date: date,
           contents: data,
         });
       } catch (err) {
@@ -68,7 +70,22 @@ router.post("/beacon", async (req, res) => {
     data: data,
   });
 });
-
+router.get("/getRecord", async (req, res) => {
+  console.log(req.query);
+  let record;
+  try {
+    await mongoClient.connect().then(async () => {
+      record = await mongoClient
+        .db("myFirstDatabase")
+        .collection("beaconData")
+        .find({ userId: req.query.userId })
+        .toArray();
+    });
+  } catch (err) {
+    console.log(err);
+  }
+  res.status(200).send({ message: "successful", data: record });
+});
 router.post("/uploadImage", upload.single("image"), async (req, res) => {
   //圖片上傳
   let imageurl = "";
