@@ -29,9 +29,22 @@ const handleBeacon = async (event) => {
         });
       } else if (fineBeacon.type === "template") {
         await client.pushMessage(event.source.userId, {
-          type: fineBeacon.type,
-          altText: fineBeacon.title,
-          template: fineBeacon.contents,
+          type: "template",
+          altText: "this is an image carousel template",
+          template: {
+            type: "image_carousel",
+            columns: [
+              {
+                imageUrl:
+                  "https://scdn.line-apps.com/n/channel_devcenter/img/fx/01_1_cafe.png",
+                action: {
+                  type: "uri",
+                  label: "動作 1",
+                  uri: "https://github.com/clarencetw/line-bot/blob/fde20e86a92649a4f2c86dbed6846cac46eeaaf7/routes/line.js#L67-L92",
+                },
+              },
+            ],
+          },
         });
       }
       break;
