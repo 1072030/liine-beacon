@@ -80,6 +80,7 @@ router.get("/getRecord", async (req, res) => {
         .db("myFirstDatabase")
         .collection("beaconData")
         .find({ userId: req.query.userId })
+        .sort({ $natural: -1 })
         .toArray();
     });
   } catch (err) {
