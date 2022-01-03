@@ -5,23 +5,21 @@
       <InputImage v-if="pattern === 'image'" />
       <InputImageCarousel v-if="pattern === 'imageCarousel'" />
       <InputBubble v-if="pattern === 'bubble'" />
-      <Preview v-if="pattern === 'history'" />
+      <Preview v-if="pattern === 'history'" v-model:record="record" />
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, computed } from "vue";
+import { defineComponent, computed, onMounted, ref } from "vue";
 import { useStore } from "vuex";
+import { getHistoryData } from "@/service/beacon";
 import InputText from "./beaconInputText.vue";
 import InputImage from "./beaconInputImage.vue";
 import InputImageCarousel from "./beaconInputImageCarousel.vue";
 import InputBubble from "./beaconInputBubble.vue";
 import Preview from "./beaconPreview.vue";
 export default defineComponent({
-  props: {
-    DataInfo: Object,
-  },
   components: {
     InputText,
     InputImage,
@@ -34,8 +32,20 @@ export default defineComponent({
     const pattern = computed(() => {
       return store.getters.userPatternMode;
     });
+    const userId = computed(() => {
+      return store.getters.userData.userId;
+    });
+    const record = ref([]);
+    onMounted(async () => {
+      await getHistoryData(userId.value).then((res) => {
+        console.log(res);
+        record.value = res;
+      });
+    });
     return {
+      userId,
       pattern,
+      record,
     };
   },
 });

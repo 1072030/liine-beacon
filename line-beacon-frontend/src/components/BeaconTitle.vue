@@ -18,6 +18,20 @@
           src="https://firebasestorage.googleapis.com/v0/b/beacon-backend-a8bf3.appspot.com/o/JD.png?alt=media&token=1ed25333-4178-4374-a69e-a56fd2ed516c"
           alt=""
       /></a>
+      <img
+        src="https://firebasestorage.googleapis.com/v0/b/beacon-backend-a8bf3.appspot.com/o/blue_chicken_logo.png?alt=media&token=cf01ea93-09e9-4898-880a-d37a31d68134"
+        alt=""
+        :style="{
+          position: 'absolute',
+          width: '264px',
+          height: '264px',
+          bottom: '50%',
+          zIndex: '1',
+          opacity: '0.1',
+          userSelect: 'none',
+          pointerEvents: 'none',
+        }"
+      />
       <div class="insideSidebar">
         <p class="labelAlign">beacon編號 :</p>
         <div style="margin-bottom: 1rem">
@@ -132,6 +146,9 @@ export default defineComponent({
   height: 100%;
   > .insideSidebar {
     z-index: 2000;
+  }
+  > a {
+    pointer-events: none;
   }
   > a > img {
     position: absolute;

@@ -18,7 +18,7 @@ async function initVue() {
       if (!liff.isLoggedIn()) {
         liff.login();
       }
-      liff
+      await liff
         .getProfile()
         .then((profile) => {
           store.commit("SET_USERDATA", profile);

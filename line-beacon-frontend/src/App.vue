@@ -1,9 +1,9 @@
 <template>
-  <div v-if="frameWidth >= 1040">
+  <div v-if="frameWidth >= 1200">
     <theNav />
     <router-view />
   </div>
-  <div v-if="frameWidth < 1040">
+  <div v-if="frameWidth < 1200">
     <block />
   </div>
 </template>
@@ -31,7 +31,7 @@ export default defineComponent({
   color: #2c3e50;
 }
 .inputText {
-  padding-top: 7%;
+  padding-top: 8rem;
   width: 65%;
   padding-left: 26%;
 }
@@ -48,9 +48,27 @@ export default defineComponent({
 .content {
   overflow-y: auto;
   width: 100%;
-  height: 640px;
+  height: 550px;
   background-color: #eaf0fb;
   border-radius: 10px;
   padding: 3% 2% 3% 5%;
+}
+@media only screen and (max-height: 780px) {
+  //螢幕高度小於780
+  .content {
+    height: 500px;
+  }
+}
+@media only screen and (min-height: 830px) and (max-height: 949px) {
+  //螢幕高度在949以下830以上
+  .content {
+    height: 600px;
+  }
+}
+@media only screen and (min-height: 950px) {
+  //螢幕高度在950px以上 高度700px
+  .content {
+    height: 700px;
+  }
 }
 </style>

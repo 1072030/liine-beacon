@@ -55,15 +55,10 @@
               v-model="item.action.label"
               maxlength="12"
               show-word-limit
-              @blur="checkValidate(item)"
             />
           </el-form-item>
           <el-form-item>
-            <el-input
-              placeholder="網址連結"
-              v-model="item.action.uri"
-              @blur="checkValidate(item)"
-            />
+            <el-input placeholder="網址連結" v-model="item.action.uri" />
           </el-form-item>
         </div>
       </div>
@@ -95,8 +90,8 @@ export default defineComponent({
     const beaconId = computed(() => {
       return store.getters.userBeaconMode;
     });
+    const userId = ref(store.state.userData.userId);
     const Messagetitle = ref("");
-    const validateContent = ref();
     const validateImage = ref();
     let fileList = ref<Array<{ url: string }>>([]);
     const imageNumbers = ref(1);
@@ -168,26 +163,28 @@ export default defineComponent({
         validateImage.value = img.every((x) => {
           x !== "";
         });
+        console.log("img", validateImage.value);
       },
       {
         deep: true,
       }
     );
-    const checkValidate = async (data: any) => {
-      const val = checkUrl(data.action.uri);
-      if (data.action.uri != "") {
-        if (val == true && data.action.label != "") {
-          validateContent.value = true;
-        } else {
-          validateContent.value = false;
-          !val ? ElMessage.error("網址連結錯誤") : "";
-        }
-      }
-      if (data.action.label != "") {
-        val ? (validateContent.value = true) : (validateContent.value = false);
-      }
-      console.log(validateContent.value);
-    };
+    // const checkValidate = async (data: any) => {
+    //   console.log(data);
+    //   const val = checkUrl(data.action.uri);
+    //   if (data.action.uri != "") {
+    //     if (val == true && data.action.label != "") {
+    //       validateContent.value = true;
+    //     } else {
+    //       validateContent.value = false;
+    //       !val ? ElMessage.error("網址連結錯誤") : "";
+    //     }
+    //   }
+    //   if (data.action.label != "") {
+    //     val ? (validateContent.value = true) : (validateContent.value = false);
+    //   }
+    //   console.log(validateContent.value);
+    // };
     const checkUrl = (url: string) => {
       const RegEx =
         /^(?:(?:https?|ftp):\/\/)(?:\S+(?::\S*)?@)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,}))\.?)(?::\d{2,5})?(?:[/?#]\S*)?$/i;
@@ -195,22 +192,63 @@ export default defineComponent({
     };
     const checkSubmitData = () => {
       //validate
-      if (validateContent.value && validateImage.value) {
+      let validateLabel = false;
+      let validateUrl = false;
+      let labelArr: string[] = [];
+      let urlArr: string[] = [];
+      formContent.value.map((x: any) => {
+        labelArr.push(x.action.label);
+        urlArr.push(x.action.uri);
+      });
+      if (!Messagetitle.value) {
+        ElMessage.error("訊息顯示標題不能為空");
+        return;
+      }
+      if (beaconId.value === "") {
+        ElMessage.error("請選擇要修改的beacon");
+        return;
+      }
+      if (!validateImage.value) {
+        ElMessage.error("請上傳圖片");
+        return;
+      }
+      validateLabel = labelArr.every((x: any, index: number) => {
+        if (x != "") {
+          return true;
+        } else {
+          ElMessage.error(`第${index + 1}格訊息不能為空`);
+          return false;
+        }
+      });
+      if (!validateLabel) {
+        return;
+      }
+      validateUrl = urlArr.every((x: any, index: number) => {
+        const check = checkUrl(x);
+        if (check) {
+          return true;
+        } else {
+          ElMessage.error(`第${index + 1}格Url不符合規定`);
+          return false;
+        }
+      });
+      if (validateLabel && validateUrl && validateImage.value) {
         const req = async () => {
           let replyData = {};
-          console.log("input", formContent.value);
+          const dateTimestamp = Date.now();
           Object.assign(replyData, {
             hwid: beaconId.value,
-            userId: "fresh fruit",
+            userId: userId.value,
             type: "template",
             title: Messagetitle.value,
+            date: dateTimestamp,
             contents: {
               type: "image_carousel",
-              colums: formContent.value,
+              columns: formContent.value,
             },
           });
-          beaconSetting(replyData);
-          console.log(JSON.stringify(replyData));
+          await beaconSetting(replyData);
+          //console.log("test", JSON.stringify(replyData));
         };
         elMessageBoxConfirm(
           {
@@ -219,29 +257,21 @@ export default defineComponent({
           },
           req
         );
-      } else {
-        if (Messagetitle.value === "") {
-          ElMessage.error("訊息顯示標題不能為空");
-        } else if (validateImage.value == false) {
-          ElMessage.error("請上傳圖片");
-        } else {
-          ElMessage.error("請輸入內容，或內容有誤");
-        }
       }
     };
 
     return {
+      userId,
       fileList,
       Messagetitle,
       imageNumbers,
       imageNumbersSelect,
       formContent,
       beaconId,
-      validateContent,
       validateImage,
       checkUrl,
       checkSubmitData,
-      checkValidate,
+      // checkValidate,
     };
   },
 });
@@ -275,7 +305,7 @@ export default defineComponent({
   > span {
     z-index: 1;
     border-radius: 25px;
-    padding: 0.1px 7px;
+    padding: 0.1px 10px;
     background-color: #7f7f7f;
     opacity: 0.8;
     color: white;

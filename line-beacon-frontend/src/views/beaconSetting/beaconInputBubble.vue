@@ -58,7 +58,7 @@ export default defineComponent({
     const beaconId = computed(() => {
       return store.getters.userBeaconMode;
     });
-
+    const userId = ref(store.getters.userData.userId);
     const Messagetitle = ref("");
     const outputJson: any = {};
     const validateData = ref(true);
@@ -196,15 +196,17 @@ export default defineComponent({
       } else if (beaconId.value == "") {
         ElMessage.error("請選擇要修改的beacon");
       } else {
+        const dateTimestamp = Date.now();
         Object.assign(replyData, {
           hwid: beaconId.value,
-          userId: "fresh fruit",
+          userId: userId.value,
           title: Messagetitle.value,
           type: "flex",
+          date: dateTimestamp,
           contents: DataInfo.value,
         });
-        const req = () => {
-          beaconSetting(replyData);
+        const req = async () => {
+          await beaconSetting(replyData);
         };
         elMessageBoxConfirm(
           {
@@ -216,6 +218,7 @@ export default defineComponent({
       }
     };
     return {
+      userId,
       beaconId,
       selected,
       Messagetitle,

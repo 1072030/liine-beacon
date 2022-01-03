@@ -12,12 +12,12 @@ export async function beaconSetting(body: any) {
       return res.json();
     })
     .then((result) => {
-      console.log(result);
+      console.log("result", result);
     });
 }
-export async function getHistoryData(userId: string, beaconId: any) {
-  await fetch(
-    `https://beacon-test-bot.herokuapp.com/getHistory?userId=${userId}&beaconId=${beaconId}`,
+export async function getHistoryData(userId: string) {
+  const data = await fetch(
+    `https://beacon-test-bot.herokuapp.com/getRecord?userId=${userId}`,
     {
       method: "GET",
       headers: {
@@ -29,6 +29,7 @@ export async function getHistoryData(userId: string, beaconId: any) {
       return res.json();
     })
     .then((result) => {
-      console.log(result);
+      return result;
     });
+  return data;
 }

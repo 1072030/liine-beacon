@@ -2,127 +2,141 @@
   <div class="preview-title">
     <span>歷史紀錄</span>
   </div>
+
+  <div v-for="(item, index) in record.data" :key="index">
+    <div :style="{ fontSize: '20px' }">
+      修改時間 : {{ new Date(Date(item.date)).getFullYear() }}/{{
+        new Date(Date(item.date)).getMonth() + 1
+      }}/{{ new Date(Date(item.date)).getDate() }}
+      <br />
+      beaconId : {{ item.hwid }}
+    </div>
+    <div
+      :style="{
+        padding: '2% 0%',
+        width: '400px',
+        backgroundColor: '#eaf0fb',
+        textAlign: 'center',
+      }"
+      v-if="item.type === 'flex'"
+    >
+      <div class="fixposition">
+        <div class="hero-box" v-if="item.contents.hero !== undefined">
+          <el-image
+            :src="item.contents.hero.url"
+            :fit="item.contents.hero.aspectMode"
+            class="imagePlaced"
+          ></el-image>
+        </div>
+        <div class="body-box">
+          <div class="col-box displayFlex">
+            <div
+              v-if="item.contents.body.contents[0].contents === undefined"
+              :style="{
+                fontSize: item.contents.body.contents[0].size + 'px',
+                color: item.contents.body.contents[0].color,
+              }"
+              class="body-title displayFlex"
+            >
+              <p>{{ item.contents.body.contents[0].text }}</p>
+            </div>
+            <div v-if="item.contents.body.contents.length == 2">
+              <div
+                class="body-content displayFlex"
+                v-for="contentData in item.contents.body.contents[1].contents[0]
+                  .contents"
+                :key="contentData"
+              >
+                <div style="align-items: baseline" class="displayFlex">
+                  <div
+                    class="body-sm-title displayFlex"
+                    :style="{
+                      fontSize: contentData.contents[0].size,
+                      color: contentData.contents[0].color,
+                      flexGrow: contentData.contents[0].flex,
+                      WebkitBoxFlex: contentData.contents[0].flex,
+                    }"
+                  >
+                    <p>{{ contentData.contents[0].text }}</p>
+                  </div>
+                  <div
+                    class="body-sm-text displayFlex"
+                    :style="{
+                      fontSize: contentData.contents[1].size,
+                      color: contentData.contents[1].color,
+                      flexGrow: contentData.contents[1].flex,
+                      WebkitBoxFlex: contentData.contents[1].flex,
+                    }"
+                  >
+                    <p>{{ contentData.contents[1].text }}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="footer-box">
+          <div
+            class="footer-btn"
+            v-for="(footerData, index) in item.contents.footer.contents"
+            :key="index"
+          >
+            <div>{{ footerData.action.label }}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      v-if="item.type === 'template'"
+      :style="{
+        margin: '2% 0%',
+        width: '100%',
+        lineHeight: '40px',
+        position: 'relative',
+        fontSize: '14px',
+        minWidth: '0',
+        display: 'flex',
+        overflowX: 'auto',
+      }"
+    >
+      <div
+        v-for="(data, index) in item.contents.columns"
+        :key="index"
+        :style="{ paddingRight: '1rem' }"
+      >
+        <div>
+          <div class="previewLabel" :style="{ width: '300px !important' }">
+            <span>{{ data.action.label }}</span>
+          </div>
+          <el-image
+            :src="data.imageUrl"
+            class="previewImage"
+            :style="{ backgroundColor: '#FFFFFF !important' }"
+          ></el-image>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 <script lang="ts">
-import { defineComponent, onMounted, computed, ref, reactive } from "vue";
+import { defineComponent, computed, ref } from "vue";
 import { useStore } from "vuex";
-import { getHistoryData } from "@/service/beacon";
 export default defineComponent({
-  setup() {
+  props: {
+    record: Object,
+  },
+  setup(props, contents) {
     const store = useStore();
+    const count = ref(1);
     const beaconId = computed(() => {
       return store.getters.userBeaconMode;
     });
-    const flexStructure = reactive({
-      // hero: {
-      //   type: "image",
-      //   url: "https://scdn.line-apps.com/n/channel_devcenter/img/fx/01_1_cafe.png",
-      //   size: "full",
-      //   aspectRatio: "20:13",
-      //   aspectMode: "cover",
-      // },
-      // body: {
-      //   type: "box",
-      //   layout: "vertical",
-      //   contents: [
-      //     {
-      //       type: "text",
-      //       text: "Brown Cafe",
-      //       size: 22,
-      //       color: "#000000",
-      //       weight: "bold",
-      //     },
-      //     {
-      //       type: "box",
-      //       layout: "vertical",
-      //       contents: [
-      //         {
-      //           type: "box",
-      //           layout: "vertical",
-      //           contents: [
-      //             {
-      //               type: "box",
-      //               layout: "baseline",
-      //               contents: [
-      //                 {
-      //                   type: "text",
-      //                   text: "Place",
-      //                   color: "#d3d3d3",
-      //                   size: 14,
-      //                   wrap: true,
-      //                   flex: 1,
-      //                 },
-      //                 {
-      //                   type: "text",
-      //                   text: "Miraina Tower, 4-1-6 Shinjuku, Tokyo No .1",
-      //                   color: "#000000",
-      //                   size: 14,
-      //                   wrap: true,
-      //                   flex: 5,
-      //                 },
-      //               ],
-      //             },
-      //             {
-      //               type: "box",
-      //               layout: "baseline",
-      //               contents: [
-      //                 {
-      //                   type: "text",
-      //                   text: "Time",
-      //                   color: "#d3d3d3",
-      //                   size: 14,
-      //                   wrap: true,
-      //                   flex: 1,
-      //                 },
-      //                 {
-      //                   type: "text",
-      //                   text: "10:00 - 23:00",
-      //                   color: "#000000",
-      //                   size: 14,
-      //                   wrap: true,
-      //                   flex: 5,
-      //                 },
-      //               ],
-      //             },
-      //           ],
-      //         },
-      //       ],
-      //     },
-      //   ],
-      // },
-      // footer: {
-      //   type: "box",
-      //   layout: "vertical",
-      //   contents: [
-      //     {
-      //       type: "button",
-      //       action: {
-      //         type: "uri",
-      //         label: "CALL",
-      //         uri: "https://line.me/zh-hant/",
-      //       },
-      //     },
-      //     {
-      //       type: "button",
-      //       action: {
-      //         type: "uri",
-      //         label: "WEBSITE",
-      //         uri: "https://developers.line.biz/flex-simulator/?status=success",
-      //       },
-      //     },
-      //   ],
-      // },
-    });
-    const historyData = ref([]);
-    // onMounted(() => {
-    //   getHistoryData("fresh fruit", beaconId).then((res) => {
-    //     console.log(res);
-    //   });
-    // });
+    const userId = ref(store.getters.userData.userId);
+
     return {
-      flexStructure,
-      historyData,
+      userId,
       beaconId,
+      count,
     };
   },
 });
