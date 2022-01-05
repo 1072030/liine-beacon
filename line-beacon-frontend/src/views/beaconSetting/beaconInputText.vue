@@ -27,6 +27,7 @@ export default defineComponent({
     const beaconId = computed(() => {
       return store.getters.userBeaconMode;
     });
+    const userId = ref(store.state.userData.userId);
     const submitText = () => {
       if (textContent.value === "") {
         ElMessage.error("內容不得為空");
@@ -34,10 +35,12 @@ export default defineComponent({
         ElMessage.error("請輸入修改的beaconId");
       } else {
         const req = () => {
+          const dateTimestamp = Date.now();
           beaconSetting({
             hwid: beaconId.value,
-            userId: "fresh fruit",
+            userId: userId.value,
             type: "text",
+            date: dateTimestamp,
             contents: {
               type: "text",
               text: textContent.value,

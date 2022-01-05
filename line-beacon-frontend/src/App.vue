@@ -31,7 +31,7 @@ export default defineComponent({
   color: #2c3e50;
 }
 .inputText {
-  padding-top: 8rem;
+  padding-top: 5.5rem;
   width: 65%;
   padding-left: 26%;
 }

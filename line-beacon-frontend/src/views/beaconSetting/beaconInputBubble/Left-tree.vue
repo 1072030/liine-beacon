@@ -94,7 +94,6 @@ export default defineComponent({
   emits: ["selectedAction"],
   setup(props, context) {
     const select = (data: any) => {
-      console.log(data);
       context.emit("selectedAction", data);
     };
     return {

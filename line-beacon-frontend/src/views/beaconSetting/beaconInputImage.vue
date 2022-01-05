@@ -29,7 +29,9 @@ export default defineComponent({
     const beaconId = computed(() => {
       return store.getters.userBeaconMode;
     });
+    const userId = ref(store.state.userData.userId);
     const imageUrl = ref("");
+
     //     {
     //   "type": "image",
     //   "originalContentUrl": "PROVIDE_URL_FROM_YOUR_SERVER",
@@ -42,10 +44,12 @@ export default defineComponent({
         ElMessage.error("請輸入修改的beaconId");
       } else {
         const req = () => {
+          const dateTimestamp = Date.now();
           beaconSetting({
-            userId: "fresh fruit",
+            userId: userId.value,
             hwid: beaconId.value,
             type: "image",
+            date: dateTimestamp,
             contents: {
               type: "image",
               originalContentUrl: imageUrl.value,
@@ -63,6 +67,7 @@ export default defineComponent({
       }
     };
     return {
+      userId,
       beaconId,
       imageUrl,
       submitImage,
@@ -70,3 +75,8 @@ export default defineComponent({
   },
 });
 </script>
+<style lang="scss" scoped>
+.el-image {
+  border-radius: 25px;
+}
+</style>

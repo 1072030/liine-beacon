@@ -28,7 +28,7 @@
             v-model="data.url"
             placeholder="URL"
             style="margin-bottom: 3%"
-            @blur="checkData(data.url)"
+            disabled
           ></el-input>
           <el-upload
             action="#"

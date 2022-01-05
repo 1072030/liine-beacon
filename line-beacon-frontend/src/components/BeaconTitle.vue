@@ -5,7 +5,7 @@
         <el-avatar
           class="userImage"
           :src="userPicture"
-          :size="60"
+          :size="40"
           :fit="fit"
         ></el-avatar>
       </div>
@@ -78,7 +78,6 @@ import { computed, defineComponent, onMounted, ref } from "vue";
 import { useStore } from "vuex";
 export default defineComponent({
   setup() {
-    const fit = ref("fill");
     // onMounted(){
     //這裡要先取得beaconId 嵌入options
     // }
@@ -110,7 +109,6 @@ export default defineComponent({
     return {
       userName,
       userPicture,
-      fit,
       options,
       beaconId: ref(),
       pattern,
@@ -130,8 +128,8 @@ export default defineComponent({
   height: 120px;
   display: flex;
   > span {
-    font-size: 28px;
-    line-height: 4;
+    font-size: 0.8rem;
+    line-height: 7;
   }
   > div {
     padding-top: 1.5%;
