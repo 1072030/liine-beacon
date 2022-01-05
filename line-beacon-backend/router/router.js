@@ -46,6 +46,19 @@ router.post("/beacon", async (req, res) => {
       }
       break;
     case "image":
+      try {
+        imageData = req.body.contents;
+        await insertMongodb({
+          userId: userId,
+          hwid: hwid,
+          type: type,
+          date: date,
+          contents: imageData,
+        });
+      } catch (err) {
+        console.log(err);
+        res.status(500).send("fail to insert mongodb", err);
+      }
       break;
     case "template":
       try {
