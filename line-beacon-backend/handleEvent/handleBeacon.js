@@ -33,8 +33,18 @@ const handleBeacon = async (event) => {
           altText: fineBeacon.title,
           template: fineBeacon.contents,
         });
+      } else if (fineBeacon.type === "text") {
+        await client.pushMessage(event.source.userId, {
+          type: fineBeacon.type,
+          template: fineBeacon.contents.text,
+        });
+      } else if (fineBeacon.type === "image") {
+        await client.pushMessage(event.source.userId, {
+          type: fineBeacon.type,
+          originalContentUrl: fineBeacon.contents.originalContentUrl,
+          previewImageUrl: fineBeacon.contents.previewImageUrl,
+        });
       }
-      break;
   }
 };
 // await mongoClient
