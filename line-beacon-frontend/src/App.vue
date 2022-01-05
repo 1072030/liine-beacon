@@ -53,10 +53,28 @@ export default defineComponent({
   border-radius: 10px;
   padding: 3% 2% 3% 5%;
 }
+.sidebar {
+  > a > img {
+    position: absolute;
+    width: 160px;
+    height: 100px;
+    bottom: 20%;
+    left: 10%;
+  }
+}
 @media only screen and (max-height: 780px) {
   //螢幕高度小於780
   .content {
     height: 500px;
+  }
+  .sidebar {
+    > a > img {
+      position: absolute;
+      width: 180px;
+      height: 114px;
+      bottom: 25%;
+      left: 10%;
+    }
   }
 }
 @media only screen and (min-height: 830px) and (max-height: 949px) {

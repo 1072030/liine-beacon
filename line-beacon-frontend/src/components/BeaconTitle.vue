@@ -150,9 +150,10 @@ export default defineComponent({
   }
   > a > img {
     position: absolute;
-    width: 264px;
-    height: 160px;
+    width: 160px;
+    height: 100px;
     bottom: 20%;
+    left: 10%;
   }
 }
 
