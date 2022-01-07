@@ -10,9 +10,8 @@ function initApp() {
   app.use(store).use(router).use(ElementPlus).mount("#app");
 }
 async function initVue() {
-  //   const liffId = await getLiffId();
+  // const liffId = await getLiffId();
   const myliffId = "1656701773-pqJ2V0KR";
-  console.log("liffId", myliffId);
   try {
     liff.init({ liffId: myliffId }).then(async () => {
       if (!liff.isLoggedIn()) {
@@ -22,7 +21,6 @@ async function initVue() {
         .getProfile()
         .then((profile) => {
           store.commit("SET_USERDATA", profile);
-          console.log("profile", profile);
         })
         .catch((err) => {
           console.log("error", err);
