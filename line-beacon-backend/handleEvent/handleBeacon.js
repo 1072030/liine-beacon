@@ -7,7 +7,7 @@ const handleBeacon = async (event) => {
   findBeacon = await findBeaconData(event.beacon.dm);
   switch (event.beacon.dm) {
     case "32":
-      switch (fineBeacon.type) {
+      switch (findBeacon.type) {
         case "text":
           await client.pushMessage(event.source.userId, findBeacon.contents);
           break;

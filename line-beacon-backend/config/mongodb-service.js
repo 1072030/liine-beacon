@@ -17,12 +17,12 @@ const insertMongodb = async (Data) => {
   return "done.";
 };
 const findBeaconData = async (hwid) => {
-  let fineBeacon;
+  let findBeacon;
   await mongoClient
     .connect()
     .then(async () => {
       try {
-        fineBeacon = await mongoClient
+        findBeacon = await mongoClient
           .db(dbName)
           .collection(dbCollection)
           .findOne({ hwid: hwid }, { sort: { $natural: -1 } });
@@ -33,7 +33,7 @@ const findBeaconData = async (hwid) => {
     .finally(() => {
       mongoClient.close();
     });
-  return fineBeacon;
+  return findBeacon;
 };
 
 module.exports = { insertMongodb, findBeaconData };
