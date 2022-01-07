@@ -2,14 +2,55 @@
   <div>
     <div class="nav">
       <div>
+        <el-upload
+          action="#"
+          list-type="picture-card"
+          :limit="1"
+          :http-request="handleUploadFile"
+          :file-list="fileList"
+          :show-file-list="false"
+          :style="{
+            paddingLeft: '5rem',
+          }"
+          v-if="companyPic == ''"
+        >
+        </el-upload>
+        <el-image
+          v-if="companyPic != ''"
+          :style="{
+            paddingLeft: '5rem',
+            width: '148px',
+            height: '148px',
+          }"
+          :src="companyPic"
+          :fit="fit"
+        ></el-image>
+      </div>
+      <div
+        :style="{
+          display: 'flex',
+          paddingTop: '1.5%',
+          paddingRight: '1%',
+        }"
+      >
         <el-avatar
           class="userImage"
           :src="userPicture"
           :size="40"
           :fit="fit"
         ></el-avatar>
+
+        <span
+          :style="{
+            fontSize: ' 0.8rem',
+            lineHeight: '3.5',
+
+            paddingLeft: '10px',
+          }"
+        >
+          {{ userName }}</span
+        >
       </div>
-      <span>{{ userName }}</span>
     </div>
 
     <div class="sidebar">
@@ -75,12 +116,14 @@
 </template>
 <script lang="ts">
 import { computed, defineComponent, onMounted, ref } from "vue";
+import { uploadImage } from "@/util/uploadImage";
 import { useStore } from "vuex";
 export default defineComponent({
   setup() {
     // onMounted(){
     //這裡要先取得beaconId 嵌入options
     // }
+    const companyPic = ref("");
     const store = useStore();
     const userPicture = computed(() => {
       return store.getters.userData.pictureUrl;
@@ -98,7 +141,10 @@ export default defineComponent({
         label: "50",
       },
     ]);
-
+    const handleUploadFile = async ({ file }: { file: File }) => {
+      const url = await uploadImage(file);
+      companyPic.value = url;
+    };
     const pattern = ref("text");
     const selectMode = (pattern: string) => {
       store.commit("SET_PATTERN", pattern);
@@ -107,11 +153,13 @@ export default defineComponent({
       store.commit("SET_BEACONID", beaconId);
     };
     return {
+      companyPic,
       userName,
       userPicture,
       options,
       beaconId: ref(),
       pattern,
+      handleUploadFile,
       selectMode,
       selectBeacon,
     };
@@ -122,7 +170,7 @@ export default defineComponent({
 /* 刪除 1 */
 
 .nav {
-  justify-content: right;
+  justify-content: space-between;
   position: fixed;
   width: 95%;
   height: 120px;
