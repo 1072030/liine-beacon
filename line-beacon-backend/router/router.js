@@ -96,7 +96,6 @@ router.post("/beacon", async (req, res) => {
   });
 });
 router.get("/getRecord", async (req, res) => {
-  console.log(req.query);
   let record;
   try {
     await mongoClient.connect().then(async () => {
