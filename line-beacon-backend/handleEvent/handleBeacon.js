@@ -1,45 +1,31 @@
 const client = require("../config/line-config");
-const { mongoClient } = require("../config/mongodb-config");
+const { findBeaconData } = require("../config/mongodb-service");
 const handleBeacon = async (event) => {
   //hwid event.beacon.hwid d
-  console.log(`get beaconId ${event.beacon.dm}`);
-  let fineBeacon;
-  await mongoClient
-    .connect()
-    .then(async () => {
-      try {
-        fineBeacon = await mongoClient
-          .db("myFirstDatabase")
-          .collection("beaconData")
-          .findOne({ hwid: event.beacon.dm }, { sort: { $natural: -1 } });
-      } catch (err) {
-        console.log("cannot find beacon", err);
-      }
-    })
-    .finally(() => {
-      mongoClient.close();
-    });
+  // console.log(`get beaconId ${event.beacon.dm}`);
+  let findBeacon;
+  findBeacon = await findBeaconData(event.beacon.dm);
   switch (event.beacon.dm) {
     case "32":
       switch (fineBeacon.type) {
         case "text":
-          await client.pushMessage(event.source.userId, fineBeacon.contents);
+          await client.pushMessage(event.source.userId, findBeacon.contents);
           break;
         case "image":
-          await client.pushMessage(event.source.userId, fineBeacon.contents);
+          await client.pushMessage(event.source.userId, findBeacon.contents);
           break;
         case "template":
           await client.pushMessage(event.source.userId, {
-            type: fineBeacon.type,
-            altText: fineBeacon.title,
-            template: fineBeacon.contents,
+            type: findBeacon.type,
+            altText: findBeacon.title,
+            template: findBeacon.contents,
           });
           break;
         case "flex":
           await client.pushMessage(event.source.userId, {
-            type: fineBeacon.type,
-            altText: fineBeacon.title,
-            contents: fineBeacon.contents,
+            type: findBeacon.type,
+            altText: findBeacon.title,
+            contents: findBeacon.contents,
           });
           break;
       }
