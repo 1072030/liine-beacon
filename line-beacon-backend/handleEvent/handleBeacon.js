@@ -2,7 +2,7 @@ const client = require("../config/line-config");
 const { findBeaconData } = require("../config/mongodb-service");
 const handleBeacon = async (event) => {
   //hwid event.beacon.hwid d
-  // console.log(`get beaconId ${event.beacon.dm}`);
+  console.log(`get beaconId ${event.beacon.dm}`);
   let findBeacon;
   findBeacon = await findBeaconData(event.beacon.dm);
   switch (event.beacon.dm) {
