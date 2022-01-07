@@ -2,10 +2,9 @@ const client = require("../config/line-config");
 const { mongoClient } = require("../config/mongodb-config");
 const dbName = "myFirstDatabase";
 const dbCollection = "beaconData";
-// const { findBeaconData } = require("../config/mongodb-service");
 const handleBeacon = async (event) => {
   //hwid event.beacon.hwid d
-  console.log(`get beaconId ${event.beacon.dm}`);
+  // console.log(`get beaconId ${event.beacon.dm}`);
   let findBeacon;
   await mongoClient
     .connect()

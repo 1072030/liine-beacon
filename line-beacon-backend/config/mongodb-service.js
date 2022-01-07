@@ -16,24 +16,5 @@ const insertMongodb = async (Data) => {
   // the following code examples can be pasted here...
   return "done.";
 };
-const findBeaconData = async (hwid) => {
-  let findBeacon;
-  await mongoClient
-    .connect()
-    .then(async () => {
-      try {
-        findBeacon = await mongoClient
-          .db(dbName)
-          .collection(dbCollection)
-          .findOne({ hwid: hwid }, { sort: { $natural: -1 } });
-      } catch (err) {
-        console.log("cannot find beacon", err);
-      }
-    })
-    .finally(() => {
-      mongoClient.close();
-    });
-  return findBeacon;
-};
 
-module.exports = { insertMongodb, findBeaconData };
+module.exports = { insertMongodb };
