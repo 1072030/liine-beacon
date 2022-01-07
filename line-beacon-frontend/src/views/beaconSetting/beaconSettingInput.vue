@@ -13,7 +13,7 @@
 <script lang="ts">
 import { defineComponent, computed, onMounted, ref } from "vue";
 import { useStore } from "vuex";
-import { getHistoryData } from "@/service/beacon";
+import { getRecord } from "@/service/beacon";
 import InputText from "./beaconInputText.vue";
 import InputImage from "./beaconInputImage.vue";
 import InputImageCarousel from "./beaconInputImageCarousel.vue";
@@ -37,7 +37,7 @@ export default defineComponent({
     });
     const record = ref([]);
     onMounted(async () => {
-      await getHistoryData(userId.value).then((res) => {
+      await getRecord(userId.value).then((res) => {
         console.log(res);
         record.value = res;
       });

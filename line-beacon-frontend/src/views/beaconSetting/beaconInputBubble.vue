@@ -51,7 +51,6 @@ export default defineComponent({
   components: {
     leftTree,
     rightTree,
-    // centerTree,
   },
   setup() {
     const store = useStore();
