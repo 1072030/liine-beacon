@@ -2,7 +2,7 @@ var express = require("express");
 var router = express.Router();
 const recreateJson = require("../common/algorithm-bubble");
 const { mongoClient } = require("../config/mongodb-config");
-const { insertMongodb } = require("../config/mongodb-service");
+const { insertMongodb } = require("../common/mongodb-service");
 const firebaseinit = require("../config/firebaseinit-config");
 const {
   ref,
@@ -25,14 +25,11 @@ const upload = multer({
 
 router.post("/beacon", async (req, res) => {
   //資料丟上mongodb
-  let flexData;
-  let carouselData;
-  let textData;
-  let imageData;
+  let data;
   const { type, userId, title, hwid, date } = req.body;
   switch (type) {
     case "flex":
-      flexData = recreateJson(req.body.contents); //bubble演算法
+      data = recreateJson(req.body.contents); //bubble演算法
       try {
         await insertMongodb({
           userId: userId,
@@ -40,7 +37,7 @@ router.post("/beacon", async (req, res) => {
           type: type,
           title: title,
           date: date,
-          contents: flexData,
+          contents: data,
         });
       } catch (err) {
         console.log(err);
@@ -49,13 +46,13 @@ router.post("/beacon", async (req, res) => {
       break;
     case "image":
       try {
-        imageData = req.body.contents;
+        data = req.body.contents;
         await insertMongodb({
           userId: userId,
           hwid: hwid,
           type: type,
           date: date,
-          contents: imageData,
+          contents: data,
         });
       } catch (err) {
         console.log(err);
@@ -64,15 +61,14 @@ router.post("/beacon", async (req, res) => {
       break;
     case "template":
       try {
-        carouselData = req.body.contents;
-
+        data = req.body.contents;
         await insertMongodb({
           userId: userId,
           hwid: hwid,
           type: type,
           title: title,
           date: date,
-          contents: carouselData,
+          contents: data,
         });
       } catch (err) {
         console.log(err);
@@ -81,13 +77,13 @@ router.post("/beacon", async (req, res) => {
       break;
     case "text":
       try {
-        textData = req.body.contents;
+        data = req.body.contents;
         await insertMongodb({
           userId: userId,
           hwid: hwid,
           type: type,
           date: date,
-          contents: textData,
+          contents: data,
         });
       } catch (err) {
         console.log(err);

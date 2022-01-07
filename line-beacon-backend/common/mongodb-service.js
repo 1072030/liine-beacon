@@ -1,4 +1,4 @@
-const { mongoClient } = require("./mongodb-config");
+const { mongoClient } = require("../config/mongodb-config");
 const dbName = "myFirstDatabase";
 const dbCollection = "beaconData";
 const insertMongodb = async (Data) => {
