@@ -2,7 +2,7 @@ var express = require("express");
 var router = express.Router();
 const recreateJson = require("../common/algorithm-bubble");
 const { mongoClient } = require("../config/mongodb-config");
-const { insertMongodb } = require("../config/mongodb-config");
+const { insertMongodb } = require("../config/mongodb-insert");
 const firebaseinit = require("../config/firebaseinit-config");
 const {
   ref,
