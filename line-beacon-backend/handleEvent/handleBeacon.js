@@ -1,10 +1,26 @@
 const client = require("../config/line-config");
-const { findBeaconData } = require("../config/mongodb-service");
+const dbName = "myFirstDatabase";
+const dbCollection = "beaconData";
+// const { findBeaconData } = require("../config/mongodb-service");
 const handleBeacon = async (event) => {
   //hwid event.beacon.hwid d
   console.log(`get beaconId ${event.beacon.dm}`);
   let findBeacon;
-  findBeacon = await findBeaconData(event.beacon.dm);
+  await mongoClient
+    .connect()
+    .then(async () => {
+      try {
+        findBeacon = await mongoClient
+          .db(dbName)
+          .collection(dbCollection)
+          .findOne({ hwid: event.beacon.dm }, { sort: { $natural: -1 } });
+      } catch (err) {
+        console.log("cannot find beacon", err);
+      }
+    })
+    .finally(() => {
+      mongoClient.close();
+    });
   switch (event.beacon.dm) {
     case "32":
       switch (findBeacon.type) {
