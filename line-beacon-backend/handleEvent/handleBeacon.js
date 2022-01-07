@@ -2,6 +2,7 @@ const client = require("../config/line-config");
 const { mongoClient } = require("../config/mongodb-config");
 const handleBeacon = async (event) => {
   //hwid event.beacon.hwid d
+  console.log(`get beaconId ${event.beacon.dm}`);
   let fineBeacon;
   await mongoClient
     .connect()
