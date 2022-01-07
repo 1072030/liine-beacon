@@ -1,5 +1,5 @@
 const client = require("../config/line-config");
-const { mongoClient } = require("./mongodb-config");
+const { mongoClient } = require("../config/mongodb-config");
 const dbName = "myFirstDatabase";
 const dbCollection = "beaconData";
 // const { findBeaconData } = require("../config/mongodb-service");
