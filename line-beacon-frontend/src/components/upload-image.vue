@@ -5,10 +5,11 @@
     :limit="5"
     :http-request="handleUploadFile"
     :on-remove="handleRemove"
+    :before-upload="beforeAvatarUpload"
     :file-list="fileList"
     :show-file-list="false"
   >
-    <el-button size="small" type="primary" :loading="loading"
+    <el-button size="small" type="primary" :loading="loading" round
       >上傳圖片</el-button
     >
   </el-upload>
@@ -18,6 +19,7 @@
 import { uploadImage } from "@/util/uploadImage";
 import { ref } from "@vue/reactivity";
 import { defineComponent, watch } from "@vue/runtime-core";
+import { beforeAvatarUpload } from "@/util/globeMethod";
 export default defineComponent({
   props: ["image"],
   setup(props, context) {
@@ -46,17 +48,16 @@ export default defineComponent({
     const handleUploadFile = async ({ file }: { file: File }) => {
       loading.value = true;
       const url = await uploadImage(file);
-      // imageUrl.value = { url: url as string };
       fileList.value = [{ url: url as string }];
       context.emit("update:image", url);
       loading.value = false;
       console.log(url);
     };
     return {
-      // fileList: imageUrl.value ? [imageUrl.value] : [],
       loading,
       fileList,
       handleRemove,
+      beforeAvatarUpload,
       handleUploadFile,
     };
   },

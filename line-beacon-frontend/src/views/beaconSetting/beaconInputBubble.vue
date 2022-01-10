@@ -5,17 +5,7 @@
   </div>
   <div class="bubble-info">
     對話框訊息樣板
-    <!-- <el-popover
-      placement="top-start"
-      title="Title"
-      :width="200"
-      trigger="hover"
-      content="This is content"
-    >
-      <template #reference> -->
     <img src="https://img.icons8.com/windows/32/000000/info.png" />
-    <!-- </template
-    ></el-popover> -->
   </div>
 
   <div id="main-pane">

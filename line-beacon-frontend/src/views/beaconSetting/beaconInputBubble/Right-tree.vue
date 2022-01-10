@@ -37,6 +37,7 @@
             :http-request="handleUploadFile"
             :file-list="fileList"
             :show-file-list="false"
+            :before-upload="beforeAvatarUpload"
           >
             <el-button
               size="small"
@@ -197,6 +198,7 @@
 import { computed, defineComponent, ref, toRefs } from "vue";
 import { uploadImage } from "@/util/uploadImage";
 import { ElMessage } from "element-plus";
+import { beforeAvatarUpload } from "@/util/globeMethod";
 export default defineComponent({
   props: {
     selected: Object,
@@ -280,6 +282,7 @@ export default defineComponent({
     };
     return {
       data,
+      beforeAvatarUpload,
       Buttonform,
       fontSizeOptions,
       fontWidthOptions,

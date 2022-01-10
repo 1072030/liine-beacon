@@ -2,19 +2,27 @@
   <div>
     <div class="nav">
       <div>
-        <el-upload
-          action="#"
-          list-type="picture-card"
-          :limit="1"
-          :http-request="handleUploadFile"
-          :file-list="fileList"
-          :show-file-list="false"
+        <div
           :style="{
             paddingLeft: '5rem',
           }"
-          v-if="companyPic == ''"
         >
-        </el-upload>
+          <el-upload
+            action="#"
+            list-type="picture-card"
+            :limit="1"
+            :before-upload="beforeAvatarUpload"
+            :http-request="handleUploadFile"
+            :show-file-list="false"
+            v-loading="uploadLoading"
+            v-if="companyPic == ''"
+          >
+            <span style="color: gray; font-style: oblique; opacity: 0.5"
+              >點擊新增LOGO</span
+            >
+          </el-upload>
+        </div>
+
         <el-image
           v-if="companyPic != ''"
           :style="{
@@ -25,6 +33,15 @@
           :src="companyPic"
           :fit="fit"
         ></el-image>
+        <div
+          :style="{
+            position: 'absolute',
+            top: '142px',
+            left: '235px',
+          }"
+        >
+          <uploadImageTemp v-if="companyPic != ''" v-model:image="companyPic" />
+        </div>
       </div>
       <div
         :style="{
@@ -37,14 +54,15 @@
           class="userImage"
           :src="userPicture"
           :size="40"
-          :fit="fit"
+          :style="{
+            objectFit: 'fit',
+          }"
         ></el-avatar>
 
         <span
           :style="{
             fontSize: ' 0.8rem',
             lineHeight: '3.5',
-
             paddingLeft: '10px',
           }"
         >
@@ -62,19 +80,10 @@
       <img
         src="https://firebasestorage.googleapis.com/v0/b/beacon-backend-a8bf3.appspot.com/o/blue_chicken_logo.png?alt=media&token=cf01ea93-09e9-4898-880a-d37a31d68134"
         alt=""
-        :style="{
-          position: 'absolute',
-          width: '264px',
-          height: '264px',
-          bottom: '50%',
-          zIndex: '1',
-          opacity: '0.1',
-          userSelect: 'none',
-          pointerEvents: 'none',
-        }"
+        class="blue-chicken"
       />
       <div class="insideSidebar">
-        <p class="labelAlign">beacon編號 :</p>
+        <p class="labelAlign">BEACON編號 :</p>
         <div style="margin-bottom: 1rem">
           <el-select
             v-model="beaconId"
@@ -99,13 +108,13 @@
               style="display: flex; flex-direction: column"
               fill
               @change="selectMode(pattern)"
-            >
-              <el-radio-button label="text" border>文字</el-radio-button>
-              <el-radio-button label="image">圖片</el-radio-button>
-              <el-radio-button label="imageCarousel"
+              ><el-radio-button label="bubble">對話框訊息樣板</el-radio-button
+              ><el-radio-button label="imageCarousel"
                 >圖片輪播樣板</el-radio-button
               >
-              <el-radio-button label="bubble">對話框訊息樣板</el-radio-button>
+              <el-radio-button label="text" border>文字</el-radio-button>
+              <el-radio-button label="image">圖片</el-radio-button>
+
               <el-radio-button label="history">歷史紀錄</el-radio-button>
             </el-radio-group>
           </div>
@@ -118,13 +127,20 @@
 import { computed, defineComponent, onMounted, ref } from "vue";
 import { uploadImage } from "@/util/uploadImage";
 import { useStore } from "vuex";
+import uploadImageTemp from "./upload-image.vue";
+// import { ElMessage } from "element-plus";
+import { beforeAvatarUpload } from "@/util/globeMethod";
 export default defineComponent({
+  components: {
+    uploadImageTemp,
+  },
   setup() {
     // onMounted(){
     //這裡要先取得beaconId 嵌入options
     // }
     const companyPic = ref("");
     const store = useStore();
+    const uploadLoading = ref(false);
     const userPicture = computed(() => {
       return store.getters.userData.pictureUrl;
     });
@@ -142,10 +158,12 @@ export default defineComponent({
       },
     ]);
     const handleUploadFile = async ({ file }: { file: File }) => {
+      uploadLoading.value = true;
       const url = await uploadImage(file);
+      uploadLoading.value = false;
       companyPic.value = url;
     };
-    const pattern = ref("text");
+    const pattern = ref("bubble");
     const selectMode = (pattern: string) => {
       store.commit("SET_PATTERN", pattern);
     };
@@ -153,12 +171,14 @@ export default defineComponent({
       store.commit("SET_BEACONID", beaconId);
     };
     return {
+      uploadLoading,
       companyPic,
       userName,
       userPicture,
       options,
       beaconId: ref(),
       pattern,
+      beforeAvatarUpload,
       handleUploadFile,
       selectMode,
       selectBeacon,
@@ -204,7 +224,19 @@ export default defineComponent({
     left: 10%;
   }
 }
-
+.blue-chicken {
+  position: absolute;
+  width: 230px;
+  height: 230px;
+  bottom: 50%;
+  left: 50px;
+  z-index: 1;
+  opacity: 0.1;
+  user-select: none;
+  pointer-events: none;
+  border: 1px transparent;
+  border-radius: 50%;
+}
 .labelAlign {
   font-size: 24px;
   line-height: 0.5;

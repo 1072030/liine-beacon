@@ -33,7 +33,7 @@ export default defineComponent({
 .inputText {
   padding-top: 5.5rem;
   width: 65%;
-  padding-left: 26%;
+  padding-left: 25%;
 }
 .title {
   border: 0.2rem solid rgb(165, 171, 255);
@@ -62,6 +62,18 @@ export default defineComponent({
     left: 10%;
   }
 }
+.content::-webkit-scrollbar {
+  width: 0px;
+}
+
+// ::-webkit-scrollbar-track {
+//   box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+// }
+
+// ::-webkit-scrollbar-thumb {
+//   background-color: white;
+//   border: 1px solid slategrey;
+// }
 @media only screen and (max-height: 780px) {
   //螢幕高度小於780
   .content {

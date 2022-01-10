@@ -3,7 +3,7 @@ import { createStore } from "vuex";
 export default createStore({
   state: {
     userData: {},
-    patternMode: "text",
+    patternMode: "bubble",
     beaconId: "",
   },
   getters: {
@@ -20,7 +20,6 @@ export default createStore({
       state.beaconId = beaconId;
     },
     SET_USERDATA: (state, value) => {
-      console.log("set_userData");
       state.userData = value;
     },
   },

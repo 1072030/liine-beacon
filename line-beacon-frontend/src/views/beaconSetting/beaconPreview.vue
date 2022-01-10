@@ -13,6 +13,7 @@
       beaconId : {{ item.hwid }}
     </div>
     <div
+      class="preview-flex"
       :style="{
         padding: '2% 0%',
         width: '400px',
@@ -152,6 +153,7 @@
     </div>
     <div
       v-if="item.type === 'template'"
+      class="preview-template"
       :style="{
         margin: '2% 0%',
         width: '100%',
@@ -186,7 +188,7 @@ export default defineComponent({
   },
 });
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
 .preview-title {
   > span {
     color: #2b3e63;
@@ -196,15 +198,15 @@ export default defineComponent({
   }
 }
 ::-webkit-scrollbar {
-  width: 1em;
+  width: 1px;
 }
-
-::-webkit-scrollbar-track {
-  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
-}
+// ::-webkit-scrollbar-track {
+//   box-shadow: inset 0 0 6px rgba(196, 252, 255, 0.3);
+// }
 
 ::-webkit-scrollbar-thumb {
   background-color: white;
-  border: 1px solid slategrey;
+  border: 0.3px solid beige;
+  border-radius: 50px;
 }
 </style>

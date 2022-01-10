@@ -1,10 +1,10 @@
 <template>
   <div class="inputText">
     <div class="content">
+      <InputBubble v-if="pattern === 'bubble'" />
+      <InputImageCarousel v-if="pattern === 'imageCarousel'" />
       <InputText v-if="pattern === 'text'" />
       <InputImage v-if="pattern === 'image'" />
-      <InputImageCarousel v-if="pattern === 'imageCarousel'" />
-      <InputBubble v-if="pattern === 'bubble'" />
       <Preview v-if="pattern === 'history'" v-model:record="record" />
     </div>
   </div>
