@@ -112,6 +112,7 @@ router.get("/getRecord", async (req, res) => {
   res.status(200).send({ message: "successful", data: record });
 });
 router.get("/getCompanyInfo", async (req, res) => {
+  console.log(req.query.userId);
   let userId = req.query.userId;
   let data;
   try {
@@ -125,7 +126,7 @@ router.get("/getCompanyInfo", async (req, res) => {
     console.log(err);
     res.status(500).send({ message: "fail to find data" });
   }
-  res.status(200).send({ message: "successful", data: data });
+  res.status(200).send({ message: "successful", data });
 });
 // router.post("/testInsert", async (req, res) => {
 //   console.log(req.body);
