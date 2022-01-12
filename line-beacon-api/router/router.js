@@ -147,7 +147,7 @@ router.get("/getCompanyInfo", async (req, res) => {
 //   res.status(200).send({ message: "successful" });
 // });
 router.patch("/updateImage", (req, res) => {
-  await mongoClient.connect().then(async () => {
+  mongoClient.connect().then(async () => {
     const data = await mongoClient
       .db(process.env.DB)
       .collection("company")
