@@ -142,30 +142,7 @@ router.get("/getCompanyInfo", async (req, res) => {
 //   }
 //   res.status(200).send({ message: "successful" });
 // });
-//------------上傳公司圖片
-router.post("/uploadCompanyImage", upload.single("image"), async (req, res) => {
-  let imageurl = "";
-  const Storage = getStorage(firebaseinit);
-  const rand =
-    Math.random().toString(36).substring(2, 15) +
-    Math.random().toString(36).substring(2, 15);
-  const bubbleRef = ref(Storage, `company/${rand}`);
-  const upload = await uploadBytes(bubbleRef, req.file.buffer, {
-    contentType: "image/jpeg",
-  });
-  const geturl = await getDownloadURL(bubbleRef).then((url) => {
-    imageurl = url;
-    // await mongoClient.connect.db(process.env.DB).collection("company").update({
 
-    // })
-  });
-  res.status(200).send({
-    status: "success",
-    data: {
-      url: imageurl,
-    },
-  });
-});
 //圖片上傳
 router.post("/uploadImage", upload.single("image"), async (req, res) => {
   let imageurl = "";
@@ -173,7 +150,7 @@ router.post("/uploadImage", upload.single("image"), async (req, res) => {
   const rand =
     Math.random().toString(36).substring(2, 15) +
     Math.random().toString(36).substring(2, 15);
-  const bubbleRef = ref(Storage, `image/${rand}`);
+  const bubbleRef = ref(Storage, `${req.body.place}/${rand}`);
   const upload = await uploadBytes(bubbleRef, req.file.buffer, {
     contentType: "image/jpeg",
   });
