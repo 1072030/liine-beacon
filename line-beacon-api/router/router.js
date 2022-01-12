@@ -146,7 +146,22 @@ router.get("/getCompanyInfo", async (req, res) => {
 //   }
 //   res.status(200).send({ message: "successful" });
 // });
-
+router.patch("/updateImage", (req, res) => {
+  await mongoClient.connect().then(async () => {
+    const data = await mongoClient
+      .db(process.env.DB)
+      .collection("company")
+      .updateOne(
+        { companyId: req.body.companyId },
+        {
+          $set: { imageUrl: `${req.body.imageUrl}` },
+        }
+      );
+  });
+  res.status(200).send({
+    message: "update successful",
+  });
+});
 //圖片上傳
 router.post("/uploadImage", upload.single("image"), async (req, res) => {
   let imageurl = "";
