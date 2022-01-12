@@ -29,7 +29,7 @@
             paddingLeft: '5rem',
             width: '148px',
             height: '148px',
-            objectFit: 'fit',
+            objectFit: 'cover',
           }"
           :src="companyPic"
         ></el-image>
@@ -51,7 +51,7 @@
             v-if="companyPic != ''"
           >
             <el-button size="small" type="primary" :loading="loading" round
-              >上傳圖片</el-button
+              >更新圖片</el-button
             >
           </el-upload>
         </div>

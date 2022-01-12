@@ -74,10 +74,11 @@
             class="footer-btn"
             v-for="(footerData, index) in DataInfo.footer.contents"
             :key="index"
-            @click="select(DataInfo.footer.contents[index])"
             :class="{ displayHide: !DataInfo.footer.contents[index].show }"
           >
-            <div>{{ footerData.action.label }}</div>
+            <div @click="select(DataInfo.footer.contents[index])">
+              {{ footerData.action.label }}
+            </div>
           </div>
         </div>
       </div>
@@ -110,6 +111,7 @@ body {
   -webkit-box-direction: normal;
 }
 #left-pane {
+  z-index: 1;
   border-radius: 5px;
   max-width: 400px;
   height: 100%;
