@@ -154,13 +154,26 @@ router.post("/uploadImage", upload.single("image"), async (req, res) => {
   const rand =
     Math.random().toString(36).substring(2, 15) +
     Math.random().toString(36).substring(2, 15);
-  const bubbleRef = ref(Storage, `${req.body.place}/${rand}`);
+  const bubbleRef = ref(Storage, `image/${rand}`);
   const upload = await uploadBytes(bubbleRef, req.file.buffer, {
     contentType: "image/jpeg",
   });
   const geturl = await getDownloadURL(bubbleRef).then((url) => {
     imageurl = url;
   });
+  if (req.body.place != "") {
+    await mongoClient.connect().then(async () => {
+      const data = await mongoClient
+        .db(process.env.DB)
+        .collection("company")
+        .updateOne(
+          { companyId: req.body.place },
+          {
+            $set: { imageUrl: `${imageurl}` },
+          }
+        );
+    });
+  }
   res.status(200).send({
     status: "success",
     data: {
