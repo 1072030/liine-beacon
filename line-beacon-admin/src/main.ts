@@ -27,7 +27,6 @@ async function initVue() {
           console.log("error", err);
         });
       const Info = await getCompanyInfo(store.getters.userData.userId);
-      console.log(Info.data);
       store.commit("SET_COMPANYINFO", Info.data);
       // liff.login().then(async () => {
       //   const profile = await liff.getProfile();

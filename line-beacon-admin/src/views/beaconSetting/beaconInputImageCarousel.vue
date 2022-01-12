@@ -234,7 +234,6 @@ export default defineComponent({
             },
           });
           await beaconSetting(replyData);
-          //console.log("test", JSON.stringify(replyData));
         };
         elMessageBoxConfirm(
           {

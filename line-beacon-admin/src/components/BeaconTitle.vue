@@ -137,8 +137,9 @@
   </div>
 </template>
 <script lang="ts">
-import { computed, defineComponent, onMounted, Ref, ref } from "vue";
+import { computed, defineComponent, Ref, ref } from "vue";
 import { uploadImage } from "@/util/uploadImage";
+import { updateCompanyImage } from "@/service/beacon";
 import { useStore } from "vuex";
 // import { ElMessage } from "element-plus";
 import { beforeAvatarUpload } from "@/util/globeMethod";
@@ -169,6 +170,10 @@ export default defineComponent({
     const handleUploadFile = async ({ file }: { file: File }) => {
       uploadLoading.value = true;
       const url = await uploadImage(file);
+      await updateCompanyImage({
+        companyId: companyInfo.value.companyId,
+        imageUrl: url,
+      });
       uploadLoading.value = false;
       companyPic.value = url;
     };

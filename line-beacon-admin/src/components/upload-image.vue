@@ -51,7 +51,6 @@ export default defineComponent({
       fileList.value = [{ url: url as string }];
       context.emit("update:image", url);
       loading.value = false;
-      console.log(url);
     };
     return {
       loading,

@@ -49,7 +49,6 @@ export default defineComponent({
     });
     const userId = ref(store.getters.userData.userId);
     const companyId = ref(store.getters.companyInfo.companyId);
-    console.log(companyId.value);
     const Messagetitle = ref("");
     const outputJson: any = {};
     const validateData = ref(true);

@@ -36,7 +36,6 @@ export default defineComponent({
     const record = ref([]);
     onMounted(async () => {
       await getRecord(companyId.value).then((res) => {
-        console.log(res);
         record.value = res;
       });
     });
