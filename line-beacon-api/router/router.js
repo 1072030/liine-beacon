@@ -147,14 +147,16 @@ router.get("/getCompanyInfo", async (req, res) => {
 //   res.status(200).send({ message: "successful" });
 // });
 router.patch("/updateImage", (req, res) => {
+  const { companyId, imageUrl } = req.body;
+  console.log(companyId, imageUrl);
   mongoClient.connect().then(async () => {
     const data = await mongoClient
       .db(process.env.DB)
       .collection("company")
       .updateOne(
-        { companyId: req.body.companyId },
+        { companyId: companyId },
         {
-          $set: { imageUrl: `${req.body.imageUrl}` },
+          $set: { imageUrl: imageUrl },
         }
       );
   });
