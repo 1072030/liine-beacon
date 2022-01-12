@@ -106,7 +106,7 @@ router.get("/getRecord", async (req, res) => {
       record = await mongoClient
         .db(process.env.DB)
         .collection("beaconData")
-        .find({ userId: req.query.companyId })
+        .find({ companyId: req.query.companyId })
         .sort({ $natural: -1 })
         .toArray();
     });
