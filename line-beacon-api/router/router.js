@@ -125,7 +125,7 @@ router.get("/getCompanyInfo", async (req, res) => {
     console.log(err);
     res.status(500).send({ message: "fail to find data" });
   }
-  res.status(500).send({ message: "successful", imageUrl: data.imageUrl });
+  res.status(500).send({ message: "successful", data: data });
 });
 // router.post("/testInsert", async (req, res) => {
 //   console.log(req.body);
