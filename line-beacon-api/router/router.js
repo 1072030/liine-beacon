@@ -161,6 +161,7 @@ router.post("/uploadImage", upload.single("image"), async (req, res) => {
   const geturl = await getDownloadURL(bubbleRef).then((url) => {
     imageurl = url;
   });
+  console.log("place", req.body.place);
   if (req.body.place != "") {
     await mongoClient.connect().then(async () => {
       const data = await mongoClient
