@@ -26,7 +26,7 @@ const upload = multer({
 router.post("/beacon", async (req, res) => {
   //資料丟上mongodb
   let data;
-  const { type, userId, title, hwid, date } = req.body;
+  const { type, userId, title, hwid, date, companyId } = req.body;
   switch (type) {
     case "flex":
       data = recreateJson(req.body.contents); //bubble演算法
@@ -34,6 +34,7 @@ router.post("/beacon", async (req, res) => {
         await insertMongodb({
           userId: userId,
           hwid: hwid,
+          companyId: companyId,
           type: type,
           title: title,
           date: date,
@@ -50,6 +51,7 @@ router.post("/beacon", async (req, res) => {
         await insertMongodb({
           userId: userId,
           hwid: hwid,
+          companyId: companyId,
           type: type,
           date: date,
           contents: data,
@@ -65,6 +67,7 @@ router.post("/beacon", async (req, res) => {
         await insertMongodb({
           userId: userId,
           hwid: hwid,
+          companyId: companyId,
           type: type,
           title: title,
           date: date,
@@ -81,6 +84,7 @@ router.post("/beacon", async (req, res) => {
         await insertMongodb({
           userId: userId,
           hwid: hwid,
+          companyId: companyId,
           type: type,
           date: date,
           contents: data,
@@ -102,7 +106,7 @@ router.get("/getRecord", async (req, res) => {
       record = await mongoClient
         .db(process.env.DB)
         .collection("beaconData")
-        .find({ userId: req.query.userId })
+        .find({ userId: req.query.companyId })
         .sort({ $natural: -1 })
         .toArray();
     });

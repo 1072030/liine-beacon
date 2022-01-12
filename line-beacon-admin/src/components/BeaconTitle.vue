@@ -178,7 +178,7 @@ export default defineComponent({
     });
     const handleUploadFile = async ({ file }: { file: File }) => {
       uploadLoading.value = true;
-      const place = "company";
+      const place = companyInfo.value.companyId;
       const url = await uploadImage(file, place);
       uploadLoading.value = false;
       companyPic.value = url;
