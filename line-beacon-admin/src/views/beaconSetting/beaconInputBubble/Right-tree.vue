@@ -231,8 +231,7 @@ export default defineComponent({
     }
     const handleUploadFile = async ({ file }: { file: File }) => {
       btnLoading.value = true;
-      const place = "image";
-      const url = await uploadImage(file, place);
+      const url = await uploadImage(file);
       btnLoading.value = false;
       data.value.url = url;
     };

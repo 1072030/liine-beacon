@@ -144,7 +144,6 @@ import { useStore } from "vuex";
 import { beforeAvatarUpload } from "@/util/globeMethod";
 export default defineComponent({
   setup() {
-    const companyPic = ref("");
     const store = useStore();
     const uploadLoading = ref(false);
     const userPicture = computed(() => {
@@ -156,16 +155,7 @@ export default defineComponent({
     const companyInfo = computed(() => {
       return store.getters.companyInfo;
     });
-    // const options = ref([
-    //   {
-    //     value: "32",
-    //     label: "32",
-    //   },
-    //   {
-    //     value: "50",
-    //     label: "50",
-    //   },
-    // ]);
+    const companyPic = ref(store.getters.companyInfo.imageUrl);
     const options = computed(() => {
       let arr: Ref<any> = ref([]);
       for (let i = 0; i < companyInfo.value.beacon.length; i++) {
@@ -178,8 +168,7 @@ export default defineComponent({
     });
     const handleUploadFile = async ({ file }: { file: File }) => {
       uploadLoading.value = true;
-      const place = companyInfo.value.companyId;
-      const url = await uploadImage(file, place);
+      const url = await uploadImage(file);
       uploadLoading.value = false;
       companyPic.value = url;
     };
