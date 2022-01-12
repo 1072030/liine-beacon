@@ -33,22 +33,22 @@ export async function getRecord(userId: string) {
     });
   return data;
 }
-// export async function getConpanyInfo(userId: string) {
-//   const data = await fetch(
-//     `https://beacon-test-bot.herokuapp.com/getRecord?userId=${userId}`,
-//     {
-//       method: "GET",
-//       headers: {
-//         "Access-Control-Allow-Origin": "*",
-//         "Content-Type": "application/json",
-//       },
-//     }
-//   )
-//     .then((res) => {
-//       return res.json();
-//     })
-//     .then((result) => {
-//       return result;
-//     });
-//   return data;
-// }
+export async function getCompanyInfo(userId: string) {
+  const data = await fetch(
+    `https://beacon-test-bot.herokuapp.com/getCompanyInfo?userId=${userId}`,
+    {
+      method: "GET",
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+        "Content-Type": "application/json",
+      },
+    }
+  )
+    .then((res) => {
+      return res.json();
+    })
+    .then((result) => {
+      return result;
+    });
+  return data;
+}

@@ -28,6 +28,7 @@ export default defineComponent({
       return store.getters.userBeaconMode;
     });
     const userId = ref(store.state.userData.userId);
+    const companyId = ref(store.state.companyInfo.companyId);
     const submitText = () => {
       if (textContent.value === "") {
         ElMessage.error("內容不得為空");
@@ -37,6 +38,7 @@ export default defineComponent({
         const req = () => {
           const dateTimestamp = Date.now();
           beaconSetting({
+            companyId: companyId.value,
             hwid: beaconId.value,
             userId: userId.value,
             type: "text",

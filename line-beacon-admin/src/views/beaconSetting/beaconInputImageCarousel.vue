@@ -91,6 +91,7 @@ export default defineComponent({
       return store.getters.userBeaconMode;
     });
     const userId = ref(store.state.userData.userId);
+    const companyId = ref(store.state.companyInfo.companyId);
     const Messagetitle = ref("");
     const validateImage = ref();
     let fileList = ref<Array<{ url: string }>>([]);
@@ -223,6 +224,7 @@ export default defineComponent({
           Object.assign(replyData, {
             hwid: beaconId.value,
             userId: userId.value,
+            companyId: companyId.value,
             type: "template",
             title: Messagetitle.value,
             date: dateTimestamp,
@@ -246,6 +248,7 @@ export default defineComponent({
 
     return {
       userId,
+      companyId,
       fileList,
       Messagetitle,
       imageNumbers,

@@ -47,7 +47,8 @@ export default defineComponent({
     };
     const handleUploadFile = async ({ file }: { file: File }) => {
       loading.value = true;
-      const url = await uploadImage(file);
+      const place = "image";
+      const url = await uploadImage(file, place);
       fileList.value = [{ url: url as string }];
       context.emit("update:image", url);
       loading.value = false;

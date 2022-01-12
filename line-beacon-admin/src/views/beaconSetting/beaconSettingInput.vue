@@ -32,18 +32,16 @@ export default defineComponent({
     const pattern = computed(() => {
       return store.getters.userPatternMode;
     });
-    const userId = computed(() => {
-      return store.getters.userData.userId;
-    });
+    const companyId = ref(store.getters.companyInfo.companyId);
     const record = ref([]);
     onMounted(async () => {
-      await getRecord(userId.value).then((res) => {
+      await getRecord(companyId.value).then((res) => {
         console.log(res);
         record.value = res;
       });
     });
     return {
-      userId,
+      companyId,
       pattern,
       record,
     };

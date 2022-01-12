@@ -5,6 +5,7 @@ import store from "./store";
 import ElementPlus from "element-plus";
 import "element-plus/dist/index.css";
 import liff from "@line/liff";
+import { getCompanyInfo } from "./service/beacon";
 function initApp() {
   const app = createApp(App);
   app.use(store).use(router).use(ElementPlus).mount("#app");
@@ -25,7 +26,9 @@ async function initVue() {
         .catch((err) => {
           console.log("error", err);
         });
-
+      const Info = await getCompanyInfo(store.getters.userData.userId);
+      console.log(Info.data);
+      store.commit("SET_COMPANYINFO", Info.data);
       // liff.login().then(async () => {
       //   const profile = await liff.getProfile();
       //   console.log(profile);

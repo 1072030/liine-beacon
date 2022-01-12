@@ -5,11 +5,13 @@ export default createStore({
     userData: {},
     patternMode: "bubble",
     beaconId: "",
+    companyInfo: {},
   },
   getters: {
     userData: (state) => state.userData,
     userPatternMode: (state) => state.patternMode,
     userBeaconMode: (state) => state.beaconId,
+    companyInfo: (state) => state.companyInfo,
   },
   mutations: {
     //store commit 的function
@@ -21,6 +23,9 @@ export default createStore({
     },
     SET_USERDATA: (state, value) => {
       state.userData = value;
+    },
+    SET_COMPANYINFO: (state, value) => {
+      state.companyInfo = value;
     },
   },
   actions: {},

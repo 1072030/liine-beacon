@@ -30,6 +30,7 @@ export default defineComponent({
       return store.getters.userBeaconMode;
     });
     const userId = ref(store.state.userData.userId);
+    const companyId = ref(store.state.companyInfo.companyId);
     const imageUrl = ref("");
 
     //     {
@@ -48,6 +49,7 @@ export default defineComponent({
           beaconSetting({
             userId: userId.value,
             hwid: beaconId.value,
+            companyId: companyId.value,
             type: "image",
             date: dateTimestamp,
             contents: {
@@ -67,6 +69,7 @@ export default defineComponent({
       }
     };
     return {
+      companyId,
       userId,
       beaconId,
       imageUrl,

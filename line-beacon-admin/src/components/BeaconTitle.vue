@@ -29,9 +29,9 @@
             paddingLeft: '5rem',
             width: '148px',
             height: '148px',
+            objectFit: 'fit',
           }"
           :src="companyPic"
-          :fit="fit"
         ></el-image>
         <div
           :style="{
@@ -40,7 +40,20 @@
             left: '235px',
           }"
         >
-          <uploadImageTemp v-if="companyPic != ''" v-model:image="companyPic" />
+          <el-upload
+            action="#"
+            list-type="upload-demo"
+            :limit="10"
+            :http-request="handleUploadFile"
+            :before-upload="beforeAvatarUpload"
+            v-loading="uploadLoading"
+            :show-file-list="false"
+            v-if="companyPic != ''"
+          >
+            <el-button size="small" type="primary" :loading="loading" round
+              >上傳圖片</el-button
+            >
+          </el-upload>
         </div>
       </div>
       <div
@@ -124,20 +137,13 @@
   </div>
 </template>
 <script lang="ts">
-import { computed, defineComponent, onMounted, ref } from "vue";
+import { computed, defineComponent, onMounted, Ref, ref } from "vue";
 import { uploadImage } from "@/util/uploadImage";
 import { useStore } from "vuex";
-import uploadImageTemp from "./upload-image.vue";
 // import { ElMessage } from "element-plus";
 import { beforeAvatarUpload } from "@/util/globeMethod";
 export default defineComponent({
-  components: {
-    uploadImageTemp,
-  },
   setup() {
-    // onMounted(){
-    //這裡要先取得beaconId 嵌入options
-    // }
     const companyPic = ref("");
     const store = useStore();
     const uploadLoading = ref(false);
@@ -147,19 +153,33 @@ export default defineComponent({
     const userName = computed(() => {
       return store.getters.userData.displayName;
     });
-    const options = ref([
-      {
-        value: "32",
-        label: "32",
-      },
-      {
-        value: "50",
-        label: "50",
-      },
-    ]);
+    const companyInfo = computed(() => {
+      return store.getters.companyInfo;
+    });
+    // const options = ref([
+    //   {
+    //     value: "32",
+    //     label: "32",
+    //   },
+    //   {
+    //     value: "50",
+    //     label: "50",
+    //   },
+    // ]);
+    const options = computed(() => {
+      let arr: Ref<any> = ref([]);
+      for (let i = 0; i < companyInfo.value.beacon.length; i++) {
+        arr.value.push({
+          label: companyInfo.value.beacon[i],
+          value: companyInfo.value.beacon[i],
+        });
+      }
+      return arr.value;
+    });
     const handleUploadFile = async ({ file }: { file: File }) => {
       uploadLoading.value = true;
-      const url = await uploadImage(file);
+      const place = "company";
+      const url = await uploadImage(file, place);
       uploadLoading.value = false;
       companyPic.value = url;
     };
@@ -171,6 +191,7 @@ export default defineComponent({
       store.commit("SET_BEACONID", beaconId);
     };
     return {
+      companyInfo,
       uploadLoading,
       companyPic,
       userName,

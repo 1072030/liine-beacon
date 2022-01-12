@@ -48,6 +48,8 @@ export default defineComponent({
       return store.getters.userBeaconMode;
     });
     const userId = ref(store.getters.userData.userId);
+    const companyId = ref(store.getters.companyInfo.companyId);
+    console.log(companyId.value);
     const Messagetitle = ref("");
     const outputJson: any = {};
     const validateData = ref(true);
@@ -188,6 +190,7 @@ export default defineComponent({
         const dateTimestamp = Date.now();
         Object.assign(replyData, {
           hwid: beaconId.value,
+          companyId: companyId.value,
           userId: userId.value,
           title: Messagetitle.value,
           type: "flex",
@@ -209,6 +212,7 @@ export default defineComponent({
     return {
       userId,
       beaconId,
+      companyId,
       selected,
       Messagetitle,
       DataInfo,
