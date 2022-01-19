@@ -1,5 +1,5 @@
 const client = require("../config/line-config");
-const handleText = async (message, replyToken, source) => {
+const handleText = async (message, source) => {
   switch (message.text) {
     case "旭陽":
       return await client.pushMessage(source.userId, {

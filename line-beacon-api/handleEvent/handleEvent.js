@@ -8,7 +8,7 @@ const handleEvent = async (event) => {
       const message = event.message;
       switch (message.type) {
         case "text":
-          return await handleText(message, event.replyToken, event.source);
+          return await handleText(message, event.source);
       }
     case "beacon":
       return handleBeacon(event, event.replyToken);
