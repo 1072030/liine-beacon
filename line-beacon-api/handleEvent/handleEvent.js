@@ -4,6 +4,12 @@ const handleEvent = async (event) => {
     return console.log("Test hook recieved: " + JSON.stringify(event.message));
   }
   switch (event.type) {
+    case "message":
+      const message = event.message;
+      switch (message.type) {
+        case "text":
+          return await handleText(message, event.replyToken, event.source);
+      }
     case "beacon":
       return handleBeacon(event, event.replyToken);
   }
