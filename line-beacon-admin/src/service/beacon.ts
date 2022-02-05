@@ -45,6 +45,7 @@ export async function getCompanyInfo(userId: string) {
     }
   )
     .then((res) => {
+      console.log(res);
       return res.json();
     })
     .then((result) => {

@@ -4,7 +4,7 @@ const handleText = async (message, source) => {
     case "旭陽":
       return await client.pushMessage(source.userId, {
         type: "flex",
-        altText: "this is title",
+        altText: "Pro哥 : 球場及時天氣",
         contents: {
           type: "bubble",
           hero: {
