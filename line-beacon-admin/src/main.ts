@@ -18,6 +18,7 @@ async function initVue() {
       if (!liff.isLoggedIn()) {
         liff.login();
       }
+
       await liff
         .getProfile()
         .then((profile) => {
